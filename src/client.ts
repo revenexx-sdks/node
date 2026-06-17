@@ -205,6 +205,21 @@ class Client {
         return this;
     }
 
+    /**
+     * Set Tenant
+     *
+     * The tenant slug your requests are scoped to, sent as the
+     * X-Revenexx-Tenant header on every request.
+     *
+     * @param value string
+     *
+     * @return {this}
+     */
+    setTenant(value: string): this {
+        this.headers['X-Revenexx-Tenant'] = value;
+        return this;
+    }
+
     prepareRequest(method: string, url: URL, headers: Headers = {}, params: Payload = {}): { uri: string, options: RequestInit } {
         method = method.toUpperCase();
 
