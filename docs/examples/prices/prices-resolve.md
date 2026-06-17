@@ -1,0 +1,19 @@
+```javascript
+const sdk = require('node-revenexx-a-p-i-—-revenexx');
+
+const client = new sdk.Client()
+    .setEndpoint('https://api.revenexx.com') // Your API Endpoint
+    .setApiKeyAuth('<API_KEY>'); // A gateway-managed scoped API key (rvxk_…).
+
+const prices = new sdk.Prices(client);
+
+const result = await prices.pricesResolve({
+    items: [],
+    at: '', // optional
+    channelId: '', // optional
+    contactId: '', // optional
+    currency: '', // optional
+    marketId: '', // optional
+    organizationId: '' // optional
+});
+```

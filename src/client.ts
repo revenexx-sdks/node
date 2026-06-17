@@ -1,0 +1,393 @@
+import { fetch, FormData, File } from 'node-fetch-native-with-agent';
+import { createAgent } from 'node-fetch-native-with-agent/agent';
+import { Models } from './models';
+import JSONbigModule from 'json-bigint';
+const JSONbigParser = JSONbigModule({ storeAsString: false });
+const JSONbigSerializer = JSONbigModule({ useNativeBigInt: true });
+
+const MAX_SAFE = BigInt(Number.MAX_SAFE_INTEGER);
+const MIN_SAFE = BigInt(Number.MIN_SAFE_INTEGER);
+const MAX_INT64 = BigInt('9223372036854775807');
+const MIN_INT64 = BigInt('-9223372036854775808');
+
+function isBigNumber(value: any): boolean {
+    return value !== null
+        && typeof value === 'object'
+        && value._isBigNumber === true
+        && typeof value.isInteger === 'function'
+        && typeof value.toFixed === 'function'
+        && typeof value.toNumber === 'function';
+}
+
+function reviver(_key: string, value: any): any {
+    if (isBigNumber(value)) {
+        if (value.isInteger()) {
+            const str = value.toFixed();
+            const bi = BigInt(str);
+            if (bi >= MIN_SAFE && bi <= MAX_SAFE) {
+                return Number(str);
+            }
+            if (bi >= MIN_INT64 && bi <= MAX_INT64) {
+                return bi;
+            }
+            return value.toNumber();
+        }
+        return value.toNumber();
+    }
+    return value;
+}
+
+const JSONbig = {
+    parse: (text: string) => JSONbigParser.parse(text, reviver),
+    stringify: JSONbigSerializer.stringify
+};
+
+type Payload = {
+    [key: string]: any;
+}
+
+type UploadProgress = {
+    $id: string;
+    progress: number;
+    sizeUploaded: number;
+    chunksTotal: number;
+    chunksUploaded: number;
+}
+
+type Headers = {
+    [key: string]: string;
+}
+
+class RevenexxAPIRevenexxException extends Error {
+    code: number;
+    response: string;
+    type: string;
+    constructor(message: string, code: number = 0, type: string = '', response: string = '') {
+        super(message);
+        this.name = 'RevenexxAPIRevenexxException';
+        this.message = message;
+        this.code = code;
+        this.type = type;
+        this.response = response;
+    }
+}
+
+function getUserAgent() {
+    let ua = 'RevenexxAPIRevenexxNodeJSSDK/0.0.1';
+
+    // `process` is a global in Node.js, but not fully available in all runtimes.
+    const platform: string[] = [];
+    if (typeof process !== 'undefined') {
+        if (typeof process.platform === 'string') platform.push(process.platform);
+        if (typeof process.arch === 'string') platform.push(process.arch);
+    } 
+    if (platform.length > 0) {
+        ua += ` (${platform.join('; ')})`;
+    }
+
+    // `navigator.userAgent` is available in Node.js 21 and later.
+    // It's also part of the WinterCG spec, so many edge runtimes provide it.
+    // https://common-min-api.proposal.wintercg.org/#requirements-for-navigatoruseragent
+    // @ts-ignore
+    if (typeof navigator !== 'undefined' && typeof navigator.userAgent === 'string') {
+        // @ts-ignore
+        ua += ` ${navigator.userAgent}`;
+
+    // @ts-ignore
+    } else if (typeof globalThis.EdgeRuntime === 'string') {
+        ua += ` EdgeRuntime`;
+
+    // Older Node.js versions don't have `navigator.userAgent`, so we have to use `process.version`.
+    } else if (typeof process !== 'undefined' && typeof process.version === 'string') {
+        ua += ` Node.js/${process.version}`;
+    }
+
+    return ua;
+}
+
+class Client {
+    static CHUNK_SIZE = 1024 * 1024 * 5;
+
+    config = {
+        endpoint: 'https://api.revenexx.com',
+        selfSigned: false,
+        apikeyauth: '',
+        bearerauth: '',
+    };
+    headers: Headers = {
+        'x-sdk-name': 'Revenexx Node',
+        'x-sdk-platform': '',
+        'x-sdk-language': 'nodejs',
+        'x-sdk-version': '0.0.1',
+        'user-agent' : getUserAgent(),
+    };
+
+    /**
+     * Set Endpoint
+     *
+     * Your project endpoint
+     *
+     * @param {string} endpoint
+     *
+     * @returns {this}
+     */
+    setEndpoint(endpoint: string): this {
+        if (!endpoint || typeof endpoint !== 'string') {
+            throw new RevenexxAPIRevenexxException('Endpoint must be a valid string');
+        }
+
+        if (!endpoint.startsWith('http://') && !endpoint.startsWith('https://')) {
+            throw new RevenexxAPIRevenexxException('Invalid endpoint URL: ' + endpoint);
+        }
+
+        this.config.endpoint = endpoint;
+        return this;
+    }
+
+    /**
+     * Set self-signed
+     *
+     * @param {boolean} selfSigned
+     *
+     * @returns {this}
+     */
+    setSelfSigned(selfSigned: boolean): this {
+        // @ts-ignore
+        if (typeof globalThis.EdgeRuntime !== 'undefined') {
+            console.warn('setSelfSigned is not supported in edge runtimes.');
+        }
+
+        this.config.selfSigned = selfSigned;
+
+        return this;
+    }
+
+    /**
+     * Add header
+     *
+     * @param {string} header
+     * @param {string} value
+     *
+     * @returns {this}
+     */
+    addHeader(header: string, value: string): this {
+        this.headers[header.toLowerCase()] = value;
+
+        return this;
+    }
+
+    /**
+     * Set ApiKeyAuth
+     *
+     * A gateway-managed scoped API key (rvxk_…).
+     *
+     * @param value string
+     *
+     * @return {this}
+     */
+    setApiKeyAuth(value: string): this {
+        this.headers['X-Revenexx-Api-Key'] = value;
+        this.config.apikeyauth = value;
+        return this;
+    }
+    /**
+     * Set BearerAuth
+     *
+     * A Zitadel-issued JWT (Cockpit / interactive callers).
+     *
+     * @param value string
+     *
+     * @return {this}
+     */
+    setBearerAuth(value: string): this {
+        this.headers['Authorization'] = value;
+        this.config.bearerauth = value;
+        return this;
+    }
+
+    prepareRequest(method: string, url: URL, headers: Headers = {}, params: Payload = {}): { uri: string, options: RequestInit } {
+        method = method.toUpperCase();
+
+        headers = Object.assign({}, this.headers, headers);
+
+        let options: RequestInit = {
+            method,
+            headers,
+            ...createAgent(this.config.endpoint, { rejectUnauthorized: !this.config.selfSigned }),
+        };
+
+        if (method === 'GET') {
+            for (const [key, value] of Object.entries(Client.flatten(params))) {
+                url.searchParams.append(key, value);
+            }
+        } else {
+            switch (headers['content-type']) {
+                case 'application/json':
+                    options.body = JSONbig.stringify(params);
+                    break;
+
+                case 'multipart/form-data':
+                    const formData = new FormData();
+
+                    for (const [key, value] of Object.entries(params)) {
+                        if (value instanceof File) {
+                            formData.append(key, value, value.name);
+                        } else if (Array.isArray(value)) {
+                            for (const nestedValue of value) {
+                                formData.append(`${key}[]`, nestedValue);
+                            }
+                        } else {
+                            formData.append(key, value);
+                        }
+                    }
+
+                    options.body = formData;
+                    delete headers['content-type'];
+                    break;
+            }
+        }
+
+        return { uri: url.toString(), options };
+    }
+
+    async chunkedUpload(method: string, url: URL, headers: Headers = {}, originalPayload: Payload = {}, onProgress: (progress: UploadProgress) => void) {
+        const [fileParam, file] = Object.entries(originalPayload).find(([_, value]) => value instanceof File) ?? [];
+
+        if (!file || !fileParam) {
+            throw new Error('File not found in payload');
+        }
+
+        if (file.size <= Client.CHUNK_SIZE) {
+            return await this.call(method, url, headers, originalPayload);
+        }
+
+        let start = 0;
+        let response = null;
+
+        while (start < file.size) {
+            let end = start + Client.CHUNK_SIZE; // Prepare end for the next chunk
+            if (end >= file.size) {
+                end = file.size; // Adjust for the last chunk to include the last byte
+            }
+
+            headers['content-range'] = `bytes ${start}-${end-1}/${file.size}`;
+            const chunk = file.slice(start, end);
+
+            let payload = { ...originalPayload };
+            payload[fileParam] = new File([chunk], file.name);
+
+            response = await this.call(method, url, headers, payload);
+
+            if (onProgress && typeof onProgress === 'function') {
+                onProgress({
+                    $id: response.$id,
+                    progress: Math.round((end / file.size) * 100),
+                    sizeUploaded: end,
+                    chunksTotal: Math.ceil(file.size / Client.CHUNK_SIZE),
+                    chunksUploaded: Math.ceil(end / Client.CHUNK_SIZE)
+                });
+            }
+
+            if (response && response.$id) {
+                headers['x-revenexx api — revenexx-id'] = response.$id;
+            }
+
+            start = end;
+        }
+
+        return response;
+    }
+
+    async ping(): Promise<string> {
+        return this.call('GET', new URL(this.config.endpoint + '/ping'));
+    }
+
+    async redirect(method: string, url: URL, headers: Headers = {}, params: Payload = {}): Promise<string> {
+        const { uri, options } = this.prepareRequest(method, url, headers, params);
+        
+        const response = await fetch(uri, {
+            ...options,
+            redirect: 'manual'
+        });
+
+        if (response.status !== 301 && response.status !== 302) {
+            throw new RevenexxAPIRevenexxException('Invalid redirect', response.status);
+        }
+
+        return response.headers.get('location') || '';
+    }
+
+    async call(method: string, url: URL, headers: Headers = {}, params: Payload = {}, responseType = 'json'): Promise<any> {
+        const { uri, options } = this.prepareRequest(method, url, headers, params);
+
+        let data: any = null;
+
+        const response = await fetch(uri, options);
+
+        const warnings = response.headers.get('x-revenexx api — revenexx-warning');
+        if (warnings) {
+            warnings.split(';').forEach((warning: string) => console.warn('Warning: ' + warning));
+        }
+
+        if (response.headers.get('content-type')?.includes('application/json')) {
+            data = JSONbig.parse(await response.text());
+        } else if (responseType === 'arrayBuffer') {
+            data = await response.arrayBuffer();
+        } else {
+            data = {
+                message: await response.text()
+            };
+        }
+
+        if (400 <= response.status) {
+            let responseText = '';
+            if (response.headers.get('content-type')?.includes('application/json') || responseType === 'arrayBuffer') {
+                responseText = JSONbig.stringify(data);
+            } else {
+                responseText = data?.message;
+            }
+            throw new RevenexxAPIRevenexxException(data?.message, response.status, data?.type, responseText);
+        }
+
+        if (data && typeof data === 'object') {
+            data.toString = () => JSONbig.stringify(data);
+        }
+
+        return data;
+    }
+
+    static flatten(data: Payload, prefix = ''): Payload {
+        let output: Payload = {};
+
+        for (const [key, value] of Object.entries(data)) {
+            let finalKey = prefix ? prefix + '[' + key +']' : key;
+            if (Array.isArray(value)) {
+                output = { ...output, ...Client.flatten(value, finalKey) };
+            } else {
+                output[finalKey] = value;
+            }
+        }
+
+        return output;
+    }
+
+    /**
+     * Get information about this SDK and the generator that produced it.
+     *
+     * Contributed by the 'about' plugin.
+     */
+    getAbout(): Record<string, string> {
+        return {
+            name: 'Revenexx Node',
+            version: '0.0.1',
+            language: 'nodejs',
+            generator: 'revenexx/sdk-generator',
+            generatorUrl: 'https://github.com/revenexx/sdk-generator',
+        };
+    }
+}
+
+export { Client, RevenexxAPIRevenexxException };
+export { Query } from './query';
+export type { Models, Payload, UploadProgress };
+export type { QueryTypes, QueryTypesList } from './query';
