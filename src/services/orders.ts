@@ -17,8 +17,8 @@ export class Orders {
     /**
      *
      * @param {Status} params.status - Filter by order status (exact match).
-     * @param {Payment_status} params.paymentStatus - Filter by payment status (exact match).
-     * @param {Fulfillment_status} params.fulfillmentStatus - Filter by fulfillment status (exact match).
+     * @param {PaymentStatus} params.paymentStatus - Filter by payment status (exact match).
+     * @param {FulfillmentStatus} params.fulfillmentStatus - Filter by fulfillment status (exact match).
      * @param {string} params.contactId - Filter to one ordering contact.
      * @param {string} params.organizationId - Filter to one B2B organization.
      * @param {string} params.channelId - Filter to one sales channel.
@@ -30,12 +30,12 @@ export class Orders {
      * @throws {RevenexxAPIRevenexxException}
      * @returns {Promise<{}>}
      */
-    ordersList(params?: { status?: Status, paymentStatus?: Payment_status, fulfillmentStatus?: Fulfillment_status, contactId?: string, organizationId?: string, channelId?: string, marketId?: string, number?: string, limit?: number, offset?: number, order?: string }): Promise<{}>;
+    ordersList(params?: { status?: Status, paymentStatus?: PaymentStatus, fulfillmentStatus?: FulfillmentStatus, contactId?: string, organizationId?: string, channelId?: string, marketId?: string, number?: string, limit?: number, offset?: number, order?: string }): Promise<{}>;
     /**
      *
      * @param {Status} status - Filter by order status (exact match).
-     * @param {Payment_status} paymentStatus - Filter by payment status (exact match).
-     * @param {Fulfillment_status} fulfillmentStatus - Filter by fulfillment status (exact match).
+     * @param {PaymentStatus} paymentStatus - Filter by payment status (exact match).
+     * @param {FulfillmentStatus} fulfillmentStatus - Filter by fulfillment status (exact match).
      * @param {string} contactId - Filter to one ordering contact.
      * @param {string} organizationId - Filter to one B2B organization.
      * @param {string} channelId - Filter to one sales channel.
@@ -48,20 +48,20 @@ export class Orders {
      * @returns {Promise<{}>}
      * @deprecated Use the object parameter style method for a better developer experience.
      */
-    ordersList(status?: Status, paymentStatus?: Payment_status, fulfillmentStatus?: Fulfillment_status, contactId?: string, organizationId?: string, channelId?: string, marketId?: string, number?: string, limit?: number, offset?: number, order?: string): Promise<{}>;
+    ordersList(status?: Status, paymentStatus?: PaymentStatus, fulfillmentStatus?: FulfillmentStatus, contactId?: string, organizationId?: string, channelId?: string, marketId?: string, number?: string, limit?: number, offset?: number, order?: string): Promise<{}>;
     ordersList(
-        paramsOrFirst?: { status?: Status, paymentStatus?: Payment_status, fulfillmentStatus?: Fulfillment_status, contactId?: string, organizationId?: string, channelId?: string, marketId?: string, number?: string, limit?: number, offset?: number, order?: string } | Status,
-        ...rest: [(Payment_status)?, (Fulfillment_status)?, (string)?, (string)?, (string)?, (string)?, (string)?, (number)?, (number)?, (string)?]    
+        paramsOrFirst?: { status?: Status, paymentStatus?: PaymentStatus, fulfillmentStatus?: FulfillmentStatus, contactId?: string, organizationId?: string, channelId?: string, marketId?: string, number?: string, limit?: number, offset?: number, order?: string } | Status,
+        ...rest: [(PaymentStatus)?, (FulfillmentStatus)?, (string)?, (string)?, (string)?, (string)?, (string)?, (number)?, (number)?, (string)?]    
     ): Promise<{}> {
-        let params: { status?: Status, paymentStatus?: Payment_status, fulfillmentStatus?: Fulfillment_status, contactId?: string, organizationId?: string, channelId?: string, marketId?: string, number?: string, limit?: number, offset?: number, order?: string };
+        let params: { status?: Status, paymentStatus?: PaymentStatus, fulfillmentStatus?: FulfillmentStatus, contactId?: string, organizationId?: string, channelId?: string, marketId?: string, number?: string, limit?: number, offset?: number, order?: string };
         
         if (!paramsOrFirst || (paramsOrFirst && typeof paramsOrFirst === 'object' && !Array.isArray(paramsOrFirst) && ('status' in paramsOrFirst || 'paymentStatus' in paramsOrFirst || 'fulfillmentStatus' in paramsOrFirst || 'contactId' in paramsOrFirst || 'organizationId' in paramsOrFirst || 'channelId' in paramsOrFirst || 'marketId' in paramsOrFirst || 'number' in paramsOrFirst || 'limit' in paramsOrFirst || 'offset' in paramsOrFirst || 'order' in paramsOrFirst))) {
-            params = (paramsOrFirst || {}) as { status?: Status, paymentStatus?: Payment_status, fulfillmentStatus?: Fulfillment_status, contactId?: string, organizationId?: string, channelId?: string, marketId?: string, number?: string, limit?: number, offset?: number, order?: string };
+            params = (paramsOrFirst || {}) as { status?: Status, paymentStatus?: PaymentStatus, fulfillmentStatus?: FulfillmentStatus, contactId?: string, organizationId?: string, channelId?: string, marketId?: string, number?: string, limit?: number, offset?: number, order?: string };
         } else {
             params = {
                 status: paramsOrFirst as Status,
-                paymentStatus: rest[0] as Payment_status,
-                fulfillmentStatus: rest[1] as Fulfillment_status,
+                paymentStatus: rest[0] as PaymentStatus,
+                fulfillmentStatus: rest[1] as FulfillmentStatus,
                 contactId: rest[2] as string,
                 organizationId: rest[3] as string,
                 channelId: rest[4] as string,

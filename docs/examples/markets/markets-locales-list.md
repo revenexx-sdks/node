@@ -9,6 +9,9 @@ const client = new sdk.Client()
 const markets = new sdk.Markets(client);
 
 const result = await markets.marketsLocalesList({
-    marketId: ''
+    marketId: '',
+    limit: null, // optional
+    offset: null, // optional
+    order: '' // optional
 });
 ```

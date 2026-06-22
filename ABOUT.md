@@ -2,7 +2,7 @@
 
 Revenexx Node.js SDK for server-side applications.
 
-- **Version:** 0.0.3
+- **Version:** 0.0.2
 - **Language:** NodeJS
 - **API version:** 1.0.0
 - **Endpoint:** https://api.revenexx.com
