@@ -1,11 +1,16 @@
 ```javascript
-const sdk = require('node-revenexx-a-p-i-—-revenexx');
+const sdk = require('@revenexx/node');
 
 const client = new sdk.Client()
     .setEndpoint('https://api.revenexx.com') // Your API Endpoint
+    .setTenant('<TENANT_SLUG>') // Your tenant slug
     .setApiKeyAuth('<API_KEY>'); // A gateway-managed scoped API key (rvxk_…).
 
 const products = new sdk.Products(client);
 
-const result = await products.productsCategoriesList();
+const result = await products.productsCategoriesList({
+    limit: null, // optional
+    offset: null, // optional
+    order: '' // optional
+});
 ```

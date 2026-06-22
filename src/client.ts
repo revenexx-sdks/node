@@ -73,7 +73,7 @@ class RevenexxAPIRevenexxException extends Error {
 }
 
 function getUserAgent() {
-    let ua = 'RevenexxAPIRevenexxNodeJSSDK/0.0.1';
+    let ua = 'RevenexxAPIRevenexxNodeJSSDK/0.0.2';
 
     // `process` is a global in Node.js, but not fully available in all runtimes.
     const platform: string[] = [];
@@ -118,7 +118,7 @@ class Client {
         'x-sdk-name': 'Revenexx Node',
         'x-sdk-platform': '',
         'x-sdk-language': 'nodejs',
-        'x-sdk-version': '0.0.1',
+        'x-sdk-version': '0.0.2',
         'user-agent' : getUserAgent(),
     };
 
@@ -394,7 +394,7 @@ class Client {
     getAbout(): Record<string, string> {
         return {
             name: 'Revenexx Node',
-            version: '0.0.1',
+            version: '0.0.2',
             language: 'nodejs',
             generator: 'revenexx/sdk-generator',
             generatorUrl: 'https://github.com/revenexx/sdk-generator',

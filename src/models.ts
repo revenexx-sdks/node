@@ -13,6 +13,7 @@ import { LocationType } from "./enums/location-type"
 import { MarketStatus } from "./enums/market-status"
 import { OrderCommentVisibility } from "./enums/order-comment-visibility"
 import { OrderItemType } from "./enums/order-item-type"
+import { OrderListKind } from "./enums/order-list-kind"
 import { OrderPaymentStatus } from "./enums/order-payment-status"
 import { OrganizationStatus } from "./enums/organization-status"
 import { PageStatus } from "./enums/page-status"
@@ -4197,6 +4198,386 @@ export namespace Models {
          * 
          */
         reason?: string;
+    }
+
+    /**
+     * 
+     */
+    export type OrderList = {
+        /**
+         * 
+         */
+        created_at?: string;
+        /**
+         * 
+         */
+        id?: string;
+        /**
+         * 
+         */
+        kind?: string;
+        /**
+         * 
+         */
+        metadata?: object | null;
+        /**
+         * 
+         */
+        name?: string;
+        /**
+         * 
+         */
+        organization_id?: string | null;
+        /**
+         * 
+         */
+        owner_id?: string;
+        /**
+         * 
+         */
+        owner_name?: string;
+        /**
+         * 
+         */
+        shared?: boolean;
+        /**
+         * 
+         */
+        updated_at?: string;
+    }
+
+    /**
+     * 
+     */
+    export type OrderListCreateRequest = {
+        /**
+         * Optional initial positions.
+         */
+        items?: OrderListItemInput[];
+        /**
+         * List kind (default 'shopping').
+         */
+        kind?: OrderListKind;
+        /**
+         * 
+         */
+        metadata?: object | null;
+        /**
+         * 
+         */
+        name: string;
+        /**
+         * Owning organization (scopes public sharing).
+         */
+        organization_id?: string | null;
+        /**
+         * Owning contact.
+         */
+        owner_id: string;
+        /**
+         * Owner display name (snapshot).
+         */
+        owner_name: string;
+        /**
+         * Shared read-only across the organization (default false).
+         */
+        shared?: boolean;
+    }
+
+    /**
+     * 
+     */
+    export type OrderListItem = {
+        /**
+         * 
+         */
+        category_slug?: string | null;
+        /**
+         * 
+         */
+        cost_center_id?: string | null;
+        /**
+         * 
+         */
+        created_at?: string;
+        /**
+         * 
+         */
+        custom_sku?: string | null;
+        /**
+         * 
+         */
+        id?: string;
+        /**
+         * 
+         */
+        image?: string | null;
+        /**
+         * 
+         */
+        list_id?: string;
+        /**
+         * 
+         */
+        metadata?: object | null;
+        /**
+         * 
+         */
+        name?: string;
+        /**
+         * 
+         */
+        position?: number;
+        /**
+         * 
+         */
+        position_texts?: object | null;
+        /**
+         * 
+         */
+        price?: number | null;
+        /**
+         * 
+         */
+        product_id?: string | null;
+        /**
+         * 
+         */
+        quantity?: number;
+        /**
+         * 
+         */
+        sku?: string | null;
+        /**
+         * 
+         */
+        subcategory_slug?: string | null;
+        /**
+         * 
+         */
+        tax_rate?: number | null;
+        /**
+         * 
+         */
+        unit?: string | null;
+        /**
+         * 
+         */
+        updated_at?: string;
+    }
+
+    /**
+     * 
+     */
+    export type OrderListItemInput = {
+        /**
+         * 
+         */
+        category_slug?: string | null;
+        /**
+         * Cost center reference (free-text).
+         */
+        cost_center_id?: string | null;
+        /**
+         * Customer's own article number.
+         */
+        custom_sku?: string | null;
+        /**
+         * 
+         */
+        image?: string | null;
+        /**
+         * 
+         */
+        metadata?: object | null;
+        /**
+         * Display name (snapshot).
+         */
+        name: string;
+        /**
+         * Sort order (assigned automatically when omitted).
+         */
+        position?: number;
+        /**
+         * Per-position notes.
+         */
+        position_texts?: string[] | null;
+        /**
+         * Unit price snapshot.
+         */
+        price?: number | null;
+        /**
+         * Catalog product (alternative to sku).
+         */
+        product_id?: string | null;
+        /**
+         * Default 1.
+         */
+        quantity?: number;
+        /**
+         * Article SKU (alternative to product_id).
+         */
+        sku?: string | null;
+        /**
+         * 
+         */
+        subcategory_slug?: string | null;
+        /**
+         * 
+         */
+        tax_rate?: number | null;
+        /**
+         * 
+         */
+        unit?: string | null;
+    }
+
+    /**
+     * Partial update — omitted fields keep their current value.
+     */
+    export type OrderListItemUpdateRequest = {
+        /**
+         * 
+         */
+        category_slug?: string | null;
+        /**
+         * Cost center reference (free-text).
+         */
+        cost_center_id?: string | null;
+        /**
+         * Customer's own article number.
+         */
+        custom_sku?: string | null;
+        /**
+         * 
+         */
+        image?: string | null;
+        /**
+         * 
+         */
+        metadata?: object | null;
+        /**
+         * Display name (snapshot).
+         */
+        name?: string;
+        /**
+         * Sort order (assigned automatically when omitted).
+         */
+        position?: number;
+        /**
+         * Per-position notes.
+         */
+        position_texts?: string[] | null;
+        /**
+         * Unit price snapshot.
+         */
+        price?: number | null;
+        /**
+         * Catalog product (alternative to sku).
+         */
+        product_id?: string | null;
+        /**
+         * Default 1.
+         */
+        quantity?: number;
+        /**
+         * Article SKU (alternative to product_id).
+         */
+        sku?: string | null;
+        /**
+         * 
+         */
+        subcategory_slug?: string | null;
+        /**
+         * 
+         */
+        tax_rate?: number | null;
+        /**
+         * 
+         */
+        unit?: string | null;
+    }
+
+    /**
+     * Replace ALL positions of the list (set semantics).
+     */
+    export type OrderListItemsReplaceRequest = {
+        /**
+         * The new full set of positions.
+         */
+        items: OrderListItemInput[];
+    }
+
+    /**
+     * Partial update — rename, visibility or kind. Positions go through the items routes.
+     */
+    export type OrderListUpdateRequest = {
+        /**
+         * List kind (default 'shopping').
+         */
+        kind?: OrderListKind;
+        /**
+         * 
+         */
+        metadata?: object | null;
+        /**
+         * 
+         */
+        name?: string;
+        /**
+         * 
+         */
+        shared?: boolean;
+    }
+
+    /**
+     * 
+     */
+    export type OrderListWithItems = {
+        /**
+         * 
+         */
+        created_at?: string;
+        /**
+         * 
+         */
+        id?: string;
+        /**
+         * 
+         */
+        items?: OrderListItem[];
+        /**
+         * 
+         */
+        kind?: string;
+        /**
+         * 
+         */
+        metadata?: object | null;
+        /**
+         * 
+         */
+        name?: string;
+        /**
+         * 
+         */
+        organization_id?: string | null;
+        /**
+         * 
+         */
+        owner_id?: string;
+        /**
+         * 
+         */
+        owner_name?: string;
+        /**
+         * 
+         */
+        shared?: boolean;
+        /**
+         * 
+         */
+        updated_at?: string;
     }
 
     /**
