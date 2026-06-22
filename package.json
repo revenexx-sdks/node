@@ -2,7 +2,7 @@
   "name": "@revenexx/node",
   "homepage": "https://revenexx.com",
   "description": "Revenexx Node.js SDK.",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "license": "MIT",
   "main": "dist/index.js",
   "type": "commonjs",
