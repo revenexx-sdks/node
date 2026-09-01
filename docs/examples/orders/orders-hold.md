@@ -10,6 +10,6 @@ const orders = new sdk.Orders(client);
 
 const result = await orders.ordersHold({
     id: '',
-    reason: '' // optional
+    reason: 'Credit check pending' // optional
 });
 ```

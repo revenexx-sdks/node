@@ -8,5 +8,12 @@ const client = new sdk.Client()
 
 const storage = new sdk.Storage(client);
 
-const result = await storage.syncRuleStore();
+const result = await storage.syncRuleStore({
+    sftpAccountId: '',
+    sourcePath: '/uploads',
+    enabled: true, // optional
+    options: [], // optional
+    schedule: '0 3 * * *', // optional
+    targetFolderId: '' // optional
+});
 ```

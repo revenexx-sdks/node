@@ -10,8 +10,11 @@ const orders = new sdk.Orders(client);
 
 const result = await orders.ordersReturn({
     id: '',
-    positions: [],
-    metadata: {}, // optional
-    reason: '' // optional
+    metadata: {
+        "rma_portal_case": "C-2026-0917"
+    }, // optional
+    positions: [], // optional
+    reason: 'Damaged on arrival', // optional
+    restock: true // optional
 });
 ```

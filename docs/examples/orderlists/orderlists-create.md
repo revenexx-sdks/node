@@ -9,13 +9,16 @@ const client = new sdk.Client()
 const orderlists = new sdk.Orderlists(client);
 
 const result = await orderlists.orderlistsCreate({
-    name: '',
+    name: 'Weekly office supplies',
     ownerId: '',
-    ownerName: '',
+    ownerName: 'Jamie Rivera',
     items: [], // optional
-    kind: sdk.OrderListKind.Shopping, // optional
-    metadata: {}, // optional
+    kind: 'shopping', // optional
+    metadata: {
+        "department": "facility",
+        "erp_reference": "REQ-2026-0042"
+    }, // optional
     organizationId: '', // optional
-    shared: null // optional
+    shared: true // optional
 });
 ```

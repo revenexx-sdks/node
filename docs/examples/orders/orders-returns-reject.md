@@ -11,7 +11,7 @@ const orders = new sdk.Orders(client);
 const result = await orders.ordersReturnsReject({
     id: '',
     rid: '',
-    reason: '', // optional
-    resolution: '' // optional
+    reason: 'Returned outside the agreed window', // optional
+    resolution: sdk.OrderReturnRefusal.WearAndTear // optional
 });
 ```

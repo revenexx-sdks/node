@@ -9,8 +9,8 @@ const client = new sdk.Client()
 const avatars = new sdk.Avatars(client);
 
 const result = await avatars.avatarsGetImage({
-    url: '',
-    width: null, // optional
-    height: null // optional
+    url: 'https://www.revenexx.com/img/hero-revenexx-poster.webp',
+    width: 1, // optional
+    height: 1 // optional
 });
 ```

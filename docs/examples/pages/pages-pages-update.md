@@ -10,10 +10,10 @@ const pages = new sdk.Pages(client);
 
 const result = await pages.pagesPagesUpdate({
     id: '',
-    bundle: '', // optional
+    bundle: 'standard', // optional
     meta: {}, // optional
-    slug: '', // optional
+    slug: 'about-us', // optional
     status: sdk.PageStatus.Draft, // optional
-    title: '' // optional
+    title: 'About us' // optional
 });
 ```

@@ -10,12 +10,15 @@ const markets = new sdk.Markets(client);
 
 const result = await markets.marketsUpdate({
     id: '',
-    code: '', // optional
-    currency: '', // optional
-    isDefault: null, // optional
-    labels: {}, // optional
-    name: '', // optional
-    position: null, // optional
+    code: 'northwind', // optional
+    currency: 'EUR', // optional
+    isDefault: false, // optional
+    labels: {
+        "de-DE": "Nordwind",
+        "en-GB": "Northwind"
+    }, // optional
+    name: 'Northwind', // optional
+    position: 0, // optional
     status: sdk.MarketStatus.Active // optional
 });
 ```

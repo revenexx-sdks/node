@@ -58,13 +58,13 @@ type Headers = {
     [key: string]: string;
 }
 
-class RevenexxAPIRevenexxException extends Error {
+class RevenexxException extends Error {
     code: number;
     response: string;
     type: string;
     constructor(message: string, code: number = 0, type: string = '', response: string = '') {
         super(message);
-        this.name = 'RevenexxAPIRevenexxException';
+        this.name = 'RevenexxException';
         this.message = message;
         this.code = code;
         this.type = type;
@@ -73,7 +73,7 @@ class RevenexxAPIRevenexxException extends Error {
 }
 
 function getUserAgent() {
-    let ua = 'RevenexxAPIRevenexxNodeJSSDK/0.0.2';
+    let ua = 'RevenexxNodeJSSDK/0.1.0';
 
     // `process` is a global in Node.js, but not fully available in all runtimes.
     const platform: string[] = [];
@@ -106,7 +106,6 @@ function getUserAgent() {
 }
 
 class Client {
-    static CHUNK_SIZE = 1024 * 1024 * 5;
 
     config = {
         endpoint: 'https://api.revenexx.com',
@@ -118,7 +117,7 @@ class Client {
         'x-sdk-name': 'Revenexx Node',
         'x-sdk-platform': '',
         'x-sdk-language': 'nodejs',
-        'x-sdk-version': '0.0.2',
+        'x-sdk-version': '0.1.0',
         'user-agent' : getUserAgent(),
     };
 
@@ -133,11 +132,11 @@ class Client {
      */
     setEndpoint(endpoint: string): this {
         if (!endpoint || typeof endpoint !== 'string') {
-            throw new RevenexxAPIRevenexxException('Endpoint must be a valid string');
+            throw new RevenexxException('Endpoint must be a valid string');
         }
 
         if (!endpoint.startsWith('http://') && !endpoint.startsWith('https://')) {
-            throw new RevenexxAPIRevenexxException('Invalid endpoint URL: ' + endpoint);
+            throw new RevenexxException('Invalid endpoint URL: ' + endpoint);
         }
 
         this.config.endpoint = endpoint;
@@ -200,7 +199,7 @@ class Client {
      * @return {this}
      */
     setBearerAuth(value: string): this {
-        this.headers['Authorization'] = value;
+        this.headers['Authorization'] = value.toLowerCase().startsWith('bearer ') ? value : `Bearer ${value}`;
         this.config.bearerauth = value;
         return this;
     }
@@ -217,6 +216,21 @@ class Client {
      */
     setTenant(value: string): this {
         this.headers['X-Revenexx-Tenant'] = value;
+        return this;
+    }
+
+    /**
+     * Set Market
+     *
+     * The market slug to scope requests to, sent as the X-Revenexx-Market
+     * header. Optional — omit it to see only global rows.
+     *
+     * @param value string
+     *
+     * @return {this}
+     */
+    setMarket(value: string): this {
+        this.headers['X-Revenexx-Market'] = value;
         return this;
     }
 
@@ -272,42 +286,19 @@ class Client {
             throw new Error('File not found in payload');
         }
 
-        if (file.size <= Client.CHUNK_SIZE) {
-            return await this.call(method, url, headers, originalPayload);
-        }
+        // The API takes one multipart body per upload. It has no chunked or
+        // resumable protocol — no content-range, no upload id, no per-chunk
+        // endpoint — so the whole file always goes in a single request.
+        const response = await this.call(method, url, headers, originalPayload);
 
-        let start = 0;
-        let response = null;
-
-        while (start < file.size) {
-            let end = start + Client.CHUNK_SIZE; // Prepare end for the next chunk
-            if (end >= file.size) {
-                end = file.size; // Adjust for the last chunk to include the last byte
-            }
-
-            headers['content-range'] = `bytes ${start}-${end-1}/${file.size}`;
-            const chunk = file.slice(start, end);
-
-            let payload = { ...originalPayload };
-            payload[fileParam] = new File([chunk], file.name);
-
-            response = await this.call(method, url, headers, payload);
-
-            if (onProgress && typeof onProgress === 'function') {
-                onProgress({
-                    $id: response.$id,
-                    progress: Math.round((end / file.size) * 100),
-                    sizeUploaded: end,
-                    chunksTotal: Math.ceil(file.size / Client.CHUNK_SIZE),
-                    chunksUploaded: Math.ceil(end / Client.CHUNK_SIZE)
-                });
-            }
-
-            if (response && response.$id) {
-                headers['x-revenexx api — revenexx-id'] = response.$id;
-            }
-
-            start = end;
+        if (onProgress && typeof onProgress === 'function') {
+            onProgress({
+                $id: response?.$id,
+                progress: 100,
+                sizeUploaded: file.size,
+                chunksTotal: 1,
+                chunksUploaded: 1
+            });
         }
 
         return response;
@@ -326,7 +317,7 @@ class Client {
         });
 
         if (response.status !== 301 && response.status !== 302) {
-            throw new RevenexxAPIRevenexxException('Invalid redirect', response.status);
+            throw new RevenexxException('Invalid redirect', response.status);
         }
 
         return response.headers.get('location') || '';
@@ -339,7 +330,7 @@ class Client {
 
         const response = await fetch(uri, options);
 
-        const warnings = response.headers.get('x-revenexx api — revenexx-warning');
+        const warnings = response.headers.get('x-revenexx-warning');
         if (warnings) {
             warnings.split(';').forEach((warning: string) => console.warn('Warning: ' + warning));
         }
@@ -361,7 +352,7 @@ class Client {
             } else {
                 responseText = data?.message;
             }
-            throw new RevenexxAPIRevenexxException(data?.message, response.status, data?.type, responseText);
+            throw new RevenexxException(data?.message, response.status, data?.type, responseText);
         }
 
         if (data && typeof data === 'object') {
@@ -394,7 +385,7 @@ class Client {
     getAbout(): Record<string, string> {
         return {
             name: 'Revenexx Node',
-            version: '0.0.2',
+            version: '0.1.0',
             language: 'nodejs',
             generator: 'revenexx/sdk-generator',
             generatorUrl: 'https://github.com/revenexx/sdk-generator',
@@ -402,7 +393,7 @@ class Client {
     }
 }
 
-export { Client, RevenexxAPIRevenexxException };
+export { Client, RevenexxException };
 export { Query } from './query';
 export type { Models, Payload, UploadProgress };
 export type { QueryTypes, QueryTypesList } from './query';

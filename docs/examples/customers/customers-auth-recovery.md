@@ -9,7 +9,7 @@ const client = new sdk.Client()
 const customers = new sdk.Customers(client);
 
 const result = await customers.customersAuthRecovery({
-    email: '',
-    url: ''
+    email: 'einkauf@example.com',
+    url: 'https://example.com'
 });
 ```

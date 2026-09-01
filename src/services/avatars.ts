@@ -1,7 +1,9 @@
-import { RevenexxAPIRevenexxException, Client, type Payload, UploadProgress } from '../client';
+import { RevenexxException, Client, type Payload, UploadProgress } from '../client';
 import type { Models } from '../models';
 
 import { Code } from '../enums/code';
+import { AvatarsGetCreditCardCode } from '../enums/avatars-get-credit-card-code';
+import { AvatarsGetFlagCode } from '../enums/avatars-get-flag-code';
 import { Theme } from '../enums/theme';
 import { Timezone } from '../enums/timezone';
 import { Permissions } from '../enums/permissions';
@@ -23,7 +25,7 @@ export class Avatars {
      * @param {number} params.width - Image width. Pass an integer between 0 to 2000. Defaults to 100.
      * @param {number} params.height - Image height. Pass an integer between 0 to 2000. Defaults to 100.
      * @param {number} params.quality - Image quality. Pass an integer between 0 to 100. Defaults to keep existing image quality.
-     * @throws {RevenexxAPIRevenexxException}
+     * @throws {RevenexxException}
      * @returns {Promise<{}>}
      */
     avatarsGetBrowser(params: { code: Code, width?: number, height?: number, quality?: number }): Promise<{}>;
@@ -36,7 +38,7 @@ export class Avatars {
      * @param {number} width - Image width. Pass an integer between 0 to 2000. Defaults to 100.
      * @param {number} height - Image height. Pass an integer between 0 to 2000. Defaults to 100.
      * @param {number} quality - Image quality. Pass an integer between 0 to 100. Defaults to keep existing image quality.
-     * @throws {RevenexxAPIRevenexxException}
+     * @throws {RevenexxException}
      * @returns {Promise<{}>}
      * @deprecated Use the object parameter style method for a better developer experience.
      */
@@ -64,7 +66,7 @@ export class Avatars {
         const quality = params.quality;
 
         if (typeof code === 'undefined') {
-            throw new RevenexxAPIRevenexxException('Missing required parameter: "code"');
+            throw new RevenexxException('Missing required parameter: "code"');
         }
 
         const apiPath = '/v1/avatars/browsers/{code}'.replace('{code}', code);
@@ -97,40 +99,40 @@ export class Avatars {
      * When one dimension is specified and the other is 0, the image is scaled with preserved aspect ratio. If both dimensions are 0, the API provides an image at source quality. If dimensions are not specified, the default size of image returned is 100x100px.
      * 
      *
-     * @param {Code} params.code - Credit Card Code. Possible values: amex, argencard, cabal, cencosud, diners, discover, elo, hipercard, jcb, mastercard, naranja, targeta-shopping, unionpay, visa, mir, maestro, rupay.
+     * @param {AvatarsGetCreditCardCode} params.code - Credit Card Code. Possible values: amex, argencard, cabal, cencosud, diners, discover, elo, hipercard, jcb, mastercard, naranja, targeta-shopping, unionpay, visa, mir, maestro, rupay.
      * @param {number} params.width - Image width. Pass an integer between 0 to 2000. Defaults to 100.
      * @param {number} params.height - Image height. Pass an integer between 0 to 2000. Defaults to 100.
      * @param {number} params.quality - Image quality. Pass an integer between 0 to 100. Defaults to keep existing image quality.
-     * @throws {RevenexxAPIRevenexxException}
+     * @throws {RevenexxException}
      * @returns {Promise<{}>}
      */
-    avatarsGetCreditCard(params: { code: Code, width?: number, height?: number, quality?: number }): Promise<{}>;
+    avatarsGetCreditCard(params: { code: AvatarsGetCreditCardCode, width?: number, height?: number, quality?: number }): Promise<{}>;
     /**
      * The credit card endpoint will return you the icon of the credit card provider you need. Use width, height and quality arguments to change the output settings.
      * 
      * When one dimension is specified and the other is 0, the image is scaled with preserved aspect ratio. If both dimensions are 0, the API provides an image at source quality. If dimensions are not specified, the default size of image returned is 100x100px.
      * 
      *
-     * @param {Code} code - Credit Card Code. Possible values: amex, argencard, cabal, cencosud, diners, discover, elo, hipercard, jcb, mastercard, naranja, targeta-shopping, unionpay, visa, mir, maestro, rupay.
+     * @param {AvatarsGetCreditCardCode} code - Credit Card Code. Possible values: amex, argencard, cabal, cencosud, diners, discover, elo, hipercard, jcb, mastercard, naranja, targeta-shopping, unionpay, visa, mir, maestro, rupay.
      * @param {number} width - Image width. Pass an integer between 0 to 2000. Defaults to 100.
      * @param {number} height - Image height. Pass an integer between 0 to 2000. Defaults to 100.
      * @param {number} quality - Image quality. Pass an integer between 0 to 100. Defaults to keep existing image quality.
-     * @throws {RevenexxAPIRevenexxException}
+     * @throws {RevenexxException}
      * @returns {Promise<{}>}
      * @deprecated Use the object parameter style method for a better developer experience.
      */
-    avatarsGetCreditCard(code: Code, width?: number, height?: number, quality?: number): Promise<{}>;
+    avatarsGetCreditCard(code: AvatarsGetCreditCardCode, width?: number, height?: number, quality?: number): Promise<{}>;
     avatarsGetCreditCard(
-        paramsOrFirst: { code: Code, width?: number, height?: number, quality?: number } | Code,
+        paramsOrFirst: { code: AvatarsGetCreditCardCode, width?: number, height?: number, quality?: number } | AvatarsGetCreditCardCode,
         ...rest: [(number)?, (number)?, (number)?]    
     ): Promise<{}> {
-        let params: { code: Code, width?: number, height?: number, quality?: number };
+        let params: { code: AvatarsGetCreditCardCode, width?: number, height?: number, quality?: number };
         
         if ((paramsOrFirst && typeof paramsOrFirst === 'object' && !Array.isArray(paramsOrFirst) && ('code' in paramsOrFirst || 'width' in paramsOrFirst || 'height' in paramsOrFirst || 'quality' in paramsOrFirst))) {
-            params = (paramsOrFirst || {}) as { code: Code, width?: number, height?: number, quality?: number };
+            params = (paramsOrFirst || {}) as { code: AvatarsGetCreditCardCode, width?: number, height?: number, quality?: number };
         } else {
             params = {
-                code: paramsOrFirst as Code,
+                code: paramsOrFirst as AvatarsGetCreditCardCode,
                 width: rest[0] as number,
                 height: rest[1] as number,
                 quality: rest[2] as number            
@@ -143,7 +145,7 @@ export class Avatars {
         const quality = params.quality;
 
         if (typeof code === 'undefined') {
-            throw new RevenexxAPIRevenexxException('Missing required parameter: "code"');
+            throw new RevenexxException('Missing required parameter: "code"');
         }
 
         const apiPath = '/v1/avatars/credit-cards/{code}'.replace('{code}', code);
@@ -171,103 +173,45 @@ export class Avatars {
     }
 
     /**
-     * Use this endpoint to fetch the favorite icon (AKA favicon) of any remote website URL.
-     * 
-     * This endpoint does not follow HTTP redirects.
-     *
-     * @param {string} params.url - Website URL which you want to fetch the favicon from.
-     * @throws {RevenexxAPIRevenexxException}
-     * @returns {Promise<{}>}
-     */
-    avatarsGetFavicon(params: { url: string }): Promise<{}>;
-    /**
-     * Use this endpoint to fetch the favorite icon (AKA favicon) of any remote website URL.
-     * 
-     * This endpoint does not follow HTTP redirects.
-     *
-     * @param {string} url - Website URL which you want to fetch the favicon from.
-     * @throws {RevenexxAPIRevenexxException}
-     * @returns {Promise<{}>}
-     * @deprecated Use the object parameter style method for a better developer experience.
-     */
-    avatarsGetFavicon(url: string): Promise<{}>;
-    avatarsGetFavicon(
-        paramsOrFirst: { url: string } | string    
-    ): Promise<{}> {
-        let params: { url: string };
-        
-        if ((paramsOrFirst && typeof paramsOrFirst === 'object' && !Array.isArray(paramsOrFirst))) {
-            params = (paramsOrFirst || {}) as { url: string };
-        } else {
-            params = {
-                url: paramsOrFirst as string            
-            };
-        }
-        
-        const url = params.url;
-
-        if (typeof url === 'undefined') {
-            throw new RevenexxAPIRevenexxException('Missing required parameter: "url"');
-        }
-
-        const apiPath = '/v1/avatars/favicon';
-        const apiPayload: Payload = {};
-        if (typeof url !== 'undefined') {
-            apiPayload['url'] = url;
-        }
-        const uri = new URL(this.client.config.endpoint + apiPath);
-
-        const apiHeaders: { [header: string]: string } = {
-        }
-
-        return this.client.call(
-            'get',
-            uri,
-            apiHeaders,
-            apiPayload,
-        );
-    }
-
-    /**
      * You can use this endpoint to show different country flags icons to your users. The code argument receives the 2 letter country code. Use width, height and quality arguments to change the output settings. Country codes follow the [ISO 3166-1](https://en.wikipedia.org/wiki/ISO_3166-1) standard.
      * 
      * When one dimension is specified and the other is 0, the image is scaled with preserved aspect ratio. If both dimensions are 0, the API provides an image at source quality. If dimensions are not specified, the default size of image returned is 100x100px.
      * 
      *
-     * @param {Code} params.code - Country Code. ISO Alpha-2 country code format.
+     * @param {AvatarsGetFlagCode} params.code - Country Code. ISO Alpha-2 country code format.
      * @param {number} params.width - Image width. Pass an integer between 0 to 2000. Defaults to 100.
      * @param {number} params.height - Image height. Pass an integer between 0 to 2000. Defaults to 100.
      * @param {number} params.quality - Image quality. Pass an integer between 0 to 100. Defaults to keep existing image quality.
-     * @throws {RevenexxAPIRevenexxException}
+     * @throws {RevenexxException}
      * @returns {Promise<{}>}
      */
-    avatarsGetFlag(params: { code: Code, width?: number, height?: number, quality?: number }): Promise<{}>;
+    avatarsGetFlag(params: { code: AvatarsGetFlagCode, width?: number, height?: number, quality?: number }): Promise<{}>;
     /**
      * You can use this endpoint to show different country flags icons to your users. The code argument receives the 2 letter country code. Use width, height and quality arguments to change the output settings. Country codes follow the [ISO 3166-1](https://en.wikipedia.org/wiki/ISO_3166-1) standard.
      * 
      * When one dimension is specified and the other is 0, the image is scaled with preserved aspect ratio. If both dimensions are 0, the API provides an image at source quality. If dimensions are not specified, the default size of image returned is 100x100px.
      * 
      *
-     * @param {Code} code - Country Code. ISO Alpha-2 country code format.
+     * @param {AvatarsGetFlagCode} code - Country Code. ISO Alpha-2 country code format.
      * @param {number} width - Image width. Pass an integer between 0 to 2000. Defaults to 100.
      * @param {number} height - Image height. Pass an integer between 0 to 2000. Defaults to 100.
      * @param {number} quality - Image quality. Pass an integer between 0 to 100. Defaults to keep existing image quality.
-     * @throws {RevenexxAPIRevenexxException}
+     * @throws {RevenexxException}
      * @returns {Promise<{}>}
      * @deprecated Use the object parameter style method for a better developer experience.
      */
-    avatarsGetFlag(code: Code, width?: number, height?: number, quality?: number): Promise<{}>;
+    avatarsGetFlag(code: AvatarsGetFlagCode, width?: number, height?: number, quality?: number): Promise<{}>;
     avatarsGetFlag(
-        paramsOrFirst: { code: Code, width?: number, height?: number, quality?: number } | Code,
+        paramsOrFirst: { code: AvatarsGetFlagCode, width?: number, height?: number, quality?: number } | AvatarsGetFlagCode,
         ...rest: [(number)?, (number)?, (number)?]    
     ): Promise<{}> {
-        let params: { code: Code, width?: number, height?: number, quality?: number };
+        let params: { code: AvatarsGetFlagCode, width?: number, height?: number, quality?: number };
         
         if ((paramsOrFirst && typeof paramsOrFirst === 'object' && !Array.isArray(paramsOrFirst) && ('code' in paramsOrFirst || 'width' in paramsOrFirst || 'height' in paramsOrFirst || 'quality' in paramsOrFirst))) {
-            params = (paramsOrFirst || {}) as { code: Code, width?: number, height?: number, quality?: number };
+            params = (paramsOrFirst || {}) as { code: AvatarsGetFlagCode, width?: number, height?: number, quality?: number };
         } else {
             params = {
-                code: paramsOrFirst as Code,
+                code: paramsOrFirst as AvatarsGetFlagCode,
                 width: rest[0] as number,
                 height: rest[1] as number,
                 quality: rest[2] as number            
@@ -280,7 +224,7 @@ export class Avatars {
         const quality = params.quality;
 
         if (typeof code === 'undefined') {
-            throw new RevenexxAPIRevenexxException('Missing required parameter: "code"');
+            throw new RevenexxException('Missing required parameter: "code"');
         }
 
         const apiPath = '/v1/avatars/flags/{code}'.replace('{code}', code);
@@ -314,10 +258,10 @@ export class Avatars {
      * 
      * This endpoint does not follow HTTP redirects.
      *
-     * @param {string} params.url - Image URL which you want to crop.
+     * @param {string} params.url - Image URL which you want to crop. Must be publicly reachable and answer 200 with a raster image on the first request: the fetch does not follow redirects, so a URL that 301s answers 404, as does any URL whose response is not 200. The bytes are decoded by Imagick — an SVG (including most `favicon.ico` files, which are SVG in disguise) and a genuine `.ico` both fail to decode and answer 500.
      * @param {number} params.width - Resize preview image width, Pass an integer between 0 to 2000. Defaults to 400.
      * @param {number} params.height - Resize preview image height, Pass an integer between 0 to 2000. Defaults to 400.
-     * @throws {RevenexxAPIRevenexxException}
+     * @throws {RevenexxException}
      * @returns {Promise<{}>}
      */
     avatarsGetImage(params: { url: string, width?: number, height?: number }): Promise<{}>;
@@ -328,10 +272,10 @@ export class Avatars {
      * 
      * This endpoint does not follow HTTP redirects.
      *
-     * @param {string} url - Image URL which you want to crop.
+     * @param {string} url - Image URL which you want to crop. Must be publicly reachable and answer 200 with a raster image on the first request: the fetch does not follow redirects, so a URL that 301s answers 404, as does any URL whose response is not 200. The bytes are decoded by Imagick — an SVG (including most `favicon.ico` files, which are SVG in disguise) and a genuine `.ico` both fail to decode and answer 500.
      * @param {number} width - Resize preview image width, Pass an integer between 0 to 2000. Defaults to 400.
      * @param {number} height - Resize preview image height, Pass an integer between 0 to 2000. Defaults to 400.
-     * @throws {RevenexxAPIRevenexxException}
+     * @throws {RevenexxException}
      * @returns {Promise<{}>}
      * @deprecated Use the object parameter style method for a better developer experience.
      */
@@ -357,7 +301,7 @@ export class Avatars {
         const height = params.height;
 
         if (typeof url === 'undefined') {
-            throw new RevenexxAPIRevenexxException('Missing required parameter: "url"');
+            throw new RevenexxException('Missing required parameter: "url"');
         }
 
         const apiPath = '/v1/avatars/image';
@@ -396,7 +340,7 @@ export class Avatars {
      * @param {number} params.width - Image width. Pass an integer between 0 to 2000. Defaults to 100.
      * @param {number} params.height - Image height. Pass an integer between 0 to 2000. Defaults to 100.
      * @param {string} params.background - Changes background color. By default a random color will be picked and stay will persistent to the given name.
-     * @throws {RevenexxAPIRevenexxException}
+     * @throws {RevenexxException}
      * @returns {Promise<{}>}
      */
     avatarsGetInitials(params?: { name?: string, width?: number, height?: number, background?: string }): Promise<{}>;
@@ -412,7 +356,7 @@ export class Avatars {
      * @param {number} width - Image width. Pass an integer between 0 to 2000. Defaults to 100.
      * @param {number} height - Image height. Pass an integer between 0 to 2000. Defaults to 100.
      * @param {string} background - Changes background color. By default a random color will be picked and stay will persistent to the given name.
-     * @throws {RevenexxAPIRevenexxException}
+     * @throws {RevenexxException}
      * @returns {Promise<{}>}
      * @deprecated Use the object parameter style method for a better developer experience.
      */
@@ -475,7 +419,7 @@ export class Avatars {
      * @param {number} params.size - QR code size. Pass an integer between 1 to 1000. Defaults to 400.
      * @param {number} params.margin - Margin from edge. Pass an integer between 0 to 10. Defaults to 1.
      * @param {boolean} params.download - Return resulting image with 'Content-Disposition: attachment ' headers for the browser to start downloading it. Pass 0 for no header, or 1 for otherwise. Default value is set to 0.
-     * @throws {RevenexxAPIRevenexxException}
+     * @throws {RevenexxException}
      * @returns {Promise<{}>}
      */
     avatarsGetQR(params: { text: string, size?: number, margin?: number, download?: boolean }): Promise<{}>;
@@ -487,7 +431,7 @@ export class Avatars {
      * @param {number} size - QR code size. Pass an integer between 1 to 1000. Defaults to 400.
      * @param {number} margin - Margin from edge. Pass an integer between 0 to 10. Defaults to 1.
      * @param {boolean} download - Return resulting image with 'Content-Disposition: attachment ' headers for the browser to start downloading it. Pass 0 for no header, or 1 for otherwise. Default value is set to 0.
-     * @throws {RevenexxAPIRevenexxException}
+     * @throws {RevenexxException}
      * @returns {Promise<{}>}
      * @deprecated Use the object parameter style method for a better developer experience.
      */
@@ -515,7 +459,7 @@ export class Avatars {
         const download = params.download;
 
         if (typeof text === 'undefined') {
-            throw new RevenexxAPIRevenexxException('Missing required parameter: "text"');
+            throw new RevenexxException('Missing required parameter: "text"');
         }
 
         const apiPath = '/v1/avatars/qr';
@@ -561,7 +505,7 @@ export class Avatars {
      * @param {string} params.userAgent - Custom user agent string. Defaults to browser default.
      * @param {boolean} params.fullpage - Capture full page scroll. Pass 0 for viewport only, or 1 for full page. Defaults to 0.
      * @param {string} params.locale - Browser locale (e.g., "en-US", "fr-FR"). Defaults to browser default.
-     * @param {Timezone} params.timezone - IANA timezone identifier (e.g., "America/New_York", "Europe/London"). Defaults to browser default.
+     * @param {Timezone} params.timezone - IANA timezone identifier, canonically cased (e.g. `America/New_York`, `Europe/London`). Defaults to the browser default. Only two-segment identifiers are accepted: `UTC` and the three-segment ids such as `America/Argentina/Buenos_Aires` are refused with 404.
      * @param {number} params.latitude - Geolocation latitude. Pass a number between -90 to 90. Defaults to 0.
      * @param {number} params.longitude - Geolocation longitude. Pass a number between -180 to 180. Defaults to 0.
      * @param {number} params.accuracy - Geolocation accuracy in meters. Pass a number between 0 to 100000. Defaults to 0.
@@ -572,7 +516,7 @@ export class Avatars {
      * @param {number} params.height - Output image height. Pass 0 to use original height, or an integer between 1 to 2000. Defaults to 0 (original height).
      * @param {number} params.quality - Screenshot quality. Pass an integer between 0 to 100. Defaults to keep existing image quality.
      * @param {Output} params.output - Output format type (jpeg, jpg, png, gif and webp).
-     * @throws {RevenexxAPIRevenexxException}
+     * @throws {RevenexxException}
      * @returns {Promise<{}>}
      */
     avatarsGetScreenshot(params: { url: string, headers?: object, viewportWidth?: number, viewportHeight?: number, scale?: number, theme?: Theme, userAgent?: string, fullpage?: boolean, locale?: string, timezone?: Timezone, latitude?: number, longitude?: number, accuracy?: number, touch?: boolean, permissions?: Permissions[], sleep?: number, width?: number, height?: number, quality?: number, output?: Output }): Promise<{}>;
@@ -592,7 +536,7 @@ export class Avatars {
      * @param {string} userAgent - Custom user agent string. Defaults to browser default.
      * @param {boolean} fullpage - Capture full page scroll. Pass 0 for viewport only, or 1 for full page. Defaults to 0.
      * @param {string} locale - Browser locale (e.g., "en-US", "fr-FR"). Defaults to browser default.
-     * @param {Timezone} timezone - IANA timezone identifier (e.g., "America/New_York", "Europe/London"). Defaults to browser default.
+     * @param {Timezone} timezone - IANA timezone identifier, canonically cased (e.g. `America/New_York`, `Europe/London`). Defaults to the browser default. Only two-segment identifiers are accepted: `UTC` and the three-segment ids such as `America/Argentina/Buenos_Aires` are refused with 404.
      * @param {number} latitude - Geolocation latitude. Pass a number between -90 to 90. Defaults to 0.
      * @param {number} longitude - Geolocation longitude. Pass a number between -180 to 180. Defaults to 0.
      * @param {number} accuracy - Geolocation accuracy in meters. Pass a number between 0 to 100000. Defaults to 0.
@@ -603,7 +547,7 @@ export class Avatars {
      * @param {number} height - Output image height. Pass 0 to use original height, or an integer between 1 to 2000. Defaults to 0 (original height).
      * @param {number} quality - Screenshot quality. Pass an integer between 0 to 100. Defaults to keep existing image quality.
      * @param {Output} output - Output format type (jpeg, jpg, png, gif and webp).
-     * @throws {RevenexxAPIRevenexxException}
+     * @throws {RevenexxException}
      * @returns {Promise<{}>}
      * @deprecated Use the object parameter style method for a better developer experience.
      */
@@ -663,7 +607,7 @@ export class Avatars {
         const output = params.output;
 
         if (typeof url === 'undefined') {
-            throw new RevenexxAPIRevenexxException('Missing required parameter: "url"');
+            throw new RevenexxException('Missing required parameter: "url"');
         }
 
         const apiPath = '/v1/avatars/screenshots';

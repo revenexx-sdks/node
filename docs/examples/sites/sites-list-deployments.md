@@ -12,6 +12,6 @@ const result = await sites.sitesListDeployments({
     siteId: '',
     queries: [], // optional
     search: '', // optional
-    total: null // optional
+    total: true // optional
 });
 ```

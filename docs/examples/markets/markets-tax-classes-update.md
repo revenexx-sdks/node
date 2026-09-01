@@ -11,11 +11,14 @@ const markets = new sdk.Markets(client);
 const result = await markets.marketsTaxClassesUpdate({
     marketId: '',
     id: '',
-    code: '', // optional
-    isDefault: null, // optional
-    labels: {}, // optional
-    name: '', // optional
-    position: null, // optional
-    rate: null // optional
+    code: 'standard', // optional
+    isDefault: true, // optional
+    labels: {
+        "de-DE": "Regelsatz",
+        "en-GB": "Standard rate"
+    }, // optional
+    name: 'Standard rate', // optional
+    position: 0, // optional
+    rate: 20 // optional
 });
 ```

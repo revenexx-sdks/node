@@ -11,8 +11,8 @@ const sites = new sdk.Sites(client);
 
 const result = await sites.sitesCreateDeployment({
     siteId: '',
-    activate: null,
-    code: '',
+    activate: true,
+    code: InputFile.fromPath('/path/to/file', 'filename'),
     buildCommand: '', // optional
     installCommand: '', // optional
     outputDirectory: '' // optional

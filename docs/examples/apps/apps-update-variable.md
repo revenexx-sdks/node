@@ -12,7 +12,7 @@ const result = await apps.appsUpdateVariable({
     functionId: '',
     variableId: '',
     key: '',
-    secret: null, // optional
+    secret: true, // optional
     value: '' // optional
 });
 ```

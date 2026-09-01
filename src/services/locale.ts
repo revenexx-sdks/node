@@ -1,4 +1,4 @@
-import { RevenexxAPIRevenexxException, Client, type Payload, UploadProgress } from '../client';
+import { RevenexxException, Client, type Payload, UploadProgress } from '../client';
 import type { Models } from '../models';
 
 
@@ -14,7 +14,7 @@ export class Locale {
      * 
      * ([IP Geolocation by DB-IP](https://db-ip.com))
      *
-     * @throws {RevenexxAPIRevenexxException}
+     * @throws {RevenexxException}
      * @returns {Promise<Models.Locale>}
      */
     localeGet(): Promise<Models.Locale> {
@@ -37,7 +37,7 @@ export class Locale {
     /**
      * List of all locale codes in [ISO 639-1](https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes).
      *
-     * @throws {RevenexxAPIRevenexxException}
+     * @throws {RevenexxException}
      * @returns {Promise<Models.LocaleCodeList>}
      */
     localeListCodes(): Promise<Models.LocaleCodeList> {
@@ -60,7 +60,7 @@ export class Locale {
     /**
      * List of all continents. You can use the locale header to get the data in a supported language.
      *
-     * @throws {RevenexxAPIRevenexxException}
+     * @throws {RevenexxException}
      * @returns {Promise<Models.ContinentList>}
      */
     localeListContinents(): Promise<Models.ContinentList> {
@@ -83,7 +83,7 @@ export class Locale {
     /**
      * List of all countries. You can use the locale header to get the data in a supported language.
      *
-     * @throws {RevenexxAPIRevenexxException}
+     * @throws {RevenexxException}
      * @returns {Promise<Models.CountryList>}
      */
     localeListCountries(): Promise<Models.CountryList> {
@@ -106,7 +106,7 @@ export class Locale {
     /**
      * List of all countries that are currently members of the EU. You can use the locale header to get the data in a supported language.
      *
-     * @throws {RevenexxAPIRevenexxException}
+     * @throws {RevenexxException}
      * @returns {Promise<Models.CountryList>}
      */
     localeListCountriesEU(): Promise<Models.CountryList> {
@@ -129,7 +129,7 @@ export class Locale {
     /**
      * List of all countries phone codes. You can use the locale header to get the data in a supported language.
      *
-     * @throws {RevenexxAPIRevenexxException}
+     * @throws {RevenexxException}
      * @returns {Promise<Models.PhoneList>}
      */
     localeListCountriesPhones(): Promise<Models.PhoneList> {
@@ -152,7 +152,7 @@ export class Locale {
     /**
      * List of all currencies, including currency symbol, name, plural, and decimal digits for all major and minor currencies. You can use the locale header to get the data in a supported language.
      *
-     * @throws {RevenexxAPIRevenexxException}
+     * @throws {RevenexxException}
      * @returns {Promise<Models.CurrencyList>}
      */
     localeListCurrencies(): Promise<Models.CurrencyList> {
@@ -175,7 +175,7 @@ export class Locale {
     /**
      * List of all languages classified by ISO 639-1 including 2-letter code, name in English, and name in the respective language.
      *
-     * @throws {RevenexxAPIRevenexxException}
+     * @throws {RevenexxException}
      * @returns {Promise<Models.LanguageList>}
      */
     localeListLanguages(): Promise<Models.LanguageList> {

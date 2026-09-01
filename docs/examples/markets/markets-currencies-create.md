@@ -10,8 +10,8 @@ const markets = new sdk.Markets(client);
 
 const result = await markets.marketsCurrenciesCreate({
     marketId: '',
-    code: '',
-    isDefault: null, // optional
-    position: null // optional
+    code: 'EUR',
+    isDefault: true, // optional
+    position: 0 // optional
 });
 ```

@@ -1,0 +1,30 @@
+```javascript
+const sdk = require('@revenexx/node');
+
+const client = new sdk.Client()
+    .setEndpoint('https://api.revenexx.com') // Your API Endpoint
+    .setTenant('<TENANT_SLUG>') // Your tenant slug
+    .setApiKeyAuth('<API_KEY>'); // A gateway-managed scoped API key (rvxk_…).
+
+const messaging = new sdk.Messaging(client);
+
+const result = await messaging.templateUpdate({
+    id: '',
+    bodyHtml: '', // optional
+    bodyText: '', // optional
+    contentSid: '', // optional
+    design: [], // optional
+    enabled: true, // optional
+    layoutId: '', // optional
+    markets: [], // optional
+    messageClass: sdk.MessageClass.Transactional, // optional
+    subject: '', // optional
+    testMode: true, // optional
+    title: '', // optional
+    validFrom: '2026-01-01T12:00:00Z', // optional
+    validUntil: '2026-01-01T12:00:00Z', // optional
+    variableDefaults: [], // optional
+    variables: [], // optional
+    whatsappCategory: sdk.WhatsappCategory.Marketing // optional
+});
+```

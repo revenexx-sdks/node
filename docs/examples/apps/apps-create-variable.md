@@ -12,6 +12,6 @@ const result = await apps.appsCreateVariable({
     functionId: '',
     key: '',
     value: '',
-    secret: null // optional
+    secret: true // optional
 });
 ```

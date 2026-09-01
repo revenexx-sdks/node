@@ -13,19 +13,19 @@ const result = await sites.sitesUpdate({
     framework: sdk.Framework.Analog,
     name: '',
     adapter: sdk.Adapter.Static, // optional
-    buildCommand: '', // optional
+    buildCommand: 'npm run build', // optional
     buildRuntime: sdk.BuildRuntime.Node180, // optional
-    enabled: null, // optional
-    fallbackFile: '', // optional
-    installCommand: '', // optional
+    enabled: true, // optional
+    fallbackFile: 'index.html', // optional
+    installCommand: 'npm install', // optional
     installationId: '', // optional
-    logging: null, // optional
+    logging: true, // optional
     outputDirectory: '', // optional
-    providerBranch: '', // optional
+    providerBranch: 'main', // optional
     providerRepositoryId: '', // optional
     providerRootDirectory: '', // optional
-    providerSilentMode: null, // optional
-    specification: '', // optional
-    timeout: null // optional
+    providerSilentMode: true, // optional
+    specification: 's-1vcpu-512mb', // optional
+    timeout: 1 // optional
 });
 ```

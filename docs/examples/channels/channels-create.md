@@ -9,12 +9,16 @@ const client = new sdk.Client()
 const channels = new sdk.Channels(client);
 
 const result = await channels.channelsCreate({
-    code: '',
-    name: '',
-    isDefault: null, // optional
-    labels: {}, // optional
-    position: null, // optional
+    code: 'shop',
+    name: 'Shop',
+    isDefault: true, // optional
+    labels: {
+        "de": "Shop",
+        "en": "Shop"
+    }, // optional
+    position: 1, // optional
     status: sdk.ChannelStatus.Active, // optional
-    type: sdk.ChannelType.Storefront // optional
+    type: 'storefront', // optional
+    unassignedVisibility: sdk.ChannelUnassignedVisibility.Inherit // optional
 });
 ```

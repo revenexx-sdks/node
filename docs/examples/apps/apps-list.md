@@ -11,6 +11,6 @@ const apps = new sdk.Apps(client);
 const result = await apps.appsList({
     queries: [], // optional
     search: '', // optional
-    total: null // optional
+    total: true // optional
 });
 ```

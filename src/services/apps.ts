@@ -1,4 +1,4 @@
-import { RevenexxAPIRevenexxException, Client, type Payload, UploadProgress } from '../client';
+import { RevenexxException, Client, type Payload, UploadProgress } from '../client';
 import type { Models } from '../models';
 
 import { Runtime } from '../enums/runtime';
@@ -7,6 +7,8 @@ import { Runtimes } from '../enums/runtimes';
 import { UseCases } from '../enums/use-cases';
 import { Range } from '../enums/range';
 import { Type } from '../enums/type';
+import { AppsCreateVcsDeploymentType } from '../enums/apps-create-vcs-deployment-type';
+import { AppsGetDeploymentDownloadType } from '../enums/apps-get-deployment-download-type';
 import { Method } from '../enums/method';
 
 export class Apps {
@@ -19,20 +21,20 @@ export class Apps {
     /**
      * List all Apps in the active project. Pass `search` to filter by name.
      *
-     * @param {string[]} params.queries - Array of query strings generated using the Query class provided by the SDK. [Learn more about queries](https://appwrite.io/docs/queries). Maximum of 100 queries are allowed, each 4096 characters long. You may filter on the following attributes: name, enabled, runtime, deploymentId, schedule, scheduleNext, schedulePrevious, timeout, entrypoint, commands, installationId
+     * @param {string[]} params.queries - Result filters, paging and ordering. Repeat the parameter once per query — `?queries=…&queries=…` — and make each value a JSON object, e.g. `{"method":"limit","values":[25]}`. The bracketed spellings `queries[]=` and `queries[0]=` are accepted too; the `limit(25)` call syntax is not. See “Query parameters” in this document's introduction. Filterable attributes, besides `$id`, `$createdAt`, `$updatedAt` and `$sequence`: name, enabled, runtime, deploymentId, schedule, scheduleNext, schedulePrevious, timeout, entrypoint, commands, installationId
      * @param {string} params.search - Search term to filter your list results. Max length: 256 chars.
      * @param {boolean} params.total - When set to false, the total count returned will be 0 and will not be calculated.
-     * @throws {RevenexxAPIRevenexxException}
+     * @throws {RevenexxException}
      * @returns {Promise<Models.FunctionList>}
      */
     appsList(params?: { queries?: string[], search?: string, total?: boolean }): Promise<Models.FunctionList>;
     /**
      * List all Apps in the active project. Pass `search` to filter by name.
      *
-     * @param {string[]} queries - Array of query strings generated using the Query class provided by the SDK. [Learn more about queries](https://appwrite.io/docs/queries). Maximum of 100 queries are allowed, each 4096 characters long. You may filter on the following attributes: name, enabled, runtime, deploymentId, schedule, scheduleNext, schedulePrevious, timeout, entrypoint, commands, installationId
+     * @param {string[]} queries - Result filters, paging and ordering. Repeat the parameter once per query — `?queries=…&queries=…` — and make each value a JSON object, e.g. `{"method":"limit","values":[25]}`. The bracketed spellings `queries[]=` and `queries[0]=` are accepted too; the `limit(25)` call syntax is not. See “Query parameters” in this document's introduction. Filterable attributes, besides `$id`, `$createdAt`, `$updatedAt` and `$sequence`: name, enabled, runtime, deploymentId, schedule, scheduleNext, schedulePrevious, timeout, entrypoint, commands, installationId
      * @param {string} search - Search term to filter your list results. Max length: 256 chars.
      * @param {boolean} total - When set to false, the total count returned will be 0 and will not be calculated.
-     * @throws {RevenexxAPIRevenexxException}
+     * @throws {RevenexxException}
      * @returns {Promise<Models.FunctionList>}
      * @deprecated Use the object parameter style method for a better developer experience.
      */
@@ -94,8 +96,8 @@ export class Apps {
      * @param {boolean} params.enabled - Is function enabled? When set to 'disabled', users cannot access the function but Server SDKs with and API key can still access the function. No data is lost when this is toggled.
      * @param {string} params.entrypoint - Entrypoint File. This path is relative to the "providerRootDirectory".
      * @param {string[]} params.events - Events list. Maximum of 100 events are allowed.
-     * @param {string[]} params.execute - An array of role strings with execution permissions. By default no user is granted with any execute permissions. [learn more about roles](https://appwrite.io/docs/permissions#permission-roles). Maximum of 100 roles are allowed, each 64 characters long.
-     * @param {string} params.installationId - Appwrite Installation ID for VCS (Version Control System) deployment.
+     * @param {string[]} params.execute - An array of role strings with execution permissions. By default no user is granted with any execute permissions. Roles take the form `any`, `guests`, `users`, `user:<id>`, `team:<id>`, `member:<id>` or `label:<name>`, some of them with a `/<dimension>` suffix such as `users/verified` or `team:<id>/owner`. At most 100 entries. See “Role strings” in this document's introduction.
+     * @param {string} params.installationId - Installation ID of the platform's VCS (Version Control System) integration to deploy from.
      * @param {boolean} params.logging - When disabled, executions will exclude logs and errors, and will be slightly faster.
      * @param {string} params.providerBranch - Production branch for the repo linked to the function.
      * @param {string} params.providerRepositoryId - Repository ID of the repo linked to the function.
@@ -105,7 +107,7 @@ export class Apps {
      * @param {Scopes[]} params.scopes - List of scopes allowed for API key auto-generated for every execution. Maximum of 100 scopes are allowed.
      * @param {string} params.specification - Runtime specification for the function and builds.
      * @param {number} params.timeout - Function maximum execution time in seconds.
-     * @throws {RevenexxAPIRevenexxException}
+     * @throws {RevenexxException}
      * @returns {Promise<Models.Function>}
      */
     appsCreate(params: { functionId: string, name: string, runtime: Runtime, commands?: string, enabled?: boolean, entrypoint?: string, events?: string[], execute?: string[], installationId?: string, logging?: boolean, providerBranch?: string, providerRepositoryId?: string, providerRootDirectory?: string, providerSilentMode?: boolean, schedule?: string, scopes?: Scopes[], specification?: string, timeout?: number }): Promise<Models.Function>;
@@ -121,8 +123,8 @@ export class Apps {
      * @param {boolean} enabled - Is function enabled? When set to 'disabled', users cannot access the function but Server SDKs with and API key can still access the function. No data is lost when this is toggled.
      * @param {string} entrypoint - Entrypoint File. This path is relative to the "providerRootDirectory".
      * @param {string[]} events - Events list. Maximum of 100 events are allowed.
-     * @param {string[]} execute - An array of role strings with execution permissions. By default no user is granted with any execute permissions. [learn more about roles](https://appwrite.io/docs/permissions#permission-roles). Maximum of 100 roles are allowed, each 64 characters long.
-     * @param {string} installationId - Appwrite Installation ID for VCS (Version Control System) deployment.
+     * @param {string[]} execute - An array of role strings with execution permissions. By default no user is granted with any execute permissions. Roles take the form `any`, `guests`, `users`, `user:<id>`, `team:<id>`, `member:<id>` or `label:<name>`, some of them with a `/<dimension>` suffix such as `users/verified` or `team:<id>/owner`. At most 100 entries. See “Role strings” in this document's introduction.
+     * @param {string} installationId - Installation ID of the platform's VCS (Version Control System) integration to deploy from.
      * @param {boolean} logging - When disabled, executions will exclude logs and errors, and will be slightly faster.
      * @param {string} providerBranch - Production branch for the repo linked to the function.
      * @param {string} providerRepositoryId - Repository ID of the repo linked to the function.
@@ -132,7 +134,7 @@ export class Apps {
      * @param {Scopes[]} scopes - List of scopes allowed for API key auto-generated for every execution. Maximum of 100 scopes are allowed.
      * @param {string} specification - Runtime specification for the function and builds.
      * @param {number} timeout - Function maximum execution time in seconds.
-     * @throws {RevenexxAPIRevenexxException}
+     * @throws {RevenexxException}
      * @returns {Promise<Models.Function>}
      * @deprecated Use the object parameter style method for a better developer experience.
      */
@@ -188,13 +190,13 @@ export class Apps {
         const timeout = params.timeout;
 
         if (typeof functionId === 'undefined') {
-            throw new RevenexxAPIRevenexxException('Missing required parameter: "functionId"');
+            throw new RevenexxException('Missing required parameter: "functionId"');
         }
         if (typeof name === 'undefined') {
-            throw new RevenexxAPIRevenexxException('Missing required parameter: "name"');
+            throw new RevenexxException('Missing required parameter: "name"');
         }
         if (typeof runtime === 'undefined') {
-            throw new RevenexxAPIRevenexxException('Missing required parameter: "runtime"');
+            throw new RevenexxException('Missing required parameter: "runtime"');
         }
 
         const apiPath = '/v1/apps';
@@ -273,7 +275,7 @@ export class Apps {
      * @param {string} params.search - Search by app name, title or vendor.
      * @param {number} params.perPage - Items per page.
      * @param {number} params.page - Page number.
-     * @throws {RevenexxAPIRevenexxException}
+     * @throws {RevenexxException}
      * @returns {Promise<{}>}
      */
     appsListMarketplace(params?: { search?: string, perPage?: number, page?: number }): Promise<{}>;
@@ -283,7 +285,7 @@ export class Apps {
      * @param {string} search - Search by app name, title or vendor.
      * @param {number} perPage - Items per page.
      * @param {number} page - Page number.
-     * @throws {RevenexxAPIRevenexxException}
+     * @throws {RevenexxException}
      * @returns {Promise<{}>}
      * @deprecated Use the object parameter style method for a better developer experience.
      */
@@ -338,7 +340,7 @@ export class Apps {
      *
      * @param {string} params.name - App name.
      * @param {string} params.owner - Owner tenant slug of the app being installed.
-     * @throws {RevenexxAPIRevenexxException}
+     * @throws {RevenexxException}
      * @returns {Promise<{}>}
      */
     appsInstallFromMarketplace(params: { name: string, owner: string }): Promise<{}>;
@@ -347,7 +349,7 @@ export class Apps {
      *
      * @param {string} name - App name.
      * @param {string} owner - Owner tenant slug of the app being installed.
-     * @throws {RevenexxAPIRevenexxException}
+     * @throws {RevenexxException}
      * @returns {Promise<{}>}
      * @deprecated Use the object parameter style method for a better developer experience.
      */
@@ -371,10 +373,10 @@ export class Apps {
         const owner = params.owner;
 
         if (typeof name === 'undefined') {
-            throw new RevenexxAPIRevenexxException('Missing required parameter: "name"');
+            throw new RevenexxException('Missing required parameter: "name"');
         }
         if (typeof owner === 'undefined') {
-            throw new RevenexxAPIRevenexxException('Missing required parameter: "owner"');
+            throw new RevenexxException('Missing required parameter: "owner"');
         }
 
         const apiPath = '/v1/apps/marketplace/install';
@@ -402,7 +404,7 @@ export class Apps {
     /**
      * Get a list of all runtimes available for an App. Identical content to `functions.listRuntimes()`.
      *
-     * @throws {RevenexxAPIRevenexxException}
+     * @throws {RevenexxException}
      * @returns {Promise<Models.RuntimeList>}
      */
     appsListRuntimes(): Promise<Models.RuntimeList> {
@@ -425,7 +427,7 @@ export class Apps {
     /**
      * List the compute specifications (CPU + memory) available to Apps in this project.
      *
-     * @throws {RevenexxAPIRevenexxException}
+     * @throws {RevenexxException}
      * @returns {Promise<Models.SpecificationList>}
      */
     appsListSpecifications(): Promise<Models.SpecificationList> {
@@ -453,7 +455,7 @@ export class Apps {
      * @param {number} params.limit - Limit the number of templates returned in the response. Default limit is 25, and maximum limit is 5000.
      * @param {number} params.offset - Offset the list of returned templates. Maximum offset is 5000.
      * @param {boolean} params.total - When set to false, the total count returned will be 0 and will not be calculated.
-     * @throws {RevenexxAPIRevenexxException}
+     * @throws {RevenexxException}
      * @returns {Promise<Models.TemplateFunctionList>}
      */
     appsListTemplates(params?: { runtimes?: Runtimes[], useCases?: UseCases[], limit?: number, offset?: number, total?: boolean }): Promise<Models.TemplateFunctionList>;
@@ -465,7 +467,7 @@ export class Apps {
      * @param {number} limit - Limit the number of templates returned in the response. Default limit is 25, and maximum limit is 5000.
      * @param {number} offset - Offset the list of returned templates. Maximum offset is 5000.
      * @param {boolean} total - When set to false, the total count returned will be 0 and will not be calculated.
-     * @throws {RevenexxAPIRevenexxException}
+     * @throws {RevenexxException}
      * @returns {Promise<Models.TemplateFunctionList>}
      * @deprecated Use the object parameter style method for a better developer experience.
      */
@@ -529,7 +531,7 @@ export class Apps {
      * Get a single App template by its ID.
      *
      * @param {string} params.templateId - Template ID.
-     * @throws {RevenexxAPIRevenexxException}
+     * @throws {RevenexxException}
      * @returns {Promise<Models.TemplateFunction>}
      */
     appsGetTemplate(params: { templateId: string }): Promise<Models.TemplateFunction>;
@@ -537,7 +539,7 @@ export class Apps {
      * Get a single App template by its ID.
      *
      * @param {string} templateId - Template ID.
-     * @throws {RevenexxAPIRevenexxException}
+     * @throws {RevenexxException}
      * @returns {Promise<Models.TemplateFunction>}
      * @deprecated Use the object parameter style method for a better developer experience.
      */
@@ -558,7 +560,7 @@ export class Apps {
         const templateId = params.templateId;
 
         if (typeof templateId === 'undefined') {
-            throw new RevenexxAPIRevenexxException('Missing required parameter: "templateId"');
+            throw new RevenexxException('Missing required parameter: "templateId"');
         }
 
         const apiPath = '/v1/apps/templates/{templateId}'.replace('{templateId}', templateId);
@@ -580,7 +582,7 @@ export class Apps {
      * Get aggregated usage stats across all Apps in the project for the requested time range.
      *
      * @param {Range} params.range - Date range.
-     * @throws {RevenexxAPIRevenexxException}
+     * @throws {RevenexxException}
      * @returns {Promise<Models.UsageFunctions>}
      */
     appsListUsage(params?: { range?: Range }): Promise<Models.UsageFunctions>;
@@ -588,7 +590,7 @@ export class Apps {
      * Get aggregated usage stats across all Apps in the project for the requested time range.
      *
      * @param {Range} range - Date range.
-     * @throws {RevenexxAPIRevenexxException}
+     * @throws {RevenexxException}
      * @returns {Promise<Models.UsageFunctions>}
      * @deprecated Use the object parameter style method for a better developer experience.
      */
@@ -631,7 +633,7 @@ export class Apps {
      * Delete an App and all of its deployments. Cascades to the App Registry — Console removes the matching `RegisteredApp` row.
      *
      * @param {string} params.functionId - App ID.
-     * @throws {RevenexxAPIRevenexxException}
+     * @throws {RevenexxException}
      * @returns {Promise<{}>}
      */
     appsDelete(params: { functionId: string }): Promise<{}>;
@@ -639,7 +641,7 @@ export class Apps {
      * Delete an App and all of its deployments. Cascades to the App Registry — Console removes the matching `RegisteredApp` row.
      *
      * @param {string} functionId - App ID.
-     * @throws {RevenexxAPIRevenexxException}
+     * @throws {RevenexxException}
      * @returns {Promise<{}>}
      * @deprecated Use the object parameter style method for a better developer experience.
      */
@@ -660,7 +662,7 @@ export class Apps {
         const functionId = params.functionId;
 
         if (typeof functionId === 'undefined') {
-            throw new RevenexxAPIRevenexxException('Missing required parameter: "functionId"');
+            throw new RevenexxException('Missing required parameter: "functionId"');
         }
 
         const apiPath = '/v1/apps/{functionId}'.replace('{functionId}', functionId);
@@ -682,7 +684,7 @@ export class Apps {
      * Get an App by its unique ID.
      *
      * @param {string} params.functionId - Function ID.
-     * @throws {RevenexxAPIRevenexxException}
+     * @throws {RevenexxException}
      * @returns {Promise<Models.Function>}
      */
     appsGet(params: { functionId: string }): Promise<Models.Function>;
@@ -690,7 +692,7 @@ export class Apps {
      * Get an App by its unique ID.
      *
      * @param {string} functionId - Function ID.
-     * @throws {RevenexxAPIRevenexxException}
+     * @throws {RevenexxException}
      * @returns {Promise<Models.Function>}
      * @deprecated Use the object parameter style method for a better developer experience.
      */
@@ -711,7 +713,7 @@ export class Apps {
         const functionId = params.functionId;
 
         if (typeof functionId === 'undefined') {
-            throw new RevenexxAPIRevenexxException('Missing required parameter: "functionId"');
+            throw new RevenexxException('Missing required parameter: "functionId"');
         }
 
         const apiPath = '/v1/apps/{functionId}'.replace('{functionId}', functionId);
@@ -738,8 +740,8 @@ export class Apps {
      * @param {boolean} params.enabled - Is function enabled? When set to 'disabled', users cannot access the function but Server SDKs with and API key can still access the function. No data is lost when this is toggled.
      * @param {string} params.entrypoint - Entrypoint File. This path is relative to the "providerRootDirectory".
      * @param {string[]} params.events - Events list. Maximum of 100 events are allowed.
-     * @param {string[]} params.execute - An array of role strings with execution permissions. By default no user is granted with any execute permissions. [learn more about roles](https://appwrite.io/docs/permissions#permission-roles). Maximum of 100 roles are allowed, each 64 characters long.
-     * @param {string} params.installationId - Appwrite Installation ID for VCS (Version Controle System) deployment.
+     * @param {string[]} params.execute - An array of role strings with execution permissions. By default no user is granted with any execute permissions. Roles take the form `any`, `guests`, `users`, `user:<id>`, `team:<id>`, `member:<id>` or `label:<name>`, some of them with a `/<dimension>` suffix such as `users/verified` or `team:<id>/owner`. At most 100 entries. See “Role strings” in this document's introduction.
+     * @param {string} params.installationId - Installation ID of the platform's VCS (Version Control System) integration to deploy from.
      * @param {boolean} params.logging - When disabled, executions will exclude logs and errors, and will be slightly faster.
      * @param {string} params.providerBranch - Production branch for the repo linked to the function
      * @param {string} params.providerRepositoryId - Repository ID of the repo linked to the function
@@ -750,7 +752,7 @@ export class Apps {
      * @param {Scopes[]} params.scopes - List of scopes allowed for API Key auto-generated for every execution. Maximum of 100 scopes are allowed.
      * @param {string} params.specification - Runtime specification for the function and builds.
      * @param {number} params.timeout - Maximum execution time in seconds.
-     * @throws {RevenexxAPIRevenexxException}
+     * @throws {RevenexxException}
      * @returns {Promise<Models.Function>}
      */
     appsUpdate(params: { functionId: string, name: string, commands?: string, enabled?: boolean, entrypoint?: string, events?: string[], execute?: string[], installationId?: string, logging?: boolean, providerBranch?: string, providerRepositoryId?: string, providerRootDirectory?: string, providerSilentMode?: boolean, runtime?: Runtime, schedule?: string, scopes?: Scopes[], specification?: string, timeout?: number }): Promise<Models.Function>;
@@ -763,8 +765,8 @@ export class Apps {
      * @param {boolean} enabled - Is function enabled? When set to 'disabled', users cannot access the function but Server SDKs with and API key can still access the function. No data is lost when this is toggled.
      * @param {string} entrypoint - Entrypoint File. This path is relative to the "providerRootDirectory".
      * @param {string[]} events - Events list. Maximum of 100 events are allowed.
-     * @param {string[]} execute - An array of role strings with execution permissions. By default no user is granted with any execute permissions. [learn more about roles](https://appwrite.io/docs/permissions#permission-roles). Maximum of 100 roles are allowed, each 64 characters long.
-     * @param {string} installationId - Appwrite Installation ID for VCS (Version Controle System) deployment.
+     * @param {string[]} execute - An array of role strings with execution permissions. By default no user is granted with any execute permissions. Roles take the form `any`, `guests`, `users`, `user:<id>`, `team:<id>`, `member:<id>` or `label:<name>`, some of them with a `/<dimension>` suffix such as `users/verified` or `team:<id>/owner`. At most 100 entries. See “Role strings” in this document's introduction.
+     * @param {string} installationId - Installation ID of the platform's VCS (Version Control System) integration to deploy from.
      * @param {boolean} logging - When disabled, executions will exclude logs and errors, and will be slightly faster.
      * @param {string} providerBranch - Production branch for the repo linked to the function
      * @param {string} providerRepositoryId - Repository ID of the repo linked to the function
@@ -775,7 +777,7 @@ export class Apps {
      * @param {Scopes[]} scopes - List of scopes allowed for API Key auto-generated for every execution. Maximum of 100 scopes are allowed.
      * @param {string} specification - Runtime specification for the function and builds.
      * @param {number} timeout - Maximum execution time in seconds.
-     * @throws {RevenexxAPIRevenexxException}
+     * @throws {RevenexxException}
      * @returns {Promise<Models.Function>}
      * @deprecated Use the object parameter style method for a better developer experience.
      */
@@ -831,10 +833,10 @@ export class Apps {
         const timeout = params.timeout;
 
         if (typeof functionId === 'undefined') {
-            throw new RevenexxAPIRevenexxException('Missing required parameter: "functionId"');
+            throw new RevenexxException('Missing required parameter: "functionId"');
         }
         if (typeof name === 'undefined') {
-            throw new RevenexxAPIRevenexxException('Missing required parameter: "name"');
+            throw new RevenexxException('Missing required parameter: "name"');
         }
 
         const apiPath = '/v1/apps/{functionId}'.replace('{functionId}', functionId);
@@ -909,7 +911,7 @@ export class Apps {
      *
      * @param {string} params.functionId - Function ID.
      * @param {string} params.deploymentId - Deployment ID.
-     * @throws {RevenexxAPIRevenexxException}
+     * @throws {RevenexxException}
      * @returns {Promise<Models.Function>}
      */
     appsUpdateDeployment(params: { functionId: string, deploymentId: string }): Promise<Models.Function>;
@@ -918,7 +920,7 @@ export class Apps {
      *
      * @param {string} functionId - Function ID.
      * @param {string} deploymentId - Deployment ID.
-     * @throws {RevenexxAPIRevenexxException}
+     * @throws {RevenexxException}
      * @returns {Promise<Models.Function>}
      * @deprecated Use the object parameter style method for a better developer experience.
      */
@@ -942,10 +944,10 @@ export class Apps {
         const deploymentId = params.deploymentId;
 
         if (typeof functionId === 'undefined') {
-            throw new RevenexxAPIRevenexxException('Missing required parameter: "functionId"');
+            throw new RevenexxException('Missing required parameter: "functionId"');
         }
         if (typeof deploymentId === 'undefined') {
-            throw new RevenexxAPIRevenexxException('Missing required parameter: "deploymentId"');
+            throw new RevenexxException('Missing required parameter: "deploymentId"');
         }
 
         const apiPath = '/v1/apps/{functionId}/deployment'.replace('{functionId}', functionId);
@@ -971,10 +973,10 @@ export class Apps {
      * List the deployment history of an App.
      *
      * @param {string} params.functionId - Function ID.
-     * @param {string[]} params.queries - Array of query strings generated using the Query class provided by the SDK. [Learn more about queries](https://appwrite.io/docs/queries). Maximum of 100 queries are allowed, each 4096 characters long. You may filter on the following attributes: buildSize, sourceSize, totalSize, buildDuration, status, activate, type
+     * @param {string[]} params.queries - Result filters, paging and ordering. Repeat the parameter once per query — `?queries=…&queries=…` — and make each value a JSON object, e.g. `{"method":"limit","values":[25]}`. The bracketed spellings `queries[]=` and `queries[0]=` are accepted too; the `limit(25)` call syntax is not. See “Query parameters” in this document's introduction. Filterable attributes, besides `$id`, `$createdAt`, `$updatedAt` and `$sequence`: buildSize, sourceSize, totalSize, buildDuration, status, activate, type
      * @param {string} params.search - Search term to filter your list results. Max length: 256 chars.
      * @param {boolean} params.total - When set to false, the total count returned will be 0 and will not be calculated.
-     * @throws {RevenexxAPIRevenexxException}
+     * @throws {RevenexxException}
      * @returns {Promise<Models.DeploymentList>}
      */
     appsListDeployments(params: { functionId: string, queries?: string[], search?: string, total?: boolean }): Promise<Models.DeploymentList>;
@@ -982,10 +984,10 @@ export class Apps {
      * List the deployment history of an App.
      *
      * @param {string} functionId - Function ID.
-     * @param {string[]} queries - Array of query strings generated using the Query class provided by the SDK. [Learn more about queries](https://appwrite.io/docs/queries). Maximum of 100 queries are allowed, each 4096 characters long. You may filter on the following attributes: buildSize, sourceSize, totalSize, buildDuration, status, activate, type
+     * @param {string[]} queries - Result filters, paging and ordering. Repeat the parameter once per query — `?queries=…&queries=…` — and make each value a JSON object, e.g. `{"method":"limit","values":[25]}`. The bracketed spellings `queries[]=` and `queries[0]=` are accepted too; the `limit(25)` call syntax is not. See “Query parameters” in this document's introduction. Filterable attributes, besides `$id`, `$createdAt`, `$updatedAt` and `$sequence`: buildSize, sourceSize, totalSize, buildDuration, status, activate, type
      * @param {string} search - Search term to filter your list results. Max length: 256 chars.
      * @param {boolean} total - When set to false, the total count returned will be 0 and will not be calculated.
-     * @throws {RevenexxAPIRevenexxException}
+     * @throws {RevenexxException}
      * @returns {Promise<Models.DeploymentList>}
      * @deprecated Use the object parameter style method for a better developer experience.
      */
@@ -1013,7 +1015,7 @@ export class Apps {
         const total = params.total;
 
         if (typeof functionId === 'undefined') {
-            throw new RevenexxAPIRevenexxException('Missing required parameter: "functionId"');
+            throw new RevenexxException('Missing required parameter: "functionId"');
         }
 
         const apiPath = '/v1/apps/{functionId}/deployments'.replace('{functionId}', functionId);
@@ -1048,13 +1050,13 @@ export class Apps {
      *
      * @param {string} params.functionId - Function ID.
      * @param {boolean} params.activate - Automatically activate the deployment when it is finished building.
-     * @param {string} params.code - Gzip file with your code package. When used with the Appwrite CLI, pass the path to your code directory, and the CLI will automatically package your code. Use a path that is within the current directory.
+     * @param {File} params.code - Your source directory packaged as a gzipped tar archive (`.tar.gz`), sent as the file part of the multipart request.
      * @param {string} params.commands - Build Commands.
      * @param {string} params.entrypoint - Entrypoint File.
-     * @throws {RevenexxAPIRevenexxException}
+     * @throws {RevenexxException}
      * @returns {Promise<Models.Deployment>}
      */
-    appsCreateDeployment(params: { functionId: string, activate: boolean, code: string, commands?: string, entrypoint?: string, onProgress?: (progress: UploadProgress) => void }): Promise<Models.Deployment>;
+    appsCreateDeployment(params: { functionId: string, activate: boolean, code: File, commands?: string, entrypoint?: string, onProgress?: (progress: UploadProgress) => void }): Promise<Models.Deployment>;
     /**
      * Upload a new code deployment for an App. Accepts a `.tar.gz`
      * archive containing the App source. Phase 2 will extract the
@@ -1063,29 +1065,29 @@ export class Apps {
      *
      * @param {string} functionId - Function ID.
      * @param {boolean} activate - Automatically activate the deployment when it is finished building.
-     * @param {string} code - Gzip file with your code package. When used with the Appwrite CLI, pass the path to your code directory, and the CLI will automatically package your code. Use a path that is within the current directory.
+     * @param {File} code - Your source directory packaged as a gzipped tar archive (`.tar.gz`), sent as the file part of the multipart request.
      * @param {string} commands - Build Commands.
      * @param {string} entrypoint - Entrypoint File.
-     * @throws {RevenexxAPIRevenexxException}
+     * @throws {RevenexxException}
      * @returns {Promise<Models.Deployment>}
      * @deprecated Use the object parameter style method for a better developer experience.
      */
-    appsCreateDeployment(functionId: string, activate: boolean, code: string, commands?: string, entrypoint?: string, onProgress?: (progress: UploadProgress) => void): Promise<Models.Deployment>;
+    appsCreateDeployment(functionId: string, activate: boolean, code: File, commands?: string, entrypoint?: string, onProgress?: (progress: UploadProgress) => void): Promise<Models.Deployment>;
     appsCreateDeployment(
-        paramsOrFirst: { functionId: string, activate: boolean, code: string, commands?: string, entrypoint?: string, onProgress?: (progress: UploadProgress) => void } | string,
-        ...rest: [(boolean)?, (string)?, (string)?, (string)?,((progress: UploadProgress) => void)?]    
+        paramsOrFirst: { functionId: string, activate: boolean, code: File, commands?: string, entrypoint?: string, onProgress?: (progress: UploadProgress) => void } | string,
+        ...rest: [(boolean)?, (File)?, (string)?, (string)?,((progress: UploadProgress) => void)?]    
     ): Promise<Models.Deployment> {
-        let params: { functionId: string, activate: boolean, code: string, commands?: string, entrypoint?: string };
+        let params: { functionId: string, activate: boolean, code: File, commands?: string, entrypoint?: string };
         let onProgress: ((progress: UploadProgress) => void);
         
         if ((paramsOrFirst && typeof paramsOrFirst === 'object' && !Array.isArray(paramsOrFirst))) {
-            params = (paramsOrFirst || {}) as { functionId: string, activate: boolean, code: string, commands?: string, entrypoint?: string };
-            onProgress = paramsOrFirst?.onProgress as ((progress: UploadProgress) => void);
+            params = (paramsOrFirst || {}) as { functionId: string, activate: boolean, code: File, commands?: string, entrypoint?: string };
+            onProgress = (paramsOrFirst as { onProgress?: (progress: UploadProgress) => void }).onProgress as ((progress: UploadProgress) => void);
         } else {
             params = {
                 functionId: paramsOrFirst as string,
                 activate: rest[0] as boolean,
-                code: rest[1] as string,
+                code: rest[1] as File,
                 commands: rest[2] as string,
                 entrypoint: rest[3] as string            
             };
@@ -1099,13 +1101,13 @@ export class Apps {
         const entrypoint = params.entrypoint;
 
         if (typeof functionId === 'undefined') {
-            throw new RevenexxAPIRevenexxException('Missing required parameter: "functionId"');
+            throw new RevenexxException('Missing required parameter: "functionId"');
         }
         if (typeof activate === 'undefined') {
-            throw new RevenexxAPIRevenexxException('Missing required parameter: "activate"');
+            throw new RevenexxException('Missing required parameter: "activate"');
         }
         if (typeof code === 'undefined') {
-            throw new RevenexxAPIRevenexxException('Missing required parameter: "code"');
+            throw new RevenexxException('Missing required parameter: "code"');
         }
 
         const apiPath = '/v1/apps/{functionId}/deployments'.replace('{functionId}', functionId);
@@ -1143,7 +1145,7 @@ export class Apps {
      * @param {string} params.functionId - Function ID.
      * @param {string} params.deploymentId - Deployment ID.
      * @param {string} params.buildId - Build unique ID.
-     * @throws {RevenexxAPIRevenexxException}
+     * @throws {RevenexxException}
      * @returns {Promise<Models.Deployment>}
      */
     appsCreateDuplicateDeployment(params: { functionId: string, deploymentId: string, buildId?: string }): Promise<Models.Deployment>;
@@ -1153,7 +1155,7 @@ export class Apps {
      * @param {string} functionId - Function ID.
      * @param {string} deploymentId - Deployment ID.
      * @param {string} buildId - Build unique ID.
-     * @throws {RevenexxAPIRevenexxException}
+     * @throws {RevenexxException}
      * @returns {Promise<Models.Deployment>}
      * @deprecated Use the object parameter style method for a better developer experience.
      */
@@ -1179,10 +1181,10 @@ export class Apps {
         const buildId = params.buildId;
 
         if (typeof functionId === 'undefined') {
-            throw new RevenexxAPIRevenexxException('Missing required parameter: "functionId"');
+            throw new RevenexxException('Missing required parameter: "functionId"');
         }
         if (typeof deploymentId === 'undefined') {
-            throw new RevenexxAPIRevenexxException('Missing required parameter: "deploymentId"');
+            throw new RevenexxException('Missing required parameter: "deploymentId"');
         }
 
         const apiPath = '/v1/apps/{functionId}/deployments/duplicate'.replace('{functionId}', functionId);
@@ -1217,7 +1219,7 @@ export class Apps {
      * @param {string} params.rootDirectory - Path to function code in the template repo.
      * @param {Type} params.type - Type for the reference provided. Can be commit, branch, or tag
      * @param {boolean} params.activate - Automatically activate the deployment when it is finished building.
-     * @throws {RevenexxAPIRevenexxException}
+     * @throws {RevenexxException}
      * @returns {Promise<Models.Deployment>}
      */
     appsCreateTemplateDeployment(params: { functionId: string, owner: string, reference: string, repository: string, rootDirectory: string, type: Type, activate?: boolean }): Promise<Models.Deployment>;
@@ -1231,7 +1233,7 @@ export class Apps {
      * @param {string} rootDirectory - Path to function code in the template repo.
      * @param {Type} type - Type for the reference provided. Can be commit, branch, or tag
      * @param {boolean} activate - Automatically activate the deployment when it is finished building.
-     * @throws {RevenexxAPIRevenexxException}
+     * @throws {RevenexxException}
      * @returns {Promise<Models.Deployment>}
      * @deprecated Use the object parameter style method for a better developer experience.
      */
@@ -1265,22 +1267,22 @@ export class Apps {
         const activate = params.activate;
 
         if (typeof functionId === 'undefined') {
-            throw new RevenexxAPIRevenexxException('Missing required parameter: "functionId"');
+            throw new RevenexxException('Missing required parameter: "functionId"');
         }
         if (typeof owner === 'undefined') {
-            throw new RevenexxAPIRevenexxException('Missing required parameter: "owner"');
+            throw new RevenexxException('Missing required parameter: "owner"');
         }
         if (typeof reference === 'undefined') {
-            throw new RevenexxAPIRevenexxException('Missing required parameter: "reference"');
+            throw new RevenexxException('Missing required parameter: "reference"');
         }
         if (typeof repository === 'undefined') {
-            throw new RevenexxAPIRevenexxException('Missing required parameter: "repository"');
+            throw new RevenexxException('Missing required parameter: "repository"');
         }
         if (typeof rootDirectory === 'undefined') {
-            throw new RevenexxAPIRevenexxException('Missing required parameter: "rootDirectory"');
+            throw new RevenexxException('Missing required parameter: "rootDirectory"');
         }
         if (typeof type === 'undefined') {
-            throw new RevenexxAPIRevenexxException('Missing required parameter: "type"');
+            throw new RevenexxException('Missing required parameter: "type"');
         }
 
         const apiPath = '/v1/apps/{functionId}/deployments/template'.replace('{functionId}', functionId);
@@ -1322,37 +1324,37 @@ export class Apps {
      *
      * @param {string} params.functionId - Function ID.
      * @param {string} params.reference - VCS reference to create deployment from. Depending on type this can be: branch name, commit hash
-     * @param {Type} params.type - Type of reference passed. Allowed values are: branch, commit
+     * @param {AppsCreateVcsDeploymentType} params.type - Type of reference passed. Allowed values are: branch, commit
      * @param {boolean} params.activate - Automatically activate the deployment when it is finished building.
-     * @throws {RevenexxAPIRevenexxException}
+     * @throws {RevenexxException}
      * @returns {Promise<Models.Deployment>}
      */
-    appsCreateVcsDeployment(params: { functionId: string, reference: string, type: Type, activate?: boolean }): Promise<Models.Deployment>;
+    appsCreateVcsDeployment(params: { functionId: string, reference: string, type: AppsCreateVcsDeploymentType, activate?: boolean }): Promise<Models.Deployment>;
     /**
      * Trigger a new deployment from the App's connected Git repository.
      *
      * @param {string} functionId - Function ID.
      * @param {string} reference - VCS reference to create deployment from. Depending on type this can be: branch name, commit hash
-     * @param {Type} type - Type of reference passed. Allowed values are: branch, commit
+     * @param {AppsCreateVcsDeploymentType} type - Type of reference passed. Allowed values are: branch, commit
      * @param {boolean} activate - Automatically activate the deployment when it is finished building.
-     * @throws {RevenexxAPIRevenexxException}
+     * @throws {RevenexxException}
      * @returns {Promise<Models.Deployment>}
      * @deprecated Use the object parameter style method for a better developer experience.
      */
-    appsCreateVcsDeployment(functionId: string, reference: string, type: Type, activate?: boolean): Promise<Models.Deployment>;
+    appsCreateVcsDeployment(functionId: string, reference: string, type: AppsCreateVcsDeploymentType, activate?: boolean): Promise<Models.Deployment>;
     appsCreateVcsDeployment(
-        paramsOrFirst: { functionId: string, reference: string, type: Type, activate?: boolean } | string,
-        ...rest: [(string)?, (Type)?, (boolean)?]    
+        paramsOrFirst: { functionId: string, reference: string, type: AppsCreateVcsDeploymentType, activate?: boolean } | string,
+        ...rest: [(string)?, (AppsCreateVcsDeploymentType)?, (boolean)?]    
     ): Promise<Models.Deployment> {
-        let params: { functionId: string, reference: string, type: Type, activate?: boolean };
+        let params: { functionId: string, reference: string, type: AppsCreateVcsDeploymentType, activate?: boolean };
         
         if ((paramsOrFirst && typeof paramsOrFirst === 'object' && !Array.isArray(paramsOrFirst))) {
-            params = (paramsOrFirst || {}) as { functionId: string, reference: string, type: Type, activate?: boolean };
+            params = (paramsOrFirst || {}) as { functionId: string, reference: string, type: AppsCreateVcsDeploymentType, activate?: boolean };
         } else {
             params = {
                 functionId: paramsOrFirst as string,
                 reference: rest[0] as string,
-                type: rest[1] as Type,
+                type: rest[1] as AppsCreateVcsDeploymentType,
                 activate: rest[2] as boolean            
             };
         }
@@ -1363,13 +1365,13 @@ export class Apps {
         const activate = params.activate;
 
         if (typeof functionId === 'undefined') {
-            throw new RevenexxAPIRevenexxException('Missing required parameter: "functionId"');
+            throw new RevenexxException('Missing required parameter: "functionId"');
         }
         if (typeof reference === 'undefined') {
-            throw new RevenexxAPIRevenexxException('Missing required parameter: "reference"');
+            throw new RevenexxException('Missing required parameter: "reference"');
         }
         if (typeof type === 'undefined') {
-            throw new RevenexxAPIRevenexxException('Missing required parameter: "type"');
+            throw new RevenexxException('Missing required parameter: "type"');
         }
 
         const apiPath = '/v1/apps/{functionId}/deployments/vcs'.replace('{functionId}', functionId);
@@ -1402,7 +1404,7 @@ export class Apps {
      *
      * @param {string} params.functionId - Function ID.
      * @param {string} params.deploymentId - Deployment ID.
-     * @throws {RevenexxAPIRevenexxException}
+     * @throws {RevenexxException}
      * @returns {Promise<{}>}
      */
     appsDeleteDeployment(params: { functionId: string, deploymentId: string }): Promise<{}>;
@@ -1411,7 +1413,7 @@ export class Apps {
      *
      * @param {string} functionId - Function ID.
      * @param {string} deploymentId - Deployment ID.
-     * @throws {RevenexxAPIRevenexxException}
+     * @throws {RevenexxException}
      * @returns {Promise<{}>}
      * @deprecated Use the object parameter style method for a better developer experience.
      */
@@ -1435,10 +1437,10 @@ export class Apps {
         const deploymentId = params.deploymentId;
 
         if (typeof functionId === 'undefined') {
-            throw new RevenexxAPIRevenexxException('Missing required parameter: "functionId"');
+            throw new RevenexxException('Missing required parameter: "functionId"');
         }
         if (typeof deploymentId === 'undefined') {
-            throw new RevenexxAPIRevenexxException('Missing required parameter: "deploymentId"');
+            throw new RevenexxException('Missing required parameter: "deploymentId"');
         }
 
         const apiPath = '/v1/apps/{functionId}/deployments/{deploymentId}'.replace('{functionId}', functionId).replace('{deploymentId}', deploymentId);
@@ -1461,7 +1463,7 @@ export class Apps {
      *
      * @param {string} params.functionId - Function ID.
      * @param {string} params.deploymentId - Deployment ID.
-     * @throws {RevenexxAPIRevenexxException}
+     * @throws {RevenexxException}
      * @returns {Promise<Models.Deployment>}
      */
     appsGetDeployment(params: { functionId: string, deploymentId: string }): Promise<Models.Deployment>;
@@ -1470,7 +1472,7 @@ export class Apps {
      *
      * @param {string} functionId - Function ID.
      * @param {string} deploymentId - Deployment ID.
-     * @throws {RevenexxAPIRevenexxException}
+     * @throws {RevenexxException}
      * @returns {Promise<Models.Deployment>}
      * @deprecated Use the object parameter style method for a better developer experience.
      */
@@ -1494,10 +1496,10 @@ export class Apps {
         const deploymentId = params.deploymentId;
 
         if (typeof functionId === 'undefined') {
-            throw new RevenexxAPIRevenexxException('Missing required parameter: "functionId"');
+            throw new RevenexxException('Missing required parameter: "functionId"');
         }
         if (typeof deploymentId === 'undefined') {
-            throw new RevenexxAPIRevenexxException('Missing required parameter: "deploymentId"');
+            throw new RevenexxException('Missing required parameter: "deploymentId"');
         }
 
         const apiPath = '/v1/apps/{functionId}/deployments/{deploymentId}'.replace('{functionId}', functionId).replace('{deploymentId}', deploymentId);
@@ -1520,35 +1522,35 @@ export class Apps {
      *
      * @param {string} params.functionId - Function ID.
      * @param {string} params.deploymentId - Deployment ID.
-     * @param {Type} params.type - Deployment file to download. Can be: "source", "output".
-     * @throws {RevenexxAPIRevenexxException}
+     * @param {AppsGetDeploymentDownloadType} params.type - Deployment file to download. Can be: "source", "output".
+     * @throws {RevenexxException}
      * @returns {Promise<{}>}
      */
-    appsGetDeploymentDownload(params: { functionId: string, deploymentId: string, type?: Type }): Promise<{}>;
+    appsGetDeploymentDownload(params: { functionId: string, deploymentId: string, type?: AppsGetDeploymentDownloadType }): Promise<{}>;
     /**
      * Get a redirect URL to download the source archive of an App deployment. Useful for re-running a build locally or auditing what was deployed.
      *
      * @param {string} functionId - Function ID.
      * @param {string} deploymentId - Deployment ID.
-     * @param {Type} type - Deployment file to download. Can be: "source", "output".
-     * @throws {RevenexxAPIRevenexxException}
+     * @param {AppsGetDeploymentDownloadType} type - Deployment file to download. Can be: "source", "output".
+     * @throws {RevenexxException}
      * @returns {Promise<{}>}
      * @deprecated Use the object parameter style method for a better developer experience.
      */
-    appsGetDeploymentDownload(functionId: string, deploymentId: string, type?: Type): Promise<{}>;
+    appsGetDeploymentDownload(functionId: string, deploymentId: string, type?: AppsGetDeploymentDownloadType): Promise<{}>;
     appsGetDeploymentDownload(
-        paramsOrFirst: { functionId: string, deploymentId: string, type?: Type } | string,
-        ...rest: [(string)?, (Type)?]    
+        paramsOrFirst: { functionId: string, deploymentId: string, type?: AppsGetDeploymentDownloadType } | string,
+        ...rest: [(string)?, (AppsGetDeploymentDownloadType)?]    
     ): Promise<{}> {
-        let params: { functionId: string, deploymentId: string, type?: Type };
+        let params: { functionId: string, deploymentId: string, type?: AppsGetDeploymentDownloadType };
         
         if ((paramsOrFirst && typeof paramsOrFirst === 'object' && !Array.isArray(paramsOrFirst))) {
-            params = (paramsOrFirst || {}) as { functionId: string, deploymentId: string, type?: Type };
+            params = (paramsOrFirst || {}) as { functionId: string, deploymentId: string, type?: AppsGetDeploymentDownloadType };
         } else {
             params = {
                 functionId: paramsOrFirst as string,
                 deploymentId: rest[0] as string,
-                type: rest[1] as Type            
+                type: rest[1] as AppsGetDeploymentDownloadType            
             };
         }
         
@@ -1557,10 +1559,10 @@ export class Apps {
         const type = params.type;
 
         if (typeof functionId === 'undefined') {
-            throw new RevenexxAPIRevenexxException('Missing required parameter: "functionId"');
+            throw new RevenexxException('Missing required parameter: "functionId"');
         }
         if (typeof deploymentId === 'undefined') {
-            throw new RevenexxAPIRevenexxException('Missing required parameter: "deploymentId"');
+            throw new RevenexxException('Missing required parameter: "deploymentId"');
         }
 
         const apiPath = '/v1/apps/{functionId}/deployments/{deploymentId}/download'.replace('{functionId}', functionId).replace('{deploymentId}', deploymentId);
@@ -1586,7 +1588,7 @@ export class Apps {
      *
      * @param {string} params.functionId - Function ID.
      * @param {string} params.deploymentId - Deployment ID.
-     * @throws {RevenexxAPIRevenexxException}
+     * @throws {RevenexxException}
      * @returns {Promise<Models.Deployment>}
      */
     appsUpdateDeploymentStatus(params: { functionId: string, deploymentId: string }): Promise<Models.Deployment>;
@@ -1595,7 +1597,7 @@ export class Apps {
      *
      * @param {string} functionId - Function ID.
      * @param {string} deploymentId - Deployment ID.
-     * @throws {RevenexxAPIRevenexxException}
+     * @throws {RevenexxException}
      * @returns {Promise<Models.Deployment>}
      * @deprecated Use the object parameter style method for a better developer experience.
      */
@@ -1619,10 +1621,10 @@ export class Apps {
         const deploymentId = params.deploymentId;
 
         if (typeof functionId === 'undefined') {
-            throw new RevenexxAPIRevenexxException('Missing required parameter: "functionId"');
+            throw new RevenexxException('Missing required parameter: "functionId"');
         }
         if (typeof deploymentId === 'undefined') {
-            throw new RevenexxAPIRevenexxException('Missing required parameter: "deploymentId"');
+            throw new RevenexxException('Missing required parameter: "deploymentId"');
         }
 
         const apiPath = '/v1/apps/{functionId}/deployments/{deploymentId}/status'.replace('{functionId}', functionId).replace('{deploymentId}', deploymentId);
@@ -1644,9 +1646,9 @@ export class Apps {
      * List the execution history of an App.
      *
      * @param {string} params.functionId - Function ID.
-     * @param {string[]} params.queries - Array of query strings generated using the Query class provided by the SDK. [Learn more about queries](https://appwrite.io/docs/queries). Maximum of 100 queries are allowed, each 4096 characters long. You may filter on the following attributes: trigger, status, responseStatusCode, duration, requestMethod, requestPath, deploymentId
+     * @param {string[]} params.queries - Result filters, paging and ordering. Repeat the parameter once per query — `?queries=…&queries=…` — and make each value a JSON object, e.g. `{"method":"limit","values":[25]}`. The bracketed spellings `queries[]=` and `queries[0]=` are accepted too; the `limit(25)` call syntax is not. See “Query parameters” in this document's introduction. Filterable attributes, besides `$id`, `$createdAt`, `$updatedAt` and `$sequence`: trigger, status, responseStatusCode, duration, requestMethod, requestPath, deploymentId
      * @param {boolean} params.total - When set to false, the total count returned will be 0 and will not be calculated.
-     * @throws {RevenexxAPIRevenexxException}
+     * @throws {RevenexxException}
      * @returns {Promise<Models.ExecutionList>}
      */
     appsListExecutions(params: { functionId: string, queries?: string[], total?: boolean }): Promise<Models.ExecutionList>;
@@ -1654,9 +1656,9 @@ export class Apps {
      * List the execution history of an App.
      *
      * @param {string} functionId - Function ID.
-     * @param {string[]} queries - Array of query strings generated using the Query class provided by the SDK. [Learn more about queries](https://appwrite.io/docs/queries). Maximum of 100 queries are allowed, each 4096 characters long. You may filter on the following attributes: trigger, status, responseStatusCode, duration, requestMethod, requestPath, deploymentId
+     * @param {string[]} queries - Result filters, paging and ordering. Repeat the parameter once per query — `?queries=…&queries=…` — and make each value a JSON object, e.g. `{"method":"limit","values":[25]}`. The bracketed spellings `queries[]=` and `queries[0]=` are accepted too; the `limit(25)` call syntax is not. See “Query parameters” in this document's introduction. Filterable attributes, besides `$id`, `$createdAt`, `$updatedAt` and `$sequence`: trigger, status, responseStatusCode, duration, requestMethod, requestPath, deploymentId
      * @param {boolean} total - When set to false, the total count returned will be 0 and will not be calculated.
-     * @throws {RevenexxAPIRevenexxException}
+     * @throws {RevenexxException}
      * @returns {Promise<Models.ExecutionList>}
      * @deprecated Use the object parameter style method for a better developer experience.
      */
@@ -1682,7 +1684,7 @@ export class Apps {
         const total = params.total;
 
         if (typeof functionId === 'undefined') {
-            throw new RevenexxAPIRevenexxException('Missing required parameter: "functionId"');
+            throw new RevenexxException('Missing required parameter: "functionId"');
         }
 
         const apiPath = '/v1/apps/{functionId}/executions'.replace('{functionId}', functionId);
@@ -1716,7 +1718,7 @@ export class Apps {
      * @param {Method} params.method - HTTP method of execution. Default value is POST.
      * @param {string} params.xpath - HTTP path of execution. Path can include query params. Default value is /
      * @param {string} params.scheduledAt - Scheduled execution time in [ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) format. DateTime value must be in future with precision in minutes.
-     * @throws {RevenexxAPIRevenexxException}
+     * @throws {RevenexxException}
      * @returns {Promise<Models.Execution>}
      */
     appsCreateExecution(params: { functionId: string, async?: boolean, body?: string, headers?: object, method?: Method, xpath?: string, scheduledAt?: string }): Promise<Models.Execution>;
@@ -1730,7 +1732,7 @@ export class Apps {
      * @param {Method} method - HTTP method of execution. Default value is POST.
      * @param {string} xpath - HTTP path of execution. Path can include query params. Default value is /
      * @param {string} scheduledAt - Scheduled execution time in [ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) format. DateTime value must be in future with precision in minutes.
-     * @throws {RevenexxAPIRevenexxException}
+     * @throws {RevenexxException}
      * @returns {Promise<Models.Execution>}
      * @deprecated Use the object parameter style method for a better developer experience.
      */
@@ -1764,7 +1766,7 @@ export class Apps {
         const scheduledAt = params.scheduledAt;
 
         if (typeof functionId === 'undefined') {
-            throw new RevenexxAPIRevenexxException('Missing required parameter: "functionId"');
+            throw new RevenexxException('Missing required parameter: "functionId"');
         }
 
         const apiPath = '/v1/apps/{functionId}/executions'.replace('{functionId}', functionId);
@@ -1806,7 +1808,7 @@ export class Apps {
      *
      * @param {string} params.functionId - Function ID.
      * @param {string} params.executionId - Execution ID.
-     * @throws {RevenexxAPIRevenexxException}
+     * @throws {RevenexxException}
      * @returns {Promise<{}>}
      */
     appsDeleteExecution(params: { functionId: string, executionId: string }): Promise<{}>;
@@ -1815,7 +1817,7 @@ export class Apps {
      *
      * @param {string} functionId - Function ID.
      * @param {string} executionId - Execution ID.
-     * @throws {RevenexxAPIRevenexxException}
+     * @throws {RevenexxException}
      * @returns {Promise<{}>}
      * @deprecated Use the object parameter style method for a better developer experience.
      */
@@ -1839,10 +1841,10 @@ export class Apps {
         const executionId = params.executionId;
 
         if (typeof functionId === 'undefined') {
-            throw new RevenexxAPIRevenexxException('Missing required parameter: "functionId"');
+            throw new RevenexxException('Missing required parameter: "functionId"');
         }
         if (typeof executionId === 'undefined') {
-            throw new RevenexxAPIRevenexxException('Missing required parameter: "executionId"');
+            throw new RevenexxException('Missing required parameter: "executionId"');
         }
 
         const apiPath = '/v1/apps/{functionId}/executions/{executionId}'.replace('{functionId}', functionId).replace('{executionId}', executionId);
@@ -1865,7 +1867,7 @@ export class Apps {
      *
      * @param {string} params.functionId - Function ID.
      * @param {string} params.executionId - Execution ID.
-     * @throws {RevenexxAPIRevenexxException}
+     * @throws {RevenexxException}
      * @returns {Promise<Models.Execution>}
      */
     appsGetExecution(params: { functionId: string, executionId: string }): Promise<Models.Execution>;
@@ -1874,7 +1876,7 @@ export class Apps {
      *
      * @param {string} functionId - Function ID.
      * @param {string} executionId - Execution ID.
-     * @throws {RevenexxAPIRevenexxException}
+     * @throws {RevenexxException}
      * @returns {Promise<Models.Execution>}
      * @deprecated Use the object parameter style method for a better developer experience.
      */
@@ -1898,10 +1900,10 @@ export class Apps {
         const executionId = params.executionId;
 
         if (typeof functionId === 'undefined') {
-            throw new RevenexxAPIRevenexxException('Missing required parameter: "functionId"');
+            throw new RevenexxException('Missing required parameter: "functionId"');
         }
         if (typeof executionId === 'undefined') {
-            throw new RevenexxAPIRevenexxException('Missing required parameter: "executionId"');
+            throw new RevenexxException('Missing required parameter: "executionId"');
         }
 
         const apiPath = '/v1/apps/{functionId}/executions/{executionId}'.replace('{functionId}', functionId).replace('{executionId}', executionId);
@@ -1923,7 +1925,7 @@ export class Apps {
      * Read-through view of the App's App Registry row — visibility + Marketplace publish flag. Used by Cockpit to render the Publish/Unpublish button correctly on cold load.
      *
      * @param {string} params.functionId - App ID.
-     * @throws {RevenexxAPIRevenexxException}
+     * @throws {RevenexxException}
      * @returns {Promise<{}>}
      */
     appsGetMarketplaceStatus(params: { functionId: string }): Promise<{}>;
@@ -1931,7 +1933,7 @@ export class Apps {
      * Read-through view of the App's App Registry row — visibility + Marketplace publish flag. Used by Cockpit to render the Publish/Unpublish button correctly on cold load.
      *
      * @param {string} functionId - App ID.
-     * @throws {RevenexxAPIRevenexxException}
+     * @throws {RevenexxException}
      * @returns {Promise<{}>}
      * @deprecated Use the object parameter style method for a better developer experience.
      */
@@ -1952,7 +1954,7 @@ export class Apps {
         const functionId = params.functionId;
 
         if (typeof functionId === 'undefined') {
-            throw new RevenexxAPIRevenexxException('Missing required parameter: "functionId"');
+            throw new RevenexxException('Missing required parameter: "functionId"');
         }
 
         const apiPath = '/v1/apps/{functionId}/marketplace-status'.replace('{functionId}', functionId);
@@ -1974,7 +1976,7 @@ export class Apps {
      * Remove this App from the Marketplace listing. Existing tenant installations are unaffected. Idempotent.
      *
      * @param {string} params.functionId - App ID.
-     * @throws {RevenexxAPIRevenexxException}
+     * @throws {RevenexxException}
      * @returns {Promise<{}>}
      */
     appsUnpublish(params: { functionId: string }): Promise<{}>;
@@ -1982,7 +1984,7 @@ export class Apps {
      * Remove this App from the Marketplace listing. Existing tenant installations are unaffected. Idempotent.
      *
      * @param {string} functionId - App ID.
-     * @throws {RevenexxAPIRevenexxException}
+     * @throws {RevenexxException}
      * @returns {Promise<{}>}
      * @deprecated Use the object parameter style method for a better developer experience.
      */
@@ -2003,7 +2005,7 @@ export class Apps {
         const functionId = params.functionId;
 
         if (typeof functionId === 'undefined') {
-            throw new RevenexxAPIRevenexxException('Missing required parameter: "functionId"');
+            throw new RevenexxException('Missing required parameter: "functionId"');
         }
 
         const apiPath = '/v1/apps/{functionId}/publish'.replace('{functionId}', functionId);
@@ -2028,7 +2030,7 @@ export class Apps {
      * `public` or `included`. Idempotent.
      *
      * @param {string} params.functionId - App ID.
-     * @throws {RevenexxAPIRevenexxException}
+     * @throws {RevenexxException}
      * @returns {Promise<{}>}
      */
     appsPublish(params: { functionId: string }): Promise<{}>;
@@ -2039,7 +2041,7 @@ export class Apps {
      * `public` or `included`. Idempotent.
      *
      * @param {string} functionId - App ID.
-     * @throws {RevenexxAPIRevenexxException}
+     * @throws {RevenexxException}
      * @returns {Promise<{}>}
      * @deprecated Use the object parameter style method for a better developer experience.
      */
@@ -2060,7 +2062,7 @@ export class Apps {
         const functionId = params.functionId;
 
         if (typeof functionId === 'undefined') {
-            throw new RevenexxAPIRevenexxException('Missing required parameter: "functionId"');
+            throw new RevenexxException('Missing required parameter: "functionId"');
         }
 
         const apiPath = '/v1/apps/{functionId}/publish'.replace('{functionId}', functionId);
@@ -2083,7 +2085,7 @@ export class Apps {
      *
      * @param {string} params.functionId - Function ID.
      * @param {Range} params.range - Date range.
-     * @throws {RevenexxAPIRevenexxException}
+     * @throws {RevenexxException}
      * @returns {Promise<Models.UsageFunction>}
      */
     appsGetUsage(params: { functionId: string, range?: Range }): Promise<Models.UsageFunction>;
@@ -2092,7 +2094,7 @@ export class Apps {
      *
      * @param {string} functionId - Function ID.
      * @param {Range} range - Date range.
-     * @throws {RevenexxAPIRevenexxException}
+     * @throws {RevenexxException}
      * @returns {Promise<Models.UsageFunction>}
      * @deprecated Use the object parameter style method for a better developer experience.
      */
@@ -2116,7 +2118,7 @@ export class Apps {
         const range = params.range;
 
         if (typeof functionId === 'undefined') {
-            throw new RevenexxAPIRevenexxException('Missing required parameter: "functionId"');
+            throw new RevenexxException('Missing required parameter: "functionId"');
         }
 
         const apiPath = '/v1/apps/{functionId}/usage'.replace('{functionId}', functionId);
@@ -2141,7 +2143,7 @@ export class Apps {
      * List all environment variables defined for the App.
      *
      * @param {string} params.functionId - Function unique ID.
-     * @throws {RevenexxAPIRevenexxException}
+     * @throws {RevenexxException}
      * @returns {Promise<Models.VariableList>}
      */
     appsListVariables(params: { functionId: string }): Promise<Models.VariableList>;
@@ -2149,7 +2151,7 @@ export class Apps {
      * List all environment variables defined for the App.
      *
      * @param {string} functionId - Function unique ID.
-     * @throws {RevenexxAPIRevenexxException}
+     * @throws {RevenexxException}
      * @returns {Promise<Models.VariableList>}
      * @deprecated Use the object parameter style method for a better developer experience.
      */
@@ -2170,7 +2172,7 @@ export class Apps {
         const functionId = params.functionId;
 
         if (typeof functionId === 'undefined') {
-            throw new RevenexxAPIRevenexxException('Missing required parameter: "functionId"');
+            throw new RevenexxException('Missing required parameter: "functionId"');
         }
 
         const apiPath = '/v1/apps/{functionId}/variables'.replace('{functionId}', functionId);
@@ -2195,7 +2197,7 @@ export class Apps {
      * @param {string} params.key - Variable key. Max length: 255 chars.
      * @param {string} params.value - Variable value. Max length: 8192 chars.
      * @param {boolean} params.secret - Secret variables can be updated or deleted, but only functions can read them during build and runtime.
-     * @throws {RevenexxAPIRevenexxException}
+     * @throws {RevenexxException}
      * @returns {Promise<Models.Variable>}
      */
     appsCreateVariable(params: { functionId: string, key: string, value: string, secret?: boolean }): Promise<Models.Variable>;
@@ -2206,7 +2208,7 @@ export class Apps {
      * @param {string} key - Variable key. Max length: 255 chars.
      * @param {string} value - Variable value. Max length: 8192 chars.
      * @param {boolean} secret - Secret variables can be updated or deleted, but only functions can read them during build and runtime.
-     * @throws {RevenexxAPIRevenexxException}
+     * @throws {RevenexxException}
      * @returns {Promise<Models.Variable>}
      * @deprecated Use the object parameter style method for a better developer experience.
      */
@@ -2234,13 +2236,13 @@ export class Apps {
         const secret = params.secret;
 
         if (typeof functionId === 'undefined') {
-            throw new RevenexxAPIRevenexxException('Missing required parameter: "functionId"');
+            throw new RevenexxException('Missing required parameter: "functionId"');
         }
         if (typeof key === 'undefined') {
-            throw new RevenexxAPIRevenexxException('Missing required parameter: "key"');
+            throw new RevenexxException('Missing required parameter: "key"');
         }
         if (typeof value === 'undefined') {
-            throw new RevenexxAPIRevenexxException('Missing required parameter: "value"');
+            throw new RevenexxException('Missing required parameter: "value"');
         }
 
         const apiPath = '/v1/apps/{functionId}/variables'.replace('{functionId}', functionId);
@@ -2273,7 +2275,7 @@ export class Apps {
      *
      * @param {string} params.functionId - Function unique ID.
      * @param {string} params.variableId - Variable unique ID.
-     * @throws {RevenexxAPIRevenexxException}
+     * @throws {RevenexxException}
      * @returns {Promise<{}>}
      */
     appsDeleteVariable(params: { functionId: string, variableId: string }): Promise<{}>;
@@ -2282,7 +2284,7 @@ export class Apps {
      *
      * @param {string} functionId - Function unique ID.
      * @param {string} variableId - Variable unique ID.
-     * @throws {RevenexxAPIRevenexxException}
+     * @throws {RevenexxException}
      * @returns {Promise<{}>}
      * @deprecated Use the object parameter style method for a better developer experience.
      */
@@ -2306,10 +2308,10 @@ export class Apps {
         const variableId = params.variableId;
 
         if (typeof functionId === 'undefined') {
-            throw new RevenexxAPIRevenexxException('Missing required parameter: "functionId"');
+            throw new RevenexxException('Missing required parameter: "functionId"');
         }
         if (typeof variableId === 'undefined') {
-            throw new RevenexxAPIRevenexxException('Missing required parameter: "variableId"');
+            throw new RevenexxException('Missing required parameter: "variableId"');
         }
 
         const apiPath = '/v1/apps/{functionId}/variables/{variableId}'.replace('{functionId}', functionId).replace('{variableId}', variableId);
@@ -2332,7 +2334,7 @@ export class Apps {
      *
      * @param {string} params.functionId - Function unique ID.
      * @param {string} params.variableId - Variable unique ID.
-     * @throws {RevenexxAPIRevenexxException}
+     * @throws {RevenexxException}
      * @returns {Promise<Models.Variable>}
      */
     appsGetVariable(params: { functionId: string, variableId: string }): Promise<Models.Variable>;
@@ -2341,7 +2343,7 @@ export class Apps {
      *
      * @param {string} functionId - Function unique ID.
      * @param {string} variableId - Variable unique ID.
-     * @throws {RevenexxAPIRevenexxException}
+     * @throws {RevenexxException}
      * @returns {Promise<Models.Variable>}
      * @deprecated Use the object parameter style method for a better developer experience.
      */
@@ -2365,10 +2367,10 @@ export class Apps {
         const variableId = params.variableId;
 
         if (typeof functionId === 'undefined') {
-            throw new RevenexxAPIRevenexxException('Missing required parameter: "functionId"');
+            throw new RevenexxException('Missing required parameter: "functionId"');
         }
         if (typeof variableId === 'undefined') {
-            throw new RevenexxAPIRevenexxException('Missing required parameter: "variableId"');
+            throw new RevenexxException('Missing required parameter: "variableId"');
         }
 
         const apiPath = '/v1/apps/{functionId}/variables/{variableId}'.replace('{functionId}', functionId).replace('{variableId}', variableId);
@@ -2394,7 +2396,7 @@ export class Apps {
      * @param {string} params.key - Variable key. Max length: 255 chars.
      * @param {boolean} params.secret - Secret variables can be updated or deleted, but only functions can read them during build and runtime.
      * @param {string} params.value - Variable value. Max length: 8192 chars.
-     * @throws {RevenexxAPIRevenexxException}
+     * @throws {RevenexxException}
      * @returns {Promise<Models.Variable>}
      */
     appsUpdateVariable(params: { functionId: string, variableId: string, key: string, secret?: boolean, value?: string }): Promise<Models.Variable>;
@@ -2406,7 +2408,7 @@ export class Apps {
      * @param {string} key - Variable key. Max length: 255 chars.
      * @param {boolean} secret - Secret variables can be updated or deleted, but only functions can read them during build and runtime.
      * @param {string} value - Variable value. Max length: 8192 chars.
-     * @throws {RevenexxAPIRevenexxException}
+     * @throws {RevenexxException}
      * @returns {Promise<Models.Variable>}
      * @deprecated Use the object parameter style method for a better developer experience.
      */
@@ -2436,13 +2438,13 @@ export class Apps {
         const value = params.value;
 
         if (typeof functionId === 'undefined') {
-            throw new RevenexxAPIRevenexxException('Missing required parameter: "functionId"');
+            throw new RevenexxException('Missing required parameter: "functionId"');
         }
         if (typeof variableId === 'undefined') {
-            throw new RevenexxAPIRevenexxException('Missing required parameter: "variableId"');
+            throw new RevenexxException('Missing required parameter: "variableId"');
         }
         if (typeof key === 'undefined') {
-            throw new RevenexxAPIRevenexxException('Missing required parameter: "key"');
+            throw new RevenexxException('Missing required parameter: "key"');
         }
 
         const apiPath = '/v1/apps/{functionId}/variables/{variableId}'.replace('{functionId}', functionId).replace('{variableId}', variableId);

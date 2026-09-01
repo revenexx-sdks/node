@@ -8,5 +8,20 @@ const client = new sdk.Client()
 
 const orders = new sdk.Orders(client);
 
-const result = await orders.ordersNumberRangesList();
+const result = await orders.ordersNumberRangesList({
+    id: '', // optional
+    code: 'order', // optional
+    prefix: 'ORD-', // optional
+    suffix: '', // optional
+    padding: 6, // optional
+    counter: 123, // optional
+    step: 1, // optional
+    positionStep: 10, // optional
+    channelId: '', // optional
+    createdAt: '2026-01-01T12:00:00Z', // optional
+    updatedAt: '2026-01-01T12:00:00Z', // optional
+    limit: 50, // optional
+    offset: 0, // optional
+    order: 'created_at.desc' // optional
+});
 ```

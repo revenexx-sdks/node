@@ -9,9 +9,9 @@ const client = new sdk.Client()
 const avatars = new sdk.Avatars(client);
 
 const result = await avatars.avatarsGetCreditCard({
-    code: sdk.Code.Amex,
-    width: null, // optional
-    height: null, // optional
-    quality: null // optional
+    code: sdk.AvatarsGetCreditCardCode.Amex,
+    width: 1, // optional
+    height: 1, // optional
+    quality: 1 // optional
 });
 ```

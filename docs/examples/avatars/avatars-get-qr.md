@@ -10,8 +10,8 @@ const avatars = new sdk.Avatars(client);
 
 const result = await avatars.avatarsGetQR({
     text: '',
-    size: null, // optional
-    margin: null, // optional
-    download: null // optional
+    size: 1, // optional
+    margin: 1, // optional
+    download: true // optional
 });
 ```

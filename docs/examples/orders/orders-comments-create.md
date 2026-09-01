@@ -10,8 +10,8 @@ const orders = new sdk.Orders(client);
 
 const result = await orders.ordersCommentsCreate({
     id: '',
-    body: '',
-    author: '', // optional
+    body: 'Called the customer, delivery agreed for next week.',
+    author: 'service-desk', // optional
     visibility: sdk.OrderCommentVisibility.Internal // optional
 });
 ```

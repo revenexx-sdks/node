@@ -10,14 +10,14 @@ const client = new sdk.Client()
 const storage = new sdk.Storage(client);
 
 const result = await storage.assetStore({
-    file: '',
+    file: InputFile.fromPath('/path/to/file', 'filename'),
     altText: '', // optional
     description: '', // optional
     displayName: '', // optional
     folderId: '', // optional
-    keepArchive: null, // optional
+    keepArchive: true, // optional
     tags: [], // optional
-    unpack: null, // optional
+    unpack: true, // optional
     visibility: sdk.Visibility.Public // optional
 });
 ```

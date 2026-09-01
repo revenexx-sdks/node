@@ -9,6 +9,13 @@ const client = new sdk.Client()
 const pages = new sdk.Pages(client);
 
 const result = await pages.pagesPagesRevisions({
-    id: ''
+    id: '',
+    limit: 1, // optional
+    offset: 1, // optional
+    order: 'created_at.desc', // optional
+    label: 'Autumn campaign', // optional
+    createdBy: '', // optional
+    createdByName: '', // optional
+    createdAt: '' // optional
 });
 ```

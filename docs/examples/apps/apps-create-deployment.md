@@ -11,8 +11,8 @@ const apps = new sdk.Apps(client);
 
 const result = await apps.appsCreateDeployment({
     functionId: '',
-    activate: null,
-    code: '',
+    activate: true,
+    code: InputFile.fromPath('/path/to/file', 'filename'),
     commands: '', // optional
     entrypoint: '' // optional
 });

@@ -10,7 +10,7 @@ const apps = new sdk.Apps(client);
 
 const result = await apps.appsListMarketplace({
     search: '', // optional
-    perPage: null, // optional
-    page: null // optional
+    perPage: 1, // optional
+    page: 1 // optional
 });
 ```

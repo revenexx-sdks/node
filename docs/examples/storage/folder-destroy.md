@@ -10,6 +10,6 @@ const storage = new sdk.Storage(client);
 
 const result = await storage.folderDestroy({
     id: '',
-    recursive: null // optional
+    recursive: true // optional
 });
 ```

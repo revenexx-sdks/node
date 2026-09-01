@@ -1,10 +1,11 @@
-import { RevenexxAPIRevenexxException, Client, type Payload, UploadProgress } from '../client';
+import { RevenexxException, Client, type Payload, UploadProgress } from '../client';
 import type { Models } from '../models';
 
 import { BuildRuntime } from '../enums/build-runtime';
 import { Framework } from '../enums/framework';
 import { Adapter } from '../enums/adapter';
-import { Type } from '../enums/type';
+import { SitesCreateTemplateDeploymentType } from '../enums/sites-create-template-deployment-type';
+import { AppsGetDeploymentDownloadType } from '../enums/apps-get-deployment-download-type';
 
 export class Sites {
     client: Client;
@@ -16,20 +17,20 @@ export class Sites {
     /**
      * Get a list of all the project's sites. You can use the query params to filter your results.
      *
-     * @param {string[]} params.queries - Array of query strings generated using the Query class provided by the SDK. [Learn more about queries](https://appwrite.io/docs/queries). Maximum of 100 queries are allowed, each 4096 characters long. You may filter on the following attributes: name, enabled, framework, deploymentId, buildCommand, installCommand, outputDirectory, installationId
+     * @param {string[]} params.queries - Result filters, paging and ordering. Repeat the parameter once per query — `?queries=…&queries=…` — and make each value a JSON object, e.g. `{"method":"limit","values":[25]}`. The bracketed spellings `queries[]=` and `queries[0]=` are accepted too; the `limit(25)` call syntax is not. See “Query parameters” in this document's introduction. Filterable attributes, besides `$id`, `$createdAt`, `$updatedAt` and `$sequence`: name, enabled, framework, deploymentId, buildCommand, installCommand, outputDirectory, installationId
      * @param {string} params.search - Search term to filter your list results. Max length: 256 chars.
      * @param {boolean} params.total - When set to false, the total count returned will be 0 and will not be calculated.
-     * @throws {RevenexxAPIRevenexxException}
+     * @throws {RevenexxException}
      * @returns {Promise<Models.SiteList>}
      */
     sitesList(params?: { queries?: string[], search?: string, total?: boolean }): Promise<Models.SiteList>;
     /**
      * Get a list of all the project's sites. You can use the query params to filter your results.
      *
-     * @param {string[]} queries - Array of query strings generated using the Query class provided by the SDK. [Learn more about queries](https://appwrite.io/docs/queries). Maximum of 100 queries are allowed, each 4096 characters long. You may filter on the following attributes: name, enabled, framework, deploymentId, buildCommand, installCommand, outputDirectory, installationId
+     * @param {string[]} queries - Result filters, paging and ordering. Repeat the parameter once per query — `?queries=…&queries=…` — and make each value a JSON object, e.g. `{"method":"limit","values":[25]}`. The bracketed spellings `queries[]=` and `queries[0]=` are accepted too; the `limit(25)` call syntax is not. See “Query parameters” in this document's introduction. Filterable attributes, besides `$id`, `$createdAt`, `$updatedAt` and `$sequence`: name, enabled, framework, deploymentId, buildCommand, installCommand, outputDirectory, installationId
      * @param {string} search - Search term to filter your list results. Max length: 256 chars.
      * @param {boolean} total - When set to false, the total count returned will be 0 and will not be calculated.
-     * @throws {RevenexxAPIRevenexxException}
+     * @throws {RevenexxException}
      * @returns {Promise<Models.SiteList>}
      * @deprecated Use the object parameter style method for a better developer experience.
      */
@@ -91,7 +92,7 @@ export class Sites {
      * @param {boolean} params.enabled - Is site enabled? When set to 'disabled', users cannot access the site but Server SDKs with and API key can still access the site. No data is lost when this is toggled.
      * @param {string} params.fallbackFile - Fallback file for single page application sites.
      * @param {string} params.installCommand - Install Command.
-     * @param {string} params.installationId - Appwrite Installation ID for VCS (Version Control System) deployment.
+     * @param {string} params.installationId - Installation ID of the platform's VCS (Version Control System) integration to deploy from.
      * @param {boolean} params.logging - When disabled, request logs will exclude logs and errors, and site responses will be slightly faster.
      * @param {string} params.outputDirectory - Output Directory for site.
      * @param {string} params.providerBranch - Production branch for the repo linked to the site.
@@ -100,7 +101,7 @@ export class Sites {
      * @param {boolean} params.providerSilentMode - Is the VCS (Version Control System) connection in silent mode for the repo linked to the site? In silent mode, comments will not be made on commits and pull requests.
      * @param {string} params.specification - Framework specification for the site and builds.
      * @param {number} params.timeout - Maximum request time in seconds.
-     * @throws {RevenexxAPIRevenexxException}
+     * @throws {RevenexxException}
      * @returns {Promise<Models.Site>}
      */
     sitesCreate(params: { buildRuntime: BuildRuntime, framework: Framework, name: string, siteId: string, adapter?: Adapter, buildCommand?: string, enabled?: boolean, fallbackFile?: string, installCommand?: string, installationId?: string, logging?: boolean, outputDirectory?: string, providerBranch?: string, providerRepositoryId?: string, providerRootDirectory?: string, providerSilentMode?: boolean, specification?: string, timeout?: number }): Promise<Models.Site>;
@@ -116,7 +117,7 @@ export class Sites {
      * @param {boolean} enabled - Is site enabled? When set to 'disabled', users cannot access the site but Server SDKs with and API key can still access the site. No data is lost when this is toggled.
      * @param {string} fallbackFile - Fallback file for single page application sites.
      * @param {string} installCommand - Install Command.
-     * @param {string} installationId - Appwrite Installation ID for VCS (Version Control System) deployment.
+     * @param {string} installationId - Installation ID of the platform's VCS (Version Control System) integration to deploy from.
      * @param {boolean} logging - When disabled, request logs will exclude logs and errors, and site responses will be slightly faster.
      * @param {string} outputDirectory - Output Directory for site.
      * @param {string} providerBranch - Production branch for the repo linked to the site.
@@ -125,7 +126,7 @@ export class Sites {
      * @param {boolean} providerSilentMode - Is the VCS (Version Control System) connection in silent mode for the repo linked to the site? In silent mode, comments will not be made on commits and pull requests.
      * @param {string} specification - Framework specification for the site and builds.
      * @param {number} timeout - Maximum request time in seconds.
-     * @throws {RevenexxAPIRevenexxException}
+     * @throws {RevenexxException}
      * @returns {Promise<Models.Site>}
      * @deprecated Use the object parameter style method for a better developer experience.
      */
@@ -181,16 +182,16 @@ export class Sites {
         const timeout = params.timeout;
 
         if (typeof buildRuntime === 'undefined') {
-            throw new RevenexxAPIRevenexxException('Missing required parameter: "buildRuntime"');
+            throw new RevenexxException('Missing required parameter: "buildRuntime"');
         }
         if (typeof framework === 'undefined') {
-            throw new RevenexxAPIRevenexxException('Missing required parameter: "framework"');
+            throw new RevenexxException('Missing required parameter: "framework"');
         }
         if (typeof name === 'undefined') {
-            throw new RevenexxAPIRevenexxException('Missing required parameter: "name"');
+            throw new RevenexxException('Missing required parameter: "name"');
         }
         if (typeof siteId === 'undefined') {
-            throw new RevenexxAPIRevenexxException('Missing required parameter: "siteId"');
+            throw new RevenexxException('Missing required parameter: "siteId"');
         }
 
         const apiPath = '/v1/sites';
@@ -266,7 +267,7 @@ export class Sites {
     /**
      * Get a list of all frameworks that are currently available on the server instance.
      *
-     * @throws {RevenexxAPIRevenexxException}
+     * @throws {RevenexxException}
      * @returns {Promise<Models.FrameworkList>}
      */
     sitesListFrameworks(): Promise<Models.FrameworkList> {
@@ -289,7 +290,7 @@ export class Sites {
     /**
      * List allowed site specifications for this instance.
      *
-     * @throws {RevenexxAPIRevenexxException}
+     * @throws {RevenexxException}
      * @returns {Promise<Models.SpecificationList>}
      */
     sitesListSpecifications(): Promise<Models.SpecificationList> {
@@ -313,7 +314,7 @@ export class Sites {
      * Delete a site by its unique ID.
      *
      * @param {string} params.siteId - Site ID.
-     * @throws {RevenexxAPIRevenexxException}
+     * @throws {RevenexxException}
      * @returns {Promise<{}>}
      */
     sitesDelete(params: { siteId: string }): Promise<{}>;
@@ -321,7 +322,7 @@ export class Sites {
      * Delete a site by its unique ID.
      *
      * @param {string} siteId - Site ID.
-     * @throws {RevenexxAPIRevenexxException}
+     * @throws {RevenexxException}
      * @returns {Promise<{}>}
      * @deprecated Use the object parameter style method for a better developer experience.
      */
@@ -342,7 +343,7 @@ export class Sites {
         const siteId = params.siteId;
 
         if (typeof siteId === 'undefined') {
-            throw new RevenexxAPIRevenexxException('Missing required parameter: "siteId"');
+            throw new RevenexxException('Missing required parameter: "siteId"');
         }
 
         const apiPath = '/v1/sites/{siteId}'.replace('{siteId}', siteId);
@@ -364,7 +365,7 @@ export class Sites {
      * Get a site by its unique ID.
      *
      * @param {string} params.siteId - Site ID.
-     * @throws {RevenexxAPIRevenexxException}
+     * @throws {RevenexxException}
      * @returns {Promise<Models.Site>}
      */
     sitesGet(params: { siteId: string }): Promise<Models.Site>;
@@ -372,7 +373,7 @@ export class Sites {
      * Get a site by its unique ID.
      *
      * @param {string} siteId - Site ID.
-     * @throws {RevenexxAPIRevenexxException}
+     * @throws {RevenexxException}
      * @returns {Promise<Models.Site>}
      * @deprecated Use the object parameter style method for a better developer experience.
      */
@@ -393,7 +394,7 @@ export class Sites {
         const siteId = params.siteId;
 
         if (typeof siteId === 'undefined') {
-            throw new RevenexxAPIRevenexxException('Missing required parameter: "siteId"');
+            throw new RevenexxException('Missing required parameter: "siteId"');
         }
 
         const apiPath = '/v1/sites/{siteId}'.replace('{siteId}', siteId);
@@ -423,7 +424,7 @@ export class Sites {
      * @param {boolean} params.enabled - Is site enabled? When set to 'disabled', users cannot access the site but Server SDKs with and API key can still access the site. No data is lost when this is toggled.
      * @param {string} params.fallbackFile - Fallback file for single page application sites.
      * @param {string} params.installCommand - Install Command.
-     * @param {string} params.installationId - Appwrite Installation ID for VCS (Version Control System) deployment.
+     * @param {string} params.installationId - Installation ID of the platform's VCS (Version Control System) integration to deploy from.
      * @param {boolean} params.logging - When disabled, request logs will exclude logs and errors, and site responses will be slightly faster.
      * @param {string} params.outputDirectory - Output Directory for site.
      * @param {string} params.providerBranch - Production branch for the repo linked to the site.
@@ -432,7 +433,7 @@ export class Sites {
      * @param {boolean} params.providerSilentMode - Is the VCS (Version Control System) connection in silent mode for the repo linked to the site? In silent mode, comments will not be made on commits and pull requests.
      * @param {string} params.specification - Framework specification for the site and builds.
      * @param {number} params.timeout - Maximum request time in seconds.
-     * @throws {RevenexxAPIRevenexxException}
+     * @throws {RevenexxException}
      * @returns {Promise<Models.Site>}
      */
     sitesUpdate(params: { siteId: string, framework: Framework, name: string, adapter?: Adapter, buildCommand?: string, buildRuntime?: BuildRuntime, enabled?: boolean, fallbackFile?: string, installCommand?: string, installationId?: string, logging?: boolean, outputDirectory?: string, providerBranch?: string, providerRepositoryId?: string, providerRootDirectory?: string, providerSilentMode?: boolean, specification?: string, timeout?: number }): Promise<Models.Site>;
@@ -448,7 +449,7 @@ export class Sites {
      * @param {boolean} enabled - Is site enabled? When set to 'disabled', users cannot access the site but Server SDKs with and API key can still access the site. No data is lost when this is toggled.
      * @param {string} fallbackFile - Fallback file for single page application sites.
      * @param {string} installCommand - Install Command.
-     * @param {string} installationId - Appwrite Installation ID for VCS (Version Control System) deployment.
+     * @param {string} installationId - Installation ID of the platform's VCS (Version Control System) integration to deploy from.
      * @param {boolean} logging - When disabled, request logs will exclude logs and errors, and site responses will be slightly faster.
      * @param {string} outputDirectory - Output Directory for site.
      * @param {string} providerBranch - Production branch for the repo linked to the site.
@@ -457,7 +458,7 @@ export class Sites {
      * @param {boolean} providerSilentMode - Is the VCS (Version Control System) connection in silent mode for the repo linked to the site? In silent mode, comments will not be made on commits and pull requests.
      * @param {string} specification - Framework specification for the site and builds.
      * @param {number} timeout - Maximum request time in seconds.
-     * @throws {RevenexxAPIRevenexxException}
+     * @throws {RevenexxException}
      * @returns {Promise<Models.Site>}
      * @deprecated Use the object parameter style method for a better developer experience.
      */
@@ -513,13 +514,13 @@ export class Sites {
         const timeout = params.timeout;
 
         if (typeof siteId === 'undefined') {
-            throw new RevenexxAPIRevenexxException('Missing required parameter: "siteId"');
+            throw new RevenexxException('Missing required parameter: "siteId"');
         }
         if (typeof framework === 'undefined') {
-            throw new RevenexxAPIRevenexxException('Missing required parameter: "framework"');
+            throw new RevenexxException('Missing required parameter: "framework"');
         }
         if (typeof name === 'undefined') {
-            throw new RevenexxAPIRevenexxException('Missing required parameter: "name"');
+            throw new RevenexxException('Missing required parameter: "name"');
         }
 
         const apiPath = '/v1/sites/{siteId}'.replace('{siteId}', siteId);
@@ -594,7 +595,7 @@ export class Sites {
      *
      * @param {string} params.siteId - Site ID.
      * @param {string} params.deploymentId - Deployment ID.
-     * @throws {RevenexxAPIRevenexxException}
+     * @throws {RevenexxException}
      * @returns {Promise<Models.Site>}
      */
     sitesUpdateSiteDeployment(params: { siteId: string, deploymentId: string }): Promise<Models.Site>;
@@ -603,7 +604,7 @@ export class Sites {
      *
      * @param {string} siteId - Site ID.
      * @param {string} deploymentId - Deployment ID.
-     * @throws {RevenexxAPIRevenexxException}
+     * @throws {RevenexxException}
      * @returns {Promise<Models.Site>}
      * @deprecated Use the object parameter style method for a better developer experience.
      */
@@ -627,10 +628,10 @@ export class Sites {
         const deploymentId = params.deploymentId;
 
         if (typeof siteId === 'undefined') {
-            throw new RevenexxAPIRevenexxException('Missing required parameter: "siteId"');
+            throw new RevenexxException('Missing required parameter: "siteId"');
         }
         if (typeof deploymentId === 'undefined') {
-            throw new RevenexxAPIRevenexxException('Missing required parameter: "deploymentId"');
+            throw new RevenexxException('Missing required parameter: "deploymentId"');
         }
 
         const apiPath = '/v1/sites/{siteId}/deployment'.replace('{siteId}', siteId);
@@ -656,10 +657,10 @@ export class Sites {
      * Get a list of all the site's code deployments. You can use the query params to filter your results.
      *
      * @param {string} params.siteId - Site ID.
-     * @param {string[]} params.queries - Array of query strings generated using the Query class provided by the SDK. [Learn more about queries](https://appwrite.io/docs/queries). Maximum of 100 queries are allowed, each 4096 characters long. You may filter on the following attributes: buildSize, sourceSize, totalSize, buildDuration, status, activate, type
+     * @param {string[]} params.queries - Result filters, paging and ordering. Repeat the parameter once per query — `?queries=…&queries=…` — and make each value a JSON object, e.g. `{"method":"limit","values":[25]}`. The bracketed spellings `queries[]=` and `queries[0]=` are accepted too; the `limit(25)` call syntax is not. See “Query parameters” in this document's introduction. Filterable attributes, besides `$id`, `$createdAt`, `$updatedAt` and `$sequence`: buildSize, sourceSize, totalSize, buildDuration, status, activate, type
      * @param {string} params.search - Search term to filter your list results. Max length: 256 chars.
      * @param {boolean} params.total - When set to false, the total count returned will be 0 and will not be calculated.
-     * @throws {RevenexxAPIRevenexxException}
+     * @throws {RevenexxException}
      * @returns {Promise<Models.DeploymentList>}
      */
     sitesListDeployments(params: { siteId: string, queries?: string[], search?: string, total?: boolean }): Promise<Models.DeploymentList>;
@@ -667,10 +668,10 @@ export class Sites {
      * Get a list of all the site's code deployments. You can use the query params to filter your results.
      *
      * @param {string} siteId - Site ID.
-     * @param {string[]} queries - Array of query strings generated using the Query class provided by the SDK. [Learn more about queries](https://appwrite.io/docs/queries). Maximum of 100 queries are allowed, each 4096 characters long. You may filter on the following attributes: buildSize, sourceSize, totalSize, buildDuration, status, activate, type
+     * @param {string[]} queries - Result filters, paging and ordering. Repeat the parameter once per query — `?queries=…&queries=…` — and make each value a JSON object, e.g. `{"method":"limit","values":[25]}`. The bracketed spellings `queries[]=` and `queries[0]=` are accepted too; the `limit(25)` call syntax is not. See “Query parameters” in this document's introduction. Filterable attributes, besides `$id`, `$createdAt`, `$updatedAt` and `$sequence`: buildSize, sourceSize, totalSize, buildDuration, status, activate, type
      * @param {string} search - Search term to filter your list results. Max length: 256 chars.
      * @param {boolean} total - When set to false, the total count returned will be 0 and will not be calculated.
-     * @throws {RevenexxAPIRevenexxException}
+     * @throws {RevenexxException}
      * @returns {Promise<Models.DeploymentList>}
      * @deprecated Use the object parameter style method for a better developer experience.
      */
@@ -698,7 +699,7 @@ export class Sites {
         const total = params.total;
 
         if (typeof siteId === 'undefined') {
-            throw new RevenexxAPIRevenexxException('Missing required parameter: "siteId"');
+            throw new RevenexxException('Missing required parameter: "siteId"');
         }
 
         const apiPath = '/v1/sites/{siteId}/deployments'.replace('{siteId}', siteId);
@@ -730,43 +731,43 @@ export class Sites {
      *
      * @param {string} params.siteId - Site ID.
      * @param {boolean} params.activate - Automatically activate the deployment when it is finished building.
-     * @param {string} params.code - Gzip file with your code package. When used with the Appwrite CLI, pass the path to your code directory, and the CLI will automatically package your code. Use a path that is within the current directory.
+     * @param {File} params.code - Your source directory packaged as a gzipped tar archive (`.tar.gz`), sent as the file part of the multipart request.
      * @param {string} params.buildCommand - Build Commands.
      * @param {string} params.installCommand - Install Commands.
      * @param {string} params.outputDirectory - Output Directory.
-     * @throws {RevenexxAPIRevenexxException}
+     * @throws {RevenexxException}
      * @returns {Promise<Models.Deployment>}
      */
-    sitesCreateDeployment(params: { siteId: string, activate: boolean, code: string, buildCommand?: string, installCommand?: string, outputDirectory?: string, onProgress?: (progress: UploadProgress) => void }): Promise<Models.Deployment>;
+    sitesCreateDeployment(params: { siteId: string, activate: boolean, code: File, buildCommand?: string, installCommand?: string, outputDirectory?: string, onProgress?: (progress: UploadProgress) => void }): Promise<Models.Deployment>;
     /**
      * Create a new site code deployment. Use this endpoint to upload a new version of your site code. To activate your newly uploaded code, you'll need to update the site's deployment to use your new deployment ID.
      *
      * @param {string} siteId - Site ID.
      * @param {boolean} activate - Automatically activate the deployment when it is finished building.
-     * @param {string} code - Gzip file with your code package. When used with the Appwrite CLI, pass the path to your code directory, and the CLI will automatically package your code. Use a path that is within the current directory.
+     * @param {File} code - Your source directory packaged as a gzipped tar archive (`.tar.gz`), sent as the file part of the multipart request.
      * @param {string} buildCommand - Build Commands.
      * @param {string} installCommand - Install Commands.
      * @param {string} outputDirectory - Output Directory.
-     * @throws {RevenexxAPIRevenexxException}
+     * @throws {RevenexxException}
      * @returns {Promise<Models.Deployment>}
      * @deprecated Use the object parameter style method for a better developer experience.
      */
-    sitesCreateDeployment(siteId: string, activate: boolean, code: string, buildCommand?: string, installCommand?: string, outputDirectory?: string, onProgress?: (progress: UploadProgress) => void): Promise<Models.Deployment>;
+    sitesCreateDeployment(siteId: string, activate: boolean, code: File, buildCommand?: string, installCommand?: string, outputDirectory?: string, onProgress?: (progress: UploadProgress) => void): Promise<Models.Deployment>;
     sitesCreateDeployment(
-        paramsOrFirst: { siteId: string, activate: boolean, code: string, buildCommand?: string, installCommand?: string, outputDirectory?: string, onProgress?: (progress: UploadProgress) => void } | string,
-        ...rest: [(boolean)?, (string)?, (string)?, (string)?, (string)?,((progress: UploadProgress) => void)?]    
+        paramsOrFirst: { siteId: string, activate: boolean, code: File, buildCommand?: string, installCommand?: string, outputDirectory?: string, onProgress?: (progress: UploadProgress) => void } | string,
+        ...rest: [(boolean)?, (File)?, (string)?, (string)?, (string)?,((progress: UploadProgress) => void)?]    
     ): Promise<Models.Deployment> {
-        let params: { siteId: string, activate: boolean, code: string, buildCommand?: string, installCommand?: string, outputDirectory?: string };
+        let params: { siteId: string, activate: boolean, code: File, buildCommand?: string, installCommand?: string, outputDirectory?: string };
         let onProgress: ((progress: UploadProgress) => void);
         
         if ((paramsOrFirst && typeof paramsOrFirst === 'object' && !Array.isArray(paramsOrFirst))) {
-            params = (paramsOrFirst || {}) as { siteId: string, activate: boolean, code: string, buildCommand?: string, installCommand?: string, outputDirectory?: string };
-            onProgress = paramsOrFirst?.onProgress as ((progress: UploadProgress) => void);
+            params = (paramsOrFirst || {}) as { siteId: string, activate: boolean, code: File, buildCommand?: string, installCommand?: string, outputDirectory?: string };
+            onProgress = (paramsOrFirst as { onProgress?: (progress: UploadProgress) => void }).onProgress as ((progress: UploadProgress) => void);
         } else {
             params = {
                 siteId: paramsOrFirst as string,
                 activate: rest[0] as boolean,
-                code: rest[1] as string,
+                code: rest[1] as File,
                 buildCommand: rest[2] as string,
                 installCommand: rest[3] as string,
                 outputDirectory: rest[4] as string            
@@ -782,13 +783,13 @@ export class Sites {
         const outputDirectory = params.outputDirectory;
 
         if (typeof siteId === 'undefined') {
-            throw new RevenexxAPIRevenexxException('Missing required parameter: "siteId"');
+            throw new RevenexxException('Missing required parameter: "siteId"');
         }
         if (typeof activate === 'undefined') {
-            throw new RevenexxAPIRevenexxException('Missing required parameter: "activate"');
+            throw new RevenexxException('Missing required parameter: "activate"');
         }
         if (typeof code === 'undefined') {
-            throw new RevenexxAPIRevenexxException('Missing required parameter: "code"');
+            throw new RevenexxException('Missing required parameter: "code"');
         }
 
         const apiPath = '/v1/sites/{siteId}/deployments'.replace('{siteId}', siteId);
@@ -828,7 +829,7 @@ export class Sites {
      *
      * @param {string} params.siteId - Site ID.
      * @param {string} params.deploymentId - Deployment ID.
-     * @throws {RevenexxAPIRevenexxException}
+     * @throws {RevenexxException}
      * @returns {Promise<Models.Deployment>}
      */
     sitesCreateDuplicateDeployment(params: { siteId: string, deploymentId: string }): Promise<Models.Deployment>;
@@ -837,7 +838,7 @@ export class Sites {
      *
      * @param {string} siteId - Site ID.
      * @param {string} deploymentId - Deployment ID.
-     * @throws {RevenexxAPIRevenexxException}
+     * @throws {RevenexxException}
      * @returns {Promise<Models.Deployment>}
      * @deprecated Use the object parameter style method for a better developer experience.
      */
@@ -861,10 +862,10 @@ export class Sites {
         const deploymentId = params.deploymentId;
 
         if (typeof siteId === 'undefined') {
-            throw new RevenexxAPIRevenexxException('Missing required parameter: "siteId"');
+            throw new RevenexxException('Missing required parameter: "siteId"');
         }
         if (typeof deploymentId === 'undefined') {
-            throw new RevenexxAPIRevenexxException('Missing required parameter: "deploymentId"');
+            throw new RevenexxException('Missing required parameter: "deploymentId"');
         }
 
         const apiPath = '/v1/sites/{siteId}/deployments/duplicate'.replace('{siteId}', siteId);
@@ -889,44 +890,44 @@ export class Sites {
     /**
      * Create a deployment based on a template.
      * 
-     * Use this endpoint with combination of [listTemplates](https://appwrite.io/docs/products/sites/templates) to find the template details.
+     * Unlike app templates, site templates have no listing on this API — that catalogue is the vendor's and is not reproduced here. Take `repository`, `owner`, `rootDirectory` and `reference` from wherever the template is published.
      *
      * @param {string} params.siteId - Site ID.
      * @param {string} params.owner - The name of the owner of the template.
      * @param {string} params.reference - Reference value, can be a commit hash, branch name, or release tag
      * @param {string} params.repository - Repository name of the template.
      * @param {string} params.rootDirectory - Path to site code in the template repo.
-     * @param {Type} params.type - Type for the reference provided. Can be commit, branch, or tag
+     * @param {SitesCreateTemplateDeploymentType} params.type - Type for the reference provided. Can be commit, branch, or tag
      * @param {boolean} params.activate - Automatically activate the deployment when it is finished building.
-     * @throws {RevenexxAPIRevenexxException}
+     * @throws {RevenexxException}
      * @returns {Promise<Models.Deployment>}
      */
-    sitesCreateTemplateDeployment(params: { siteId: string, owner: string, reference: string, repository: string, rootDirectory: string, type: Type, activate?: boolean }): Promise<Models.Deployment>;
+    sitesCreateTemplateDeployment(params: { siteId: string, owner: string, reference: string, repository: string, rootDirectory: string, type: SitesCreateTemplateDeploymentType, activate?: boolean }): Promise<Models.Deployment>;
     /**
      * Create a deployment based on a template.
      * 
-     * Use this endpoint with combination of [listTemplates](https://appwrite.io/docs/products/sites/templates) to find the template details.
+     * Unlike app templates, site templates have no listing on this API — that catalogue is the vendor's and is not reproduced here. Take `repository`, `owner`, `rootDirectory` and `reference` from wherever the template is published.
      *
      * @param {string} siteId - Site ID.
      * @param {string} owner - The name of the owner of the template.
      * @param {string} reference - Reference value, can be a commit hash, branch name, or release tag
      * @param {string} repository - Repository name of the template.
      * @param {string} rootDirectory - Path to site code in the template repo.
-     * @param {Type} type - Type for the reference provided. Can be commit, branch, or tag
+     * @param {SitesCreateTemplateDeploymentType} type - Type for the reference provided. Can be commit, branch, or tag
      * @param {boolean} activate - Automatically activate the deployment when it is finished building.
-     * @throws {RevenexxAPIRevenexxException}
+     * @throws {RevenexxException}
      * @returns {Promise<Models.Deployment>}
      * @deprecated Use the object parameter style method for a better developer experience.
      */
-    sitesCreateTemplateDeployment(siteId: string, owner: string, reference: string, repository: string, rootDirectory: string, type: Type, activate?: boolean): Promise<Models.Deployment>;
+    sitesCreateTemplateDeployment(siteId: string, owner: string, reference: string, repository: string, rootDirectory: string, type: SitesCreateTemplateDeploymentType, activate?: boolean): Promise<Models.Deployment>;
     sitesCreateTemplateDeployment(
-        paramsOrFirst: { siteId: string, owner: string, reference: string, repository: string, rootDirectory: string, type: Type, activate?: boolean } | string,
-        ...rest: [(string)?, (string)?, (string)?, (string)?, (Type)?, (boolean)?]    
+        paramsOrFirst: { siteId: string, owner: string, reference: string, repository: string, rootDirectory: string, type: SitesCreateTemplateDeploymentType, activate?: boolean } | string,
+        ...rest: [(string)?, (string)?, (string)?, (string)?, (SitesCreateTemplateDeploymentType)?, (boolean)?]    
     ): Promise<Models.Deployment> {
-        let params: { siteId: string, owner: string, reference: string, repository: string, rootDirectory: string, type: Type, activate?: boolean };
+        let params: { siteId: string, owner: string, reference: string, repository: string, rootDirectory: string, type: SitesCreateTemplateDeploymentType, activate?: boolean };
         
         if ((paramsOrFirst && typeof paramsOrFirst === 'object' && !Array.isArray(paramsOrFirst))) {
-            params = (paramsOrFirst || {}) as { siteId: string, owner: string, reference: string, repository: string, rootDirectory: string, type: Type, activate?: boolean };
+            params = (paramsOrFirst || {}) as { siteId: string, owner: string, reference: string, repository: string, rootDirectory: string, type: SitesCreateTemplateDeploymentType, activate?: boolean };
         } else {
             params = {
                 siteId: paramsOrFirst as string,
@@ -934,7 +935,7 @@ export class Sites {
                 reference: rest[1] as string,
                 repository: rest[2] as string,
                 rootDirectory: rest[3] as string,
-                type: rest[4] as Type,
+                type: rest[4] as SitesCreateTemplateDeploymentType,
                 activate: rest[5] as boolean            
             };
         }
@@ -948,22 +949,22 @@ export class Sites {
         const activate = params.activate;
 
         if (typeof siteId === 'undefined') {
-            throw new RevenexxAPIRevenexxException('Missing required parameter: "siteId"');
+            throw new RevenexxException('Missing required parameter: "siteId"');
         }
         if (typeof owner === 'undefined') {
-            throw new RevenexxAPIRevenexxException('Missing required parameter: "owner"');
+            throw new RevenexxException('Missing required parameter: "owner"');
         }
         if (typeof reference === 'undefined') {
-            throw new RevenexxAPIRevenexxException('Missing required parameter: "reference"');
+            throw new RevenexxException('Missing required parameter: "reference"');
         }
         if (typeof repository === 'undefined') {
-            throw new RevenexxAPIRevenexxException('Missing required parameter: "repository"');
+            throw new RevenexxException('Missing required parameter: "repository"');
         }
         if (typeof rootDirectory === 'undefined') {
-            throw new RevenexxAPIRevenexxException('Missing required parameter: "rootDirectory"');
+            throw new RevenexxException('Missing required parameter: "rootDirectory"');
         }
         if (typeof type === 'undefined') {
-            throw new RevenexxAPIRevenexxException('Missing required parameter: "type"');
+            throw new RevenexxException('Missing required parameter: "type"');
         }
 
         const apiPath = '/v1/sites/{siteId}/deployments/template'.replace('{siteId}', siteId);
@@ -1007,12 +1008,12 @@ export class Sites {
      *
      * @param {string} params.siteId - Site ID.
      * @param {string} params.reference - VCS reference to create deployment from. Depending on type this can be: branch name, commit hash
-     * @param {Type} params.type - Type of reference passed. Allowed values are: branch, commit
+     * @param {SitesCreateTemplateDeploymentType} params.type - Type of reference passed. Allowed values are: branch, commit
      * @param {boolean} params.activate - Automatically activate the deployment when it is finished building.
-     * @throws {RevenexxAPIRevenexxException}
+     * @throws {RevenexxException}
      * @returns {Promise<Models.Deployment>}
      */
-    sitesCreateVcsDeployment(params: { siteId: string, reference: string, type: Type, activate?: boolean }): Promise<Models.Deployment>;
+    sitesCreateVcsDeployment(params: { siteId: string, reference: string, type: SitesCreateTemplateDeploymentType, activate?: boolean }): Promise<Models.Deployment>;
     /**
      * Create a deployment when a site is connected to VCS.
      * 
@@ -1020,26 +1021,26 @@ export class Sites {
      *
      * @param {string} siteId - Site ID.
      * @param {string} reference - VCS reference to create deployment from. Depending on type this can be: branch name, commit hash
-     * @param {Type} type - Type of reference passed. Allowed values are: branch, commit
+     * @param {SitesCreateTemplateDeploymentType} type - Type of reference passed. Allowed values are: branch, commit
      * @param {boolean} activate - Automatically activate the deployment when it is finished building.
-     * @throws {RevenexxAPIRevenexxException}
+     * @throws {RevenexxException}
      * @returns {Promise<Models.Deployment>}
      * @deprecated Use the object parameter style method for a better developer experience.
      */
-    sitesCreateVcsDeployment(siteId: string, reference: string, type: Type, activate?: boolean): Promise<Models.Deployment>;
+    sitesCreateVcsDeployment(siteId: string, reference: string, type: SitesCreateTemplateDeploymentType, activate?: boolean): Promise<Models.Deployment>;
     sitesCreateVcsDeployment(
-        paramsOrFirst: { siteId: string, reference: string, type: Type, activate?: boolean } | string,
-        ...rest: [(string)?, (Type)?, (boolean)?]    
+        paramsOrFirst: { siteId: string, reference: string, type: SitesCreateTemplateDeploymentType, activate?: boolean } | string,
+        ...rest: [(string)?, (SitesCreateTemplateDeploymentType)?, (boolean)?]    
     ): Promise<Models.Deployment> {
-        let params: { siteId: string, reference: string, type: Type, activate?: boolean };
+        let params: { siteId: string, reference: string, type: SitesCreateTemplateDeploymentType, activate?: boolean };
         
         if ((paramsOrFirst && typeof paramsOrFirst === 'object' && !Array.isArray(paramsOrFirst))) {
-            params = (paramsOrFirst || {}) as { siteId: string, reference: string, type: Type, activate?: boolean };
+            params = (paramsOrFirst || {}) as { siteId: string, reference: string, type: SitesCreateTemplateDeploymentType, activate?: boolean };
         } else {
             params = {
                 siteId: paramsOrFirst as string,
                 reference: rest[0] as string,
-                type: rest[1] as Type,
+                type: rest[1] as SitesCreateTemplateDeploymentType,
                 activate: rest[2] as boolean            
             };
         }
@@ -1050,13 +1051,13 @@ export class Sites {
         const activate = params.activate;
 
         if (typeof siteId === 'undefined') {
-            throw new RevenexxAPIRevenexxException('Missing required parameter: "siteId"');
+            throw new RevenexxException('Missing required parameter: "siteId"');
         }
         if (typeof reference === 'undefined') {
-            throw new RevenexxAPIRevenexxException('Missing required parameter: "reference"');
+            throw new RevenexxException('Missing required parameter: "reference"');
         }
         if (typeof type === 'undefined') {
-            throw new RevenexxAPIRevenexxException('Missing required parameter: "type"');
+            throw new RevenexxException('Missing required parameter: "type"');
         }
 
         const apiPath = '/v1/sites/{siteId}/deployments/vcs'.replace('{siteId}', siteId);
@@ -1089,7 +1090,7 @@ export class Sites {
      *
      * @param {string} params.siteId - Site ID.
      * @param {string} params.deploymentId - Deployment ID.
-     * @throws {RevenexxAPIRevenexxException}
+     * @throws {RevenexxException}
      * @returns {Promise<{}>}
      */
     sitesDeleteDeployment(params: { siteId: string, deploymentId: string }): Promise<{}>;
@@ -1098,7 +1099,7 @@ export class Sites {
      *
      * @param {string} siteId - Site ID.
      * @param {string} deploymentId - Deployment ID.
-     * @throws {RevenexxAPIRevenexxException}
+     * @throws {RevenexxException}
      * @returns {Promise<{}>}
      * @deprecated Use the object parameter style method for a better developer experience.
      */
@@ -1122,10 +1123,10 @@ export class Sites {
         const deploymentId = params.deploymentId;
 
         if (typeof siteId === 'undefined') {
-            throw new RevenexxAPIRevenexxException('Missing required parameter: "siteId"');
+            throw new RevenexxException('Missing required parameter: "siteId"');
         }
         if (typeof deploymentId === 'undefined') {
-            throw new RevenexxAPIRevenexxException('Missing required parameter: "deploymentId"');
+            throw new RevenexxException('Missing required parameter: "deploymentId"');
         }
 
         const apiPath = '/v1/sites/{siteId}/deployments/{deploymentId}'.replace('{siteId}', siteId).replace('{deploymentId}', deploymentId);
@@ -1148,7 +1149,7 @@ export class Sites {
      *
      * @param {string} params.siteId - Site ID.
      * @param {string} params.deploymentId - Deployment ID.
-     * @throws {RevenexxAPIRevenexxException}
+     * @throws {RevenexxException}
      * @returns {Promise<Models.Deployment>}
      */
     sitesGetDeployment(params: { siteId: string, deploymentId: string }): Promise<Models.Deployment>;
@@ -1157,7 +1158,7 @@ export class Sites {
      *
      * @param {string} siteId - Site ID.
      * @param {string} deploymentId - Deployment ID.
-     * @throws {RevenexxAPIRevenexxException}
+     * @throws {RevenexxException}
      * @returns {Promise<Models.Deployment>}
      * @deprecated Use the object parameter style method for a better developer experience.
      */
@@ -1181,10 +1182,10 @@ export class Sites {
         const deploymentId = params.deploymentId;
 
         if (typeof siteId === 'undefined') {
-            throw new RevenexxAPIRevenexxException('Missing required parameter: "siteId"');
+            throw new RevenexxException('Missing required parameter: "siteId"');
         }
         if (typeof deploymentId === 'undefined') {
-            throw new RevenexxAPIRevenexxException('Missing required parameter: "deploymentId"');
+            throw new RevenexxException('Missing required parameter: "deploymentId"');
         }
 
         const apiPath = '/v1/sites/{siteId}/deployments/{deploymentId}'.replace('{siteId}', siteId).replace('{deploymentId}', deploymentId);
@@ -1207,35 +1208,35 @@ export class Sites {
      *
      * @param {string} params.siteId - Site ID.
      * @param {string} params.deploymentId - Deployment ID.
-     * @param {Type} params.type - Deployment file to download. Can be: "source", "output".
-     * @throws {RevenexxAPIRevenexxException}
+     * @param {AppsGetDeploymentDownloadType} params.type - Deployment file to download. Can be: "source", "output".
+     * @throws {RevenexxException}
      * @returns {Promise<{}>}
      */
-    sitesGetDeploymentDownload(params: { siteId: string, deploymentId: string, type?: Type }): Promise<{}>;
+    sitesGetDeploymentDownload(params: { siteId: string, deploymentId: string, type?: AppsGetDeploymentDownloadType }): Promise<{}>;
     /**
      * Get a site deployment content by its unique ID. The endpoint response return with a 'Content-Disposition: attachment' header that tells the browser to start downloading the file to user downloads directory.
      *
      * @param {string} siteId - Site ID.
      * @param {string} deploymentId - Deployment ID.
-     * @param {Type} type - Deployment file to download. Can be: "source", "output".
-     * @throws {RevenexxAPIRevenexxException}
+     * @param {AppsGetDeploymentDownloadType} type - Deployment file to download. Can be: "source", "output".
+     * @throws {RevenexxException}
      * @returns {Promise<{}>}
      * @deprecated Use the object parameter style method for a better developer experience.
      */
-    sitesGetDeploymentDownload(siteId: string, deploymentId: string, type?: Type): Promise<{}>;
+    sitesGetDeploymentDownload(siteId: string, deploymentId: string, type?: AppsGetDeploymentDownloadType): Promise<{}>;
     sitesGetDeploymentDownload(
-        paramsOrFirst: { siteId: string, deploymentId: string, type?: Type } | string,
-        ...rest: [(string)?, (Type)?]    
+        paramsOrFirst: { siteId: string, deploymentId: string, type?: AppsGetDeploymentDownloadType } | string,
+        ...rest: [(string)?, (AppsGetDeploymentDownloadType)?]    
     ): Promise<{}> {
-        let params: { siteId: string, deploymentId: string, type?: Type };
+        let params: { siteId: string, deploymentId: string, type?: AppsGetDeploymentDownloadType };
         
         if ((paramsOrFirst && typeof paramsOrFirst === 'object' && !Array.isArray(paramsOrFirst))) {
-            params = (paramsOrFirst || {}) as { siteId: string, deploymentId: string, type?: Type };
+            params = (paramsOrFirst || {}) as { siteId: string, deploymentId: string, type?: AppsGetDeploymentDownloadType };
         } else {
             params = {
                 siteId: paramsOrFirst as string,
                 deploymentId: rest[0] as string,
-                type: rest[1] as Type            
+                type: rest[1] as AppsGetDeploymentDownloadType            
             };
         }
         
@@ -1244,10 +1245,10 @@ export class Sites {
         const type = params.type;
 
         if (typeof siteId === 'undefined') {
-            throw new RevenexxAPIRevenexxException('Missing required parameter: "siteId"');
+            throw new RevenexxException('Missing required parameter: "siteId"');
         }
         if (typeof deploymentId === 'undefined') {
-            throw new RevenexxAPIRevenexxException('Missing required parameter: "deploymentId"');
+            throw new RevenexxException('Missing required parameter: "deploymentId"');
         }
 
         const apiPath = '/v1/sites/{siteId}/deployments/{deploymentId}/download'.replace('{siteId}', siteId).replace('{deploymentId}', deploymentId);
@@ -1273,7 +1274,7 @@ export class Sites {
      *
      * @param {string} params.siteId - Site ID.
      * @param {string} params.deploymentId - Deployment ID.
-     * @throws {RevenexxAPIRevenexxException}
+     * @throws {RevenexxException}
      * @returns {Promise<Models.Deployment>}
      */
     sitesUpdateDeploymentStatus(params: { siteId: string, deploymentId: string }): Promise<Models.Deployment>;
@@ -1282,7 +1283,7 @@ export class Sites {
      *
      * @param {string} siteId - Site ID.
      * @param {string} deploymentId - Deployment ID.
-     * @throws {RevenexxAPIRevenexxException}
+     * @throws {RevenexxException}
      * @returns {Promise<Models.Deployment>}
      * @deprecated Use the object parameter style method for a better developer experience.
      */
@@ -1306,10 +1307,10 @@ export class Sites {
         const deploymentId = params.deploymentId;
 
         if (typeof siteId === 'undefined') {
-            throw new RevenexxAPIRevenexxException('Missing required parameter: "siteId"');
+            throw new RevenexxException('Missing required parameter: "siteId"');
         }
         if (typeof deploymentId === 'undefined') {
-            throw new RevenexxAPIRevenexxException('Missing required parameter: "deploymentId"');
+            throw new RevenexxException('Missing required parameter: "deploymentId"');
         }
 
         const apiPath = '/v1/sites/{siteId}/deployments/{deploymentId}/status'.replace('{siteId}', siteId).replace('{deploymentId}', deploymentId);
@@ -1331,9 +1332,9 @@ export class Sites {
      * Get a list of all site logs. You can use the query params to filter your results.
      *
      * @param {string} params.siteId - Site ID.
-     * @param {string[]} params.queries - Array of query strings generated using the Query class provided by the SDK. [Learn more about queries](https://appwrite.io/docs/queries). Maximum of 100 queries are allowed, each 4096 characters long. You may filter on the following attributes: trigger, status, responseStatusCode, duration, requestMethod, requestPath, deploymentId
+     * @param {string[]} params.queries - Result filters, paging and ordering. Repeat the parameter once per query — `?queries=…&queries=…` — and make each value a JSON object, e.g. `{"method":"limit","values":[25]}`. The bracketed spellings `queries[]=` and `queries[0]=` are accepted too; the `limit(25)` call syntax is not. See “Query parameters” in this document's introduction. Filterable attributes, besides `$id`, `$createdAt`, `$updatedAt` and `$sequence`: trigger, status, responseStatusCode, duration, requestMethod, requestPath, deploymentId
      * @param {boolean} params.total - When set to false, the total count returned will be 0 and will not be calculated.
-     * @throws {RevenexxAPIRevenexxException}
+     * @throws {RevenexxException}
      * @returns {Promise<Models.ExecutionList>}
      */
     sitesListLogs(params: { siteId: string, queries?: string[], total?: boolean }): Promise<Models.ExecutionList>;
@@ -1341,9 +1342,9 @@ export class Sites {
      * Get a list of all site logs. You can use the query params to filter your results.
      *
      * @param {string} siteId - Site ID.
-     * @param {string[]} queries - Array of query strings generated using the Query class provided by the SDK. [Learn more about queries](https://appwrite.io/docs/queries). Maximum of 100 queries are allowed, each 4096 characters long. You may filter on the following attributes: trigger, status, responseStatusCode, duration, requestMethod, requestPath, deploymentId
+     * @param {string[]} queries - Result filters, paging and ordering. Repeat the parameter once per query — `?queries=…&queries=…` — and make each value a JSON object, e.g. `{"method":"limit","values":[25]}`. The bracketed spellings `queries[]=` and `queries[0]=` are accepted too; the `limit(25)` call syntax is not. See “Query parameters” in this document's introduction. Filterable attributes, besides `$id`, `$createdAt`, `$updatedAt` and `$sequence`: trigger, status, responseStatusCode, duration, requestMethod, requestPath, deploymentId
      * @param {boolean} total - When set to false, the total count returned will be 0 and will not be calculated.
-     * @throws {RevenexxAPIRevenexxException}
+     * @throws {RevenexxException}
      * @returns {Promise<Models.ExecutionList>}
      * @deprecated Use the object parameter style method for a better developer experience.
      */
@@ -1369,7 +1370,7 @@ export class Sites {
         const total = params.total;
 
         if (typeof siteId === 'undefined') {
-            throw new RevenexxAPIRevenexxException('Missing required parameter: "siteId"');
+            throw new RevenexxException('Missing required parameter: "siteId"');
         }
 
         const apiPath = '/v1/sites/{siteId}/logs'.replace('{siteId}', siteId);
@@ -1398,7 +1399,7 @@ export class Sites {
      *
      * @param {string} params.siteId - Site ID.
      * @param {string} params.logId - Log ID.
-     * @throws {RevenexxAPIRevenexxException}
+     * @throws {RevenexxException}
      * @returns {Promise<{}>}
      */
     sitesDeleteLog(params: { siteId: string, logId: string }): Promise<{}>;
@@ -1407,7 +1408,7 @@ export class Sites {
      *
      * @param {string} siteId - Site ID.
      * @param {string} logId - Log ID.
-     * @throws {RevenexxAPIRevenexxException}
+     * @throws {RevenexxException}
      * @returns {Promise<{}>}
      * @deprecated Use the object parameter style method for a better developer experience.
      */
@@ -1431,10 +1432,10 @@ export class Sites {
         const logId = params.logId;
 
         if (typeof siteId === 'undefined') {
-            throw new RevenexxAPIRevenexxException('Missing required parameter: "siteId"');
+            throw new RevenexxException('Missing required parameter: "siteId"');
         }
         if (typeof logId === 'undefined') {
-            throw new RevenexxAPIRevenexxException('Missing required parameter: "logId"');
+            throw new RevenexxException('Missing required parameter: "logId"');
         }
 
         const apiPath = '/v1/sites/{siteId}/logs/{logId}'.replace('{siteId}', siteId).replace('{logId}', logId);
@@ -1457,7 +1458,7 @@ export class Sites {
      *
      * @param {string} params.siteId - Site ID.
      * @param {string} params.logId - Log ID.
-     * @throws {RevenexxAPIRevenexxException}
+     * @throws {RevenexxException}
      * @returns {Promise<Models.Execution>}
      */
     sitesGetLog(params: { siteId: string, logId: string }): Promise<Models.Execution>;
@@ -1466,7 +1467,7 @@ export class Sites {
      *
      * @param {string} siteId - Site ID.
      * @param {string} logId - Log ID.
-     * @throws {RevenexxAPIRevenexxException}
+     * @throws {RevenexxException}
      * @returns {Promise<Models.Execution>}
      * @deprecated Use the object parameter style method for a better developer experience.
      */
@@ -1490,10 +1491,10 @@ export class Sites {
         const logId = params.logId;
 
         if (typeof siteId === 'undefined') {
-            throw new RevenexxAPIRevenexxException('Missing required parameter: "siteId"');
+            throw new RevenexxException('Missing required parameter: "siteId"');
         }
         if (typeof logId === 'undefined') {
-            throw new RevenexxAPIRevenexxException('Missing required parameter: "logId"');
+            throw new RevenexxException('Missing required parameter: "logId"');
         }
 
         const apiPath = '/v1/sites/{siteId}/logs/{logId}'.replace('{siteId}', siteId).replace('{logId}', logId);
@@ -1515,7 +1516,7 @@ export class Sites {
      * Get a list of all variables of a specific site.
      *
      * @param {string} params.siteId - Site unique ID.
-     * @throws {RevenexxAPIRevenexxException}
+     * @throws {RevenexxException}
      * @returns {Promise<Models.VariableList>}
      */
     sitesListVariables(params: { siteId: string }): Promise<Models.VariableList>;
@@ -1523,7 +1524,7 @@ export class Sites {
      * Get a list of all variables of a specific site.
      *
      * @param {string} siteId - Site unique ID.
-     * @throws {RevenexxAPIRevenexxException}
+     * @throws {RevenexxException}
      * @returns {Promise<Models.VariableList>}
      * @deprecated Use the object parameter style method for a better developer experience.
      */
@@ -1544,7 +1545,7 @@ export class Sites {
         const siteId = params.siteId;
 
         if (typeof siteId === 'undefined') {
-            throw new RevenexxAPIRevenexxException('Missing required parameter: "siteId"');
+            throw new RevenexxException('Missing required parameter: "siteId"');
         }
 
         const apiPath = '/v1/sites/{siteId}/variables'.replace('{siteId}', siteId);
@@ -1569,7 +1570,7 @@ export class Sites {
      * @param {string} params.key - Variable key. Max length: 255 chars.
      * @param {string} params.value - Variable value. Max length: 8192 chars.
      * @param {boolean} params.secret - Secret variables can be updated or deleted, but only sites can read them during build and runtime.
-     * @throws {RevenexxAPIRevenexxException}
+     * @throws {RevenexxException}
      * @returns {Promise<Models.Variable>}
      */
     sitesCreateVariable(params: { siteId: string, key: string, value: string, secret?: boolean }): Promise<Models.Variable>;
@@ -1580,7 +1581,7 @@ export class Sites {
      * @param {string} key - Variable key. Max length: 255 chars.
      * @param {string} value - Variable value. Max length: 8192 chars.
      * @param {boolean} secret - Secret variables can be updated or deleted, but only sites can read them during build and runtime.
-     * @throws {RevenexxAPIRevenexxException}
+     * @throws {RevenexxException}
      * @returns {Promise<Models.Variable>}
      * @deprecated Use the object parameter style method for a better developer experience.
      */
@@ -1608,13 +1609,13 @@ export class Sites {
         const secret = params.secret;
 
         if (typeof siteId === 'undefined') {
-            throw new RevenexxAPIRevenexxException('Missing required parameter: "siteId"');
+            throw new RevenexxException('Missing required parameter: "siteId"');
         }
         if (typeof key === 'undefined') {
-            throw new RevenexxAPIRevenexxException('Missing required parameter: "key"');
+            throw new RevenexxException('Missing required parameter: "key"');
         }
         if (typeof value === 'undefined') {
-            throw new RevenexxAPIRevenexxException('Missing required parameter: "value"');
+            throw new RevenexxException('Missing required parameter: "value"');
         }
 
         const apiPath = '/v1/sites/{siteId}/variables'.replace('{siteId}', siteId);
@@ -1647,7 +1648,7 @@ export class Sites {
      *
      * @param {string} params.siteId - Site unique ID.
      * @param {string} params.variableId - Variable unique ID.
-     * @throws {RevenexxAPIRevenexxException}
+     * @throws {RevenexxException}
      * @returns {Promise<{}>}
      */
     sitesDeleteVariable(params: { siteId: string, variableId: string }): Promise<{}>;
@@ -1656,7 +1657,7 @@ export class Sites {
      *
      * @param {string} siteId - Site unique ID.
      * @param {string} variableId - Variable unique ID.
-     * @throws {RevenexxAPIRevenexxException}
+     * @throws {RevenexxException}
      * @returns {Promise<{}>}
      * @deprecated Use the object parameter style method for a better developer experience.
      */
@@ -1680,10 +1681,10 @@ export class Sites {
         const variableId = params.variableId;
 
         if (typeof siteId === 'undefined') {
-            throw new RevenexxAPIRevenexxException('Missing required parameter: "siteId"');
+            throw new RevenexxException('Missing required parameter: "siteId"');
         }
         if (typeof variableId === 'undefined') {
-            throw new RevenexxAPIRevenexxException('Missing required parameter: "variableId"');
+            throw new RevenexxException('Missing required parameter: "variableId"');
         }
 
         const apiPath = '/v1/sites/{siteId}/variables/{variableId}'.replace('{siteId}', siteId).replace('{variableId}', variableId);
@@ -1706,7 +1707,7 @@ export class Sites {
      *
      * @param {string} params.siteId - Site unique ID.
      * @param {string} params.variableId - Variable unique ID.
-     * @throws {RevenexxAPIRevenexxException}
+     * @throws {RevenexxException}
      * @returns {Promise<Models.Variable>}
      */
     sitesGetVariable(params: { siteId: string, variableId: string }): Promise<Models.Variable>;
@@ -1715,7 +1716,7 @@ export class Sites {
      *
      * @param {string} siteId - Site unique ID.
      * @param {string} variableId - Variable unique ID.
-     * @throws {RevenexxAPIRevenexxException}
+     * @throws {RevenexxException}
      * @returns {Promise<Models.Variable>}
      * @deprecated Use the object parameter style method for a better developer experience.
      */
@@ -1739,10 +1740,10 @@ export class Sites {
         const variableId = params.variableId;
 
         if (typeof siteId === 'undefined') {
-            throw new RevenexxAPIRevenexxException('Missing required parameter: "siteId"');
+            throw new RevenexxException('Missing required parameter: "siteId"');
         }
         if (typeof variableId === 'undefined') {
-            throw new RevenexxAPIRevenexxException('Missing required parameter: "variableId"');
+            throw new RevenexxException('Missing required parameter: "variableId"');
         }
 
         const apiPath = '/v1/sites/{siteId}/variables/{variableId}'.replace('{siteId}', siteId).replace('{variableId}', variableId);
@@ -1768,7 +1769,7 @@ export class Sites {
      * @param {string} params.key - Variable key. Max length: 255 chars.
      * @param {boolean} params.secret - Secret variables can be updated or deleted, but only sites can read them during build and runtime.
      * @param {string} params.value - Variable value. Max length: 8192 chars.
-     * @throws {RevenexxAPIRevenexxException}
+     * @throws {RevenexxException}
      * @returns {Promise<Models.Variable>}
      */
     sitesUpdateVariable(params: { siteId: string, variableId: string, key: string, secret?: boolean, value?: string }): Promise<Models.Variable>;
@@ -1780,7 +1781,7 @@ export class Sites {
      * @param {string} key - Variable key. Max length: 255 chars.
      * @param {boolean} secret - Secret variables can be updated or deleted, but only sites can read them during build and runtime.
      * @param {string} value - Variable value. Max length: 8192 chars.
-     * @throws {RevenexxAPIRevenexxException}
+     * @throws {RevenexxException}
      * @returns {Promise<Models.Variable>}
      * @deprecated Use the object parameter style method for a better developer experience.
      */
@@ -1810,13 +1811,13 @@ export class Sites {
         const value = params.value;
 
         if (typeof siteId === 'undefined') {
-            throw new RevenexxAPIRevenexxException('Missing required parameter: "siteId"');
+            throw new RevenexxException('Missing required parameter: "siteId"');
         }
         if (typeof variableId === 'undefined') {
-            throw new RevenexxAPIRevenexxException('Missing required parameter: "variableId"');
+            throw new RevenexxException('Missing required parameter: "variableId"');
         }
         if (typeof key === 'undefined') {
-            throw new RevenexxAPIRevenexxException('Missing required parameter: "key"');
+            throw new RevenexxException('Missing required parameter: "key"');
         }
 
         const apiPath = '/v1/sites/{siteId}/variables/{variableId}'.replace('{siteId}', siteId).replace('{variableId}', variableId);

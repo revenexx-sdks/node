@@ -10,8 +10,8 @@ const apps = new sdk.Apps(client);
 
 const result = await apps.appsCreateVcsDeployment({
     functionId: '',
-    reference: '',
-    type: sdk.Type.Branch,
-    activate: null // optional
+    reference: 'main',
+    type: sdk.AppsCreateVcsDeploymentType.Branch,
+    activate: true // optional
 });
 ```

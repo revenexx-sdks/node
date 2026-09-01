@@ -1,0 +1,17 @@
+```javascript
+const sdk = require('@revenexx/node');
+
+const client = new sdk.Client()
+    .setEndpoint('https://api.revenexx.com') // Your API Endpoint
+    .setTenant('<TENANT_SLUG>') // Your tenant slug
+    .setApiKeyAuth('<API_KEY>'); // A gateway-managed scoped API key (rvxk_…).
+
+const shippingMethods = new sdk.ShippingMethods(client);
+
+const result = await shippingMethods.shippingTiersCreate({
+    methodId: '',
+    fromValue: 10, // optional
+    position: 1, // optional
+    price: 6.9 // optional
+});
+```

@@ -10,6 +10,7 @@ const prices = new sdk.Prices(client);
 
 const result = await prices.pricesEntriesBulk({
     listId: '',
-    entries: []
+    entries: [],
+    mode: sdk.PriceEntriesBulkMode.Upsert // optional
 });
 ```

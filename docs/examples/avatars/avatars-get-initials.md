@@ -9,9 +9,9 @@ const client = new sdk.Client()
 const avatars = new sdk.Avatars(client);
 
 const result = await avatars.avatarsGetInitials({
-    name: '', // optional
-    width: null, // optional
-    height: null, // optional
-    background: '' // optional
+    name: 'Ada Lovelace', // optional
+    width: 1, // optional
+    height: 1, // optional
+    background: '1a73e8' // optional
 });
 ```

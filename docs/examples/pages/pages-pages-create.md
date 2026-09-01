@@ -9,11 +9,11 @@ const client = new sdk.Client()
 const pages = new sdk.Pages(client);
 
 const result = await pages.pagesPagesCreate({
-    title: '',
-    bundle: '', // optional
+    title: 'About us',
+    bundle: 'standard', // optional
     hostOptions: {}, // optional
     meta: {}, // optional
-    slug: '', // optional
-    sourceLanguage: '' // optional
+    slug: 'about-us', // optional
+    sourceLanguage: 'de' // optional
 });
 ```

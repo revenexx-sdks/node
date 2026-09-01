@@ -11,7 +11,7 @@ const orders = new sdk.Orders(client);
 const result = await orders.ordersItemsCancel({
     id: '',
     positions: [],
-    cancelledBy: '', // optional
-    reason: '' // optional
+    cancelledBy: 'service-desk', // optional
+    reason: 'Out of stock, customer agreed' // optional
 });
 ```

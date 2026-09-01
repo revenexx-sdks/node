@@ -14,7 +14,7 @@ const result = await sites.sitesCreateTemplateDeployment({
     reference: '',
     repository: '',
     rootDirectory: '',
-    type: sdk.Type.Branch,
-    activate: null // optional
+    type: sdk.SitesCreateTemplateDeploymentType.Branch,
+    activate: true // optional
 });
 ```

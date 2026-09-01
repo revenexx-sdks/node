@@ -11,8 +11,8 @@ const apps = new sdk.Apps(client);
 const result = await apps.appsListTemplates({
     runtimes: [sdk.Runtimes.Node180], // optional
     useCases: [sdk.UseCases.Starter], // optional
-    limit: null, // optional
-    offset: null, // optional
-    total: null // optional
+    limit: 1, // optional
+    offset: 1, // optional
+    total: true // optional
 });
 ```

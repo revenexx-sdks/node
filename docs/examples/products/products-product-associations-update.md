@@ -11,9 +11,9 @@ const products = new sdk.Products(client);
 const result = await products.productsProductAssociationsUpdate({
     id: '',
     associationTypeId: '', // optional
-    position: null, // optional
+    position: 1, // optional
     productId: '', // optional
-    quantity: null, // optional
+    quantity: 4, // optional
     targetProductId: '' // optional
 });
 ```

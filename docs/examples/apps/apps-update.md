@@ -11,21 +11,21 @@ const apps = new sdk.Apps(client);
 const result = await apps.appsUpdate({
     functionId: '',
     name: '',
-    commands: '', // optional
-    enabled: null, // optional
-    entrypoint: '', // optional
+    commands: 'npm install', // optional
+    enabled: true, // optional
+    entrypoint: 'src/main.js', // optional
     events: [], // optional
-    execute: [], // optional
+    execute: ["any"], // optional
     installationId: '', // optional
-    logging: null, // optional
-    providerBranch: '', // optional
+    logging: true, // optional
+    providerBranch: 'main', // optional
     providerRepositoryId: '', // optional
     providerRootDirectory: '', // optional
-    providerSilentMode: null, // optional
+    providerSilentMode: true, // optional
     runtime: sdk.Runtime.Node180, // optional
-    schedule: '', // optional
+    schedule: '0 3 * * *', // optional
     scopes: [sdk.Scopes.SessionsWrite], // optional
-    specification: '', // optional
-    timeout: null // optional
+    specification: 's-1vcpu-512mb', // optional
+    timeout: 1 // optional
 });
 ```

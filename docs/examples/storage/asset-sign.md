@@ -10,6 +10,6 @@ const storage = new sdk.Storage(client);
 
 const result = await storage.assetSign({
     id: '',
-    ttlSeconds: null // optional
+    ttlSeconds: 1 // optional
 });
 ```

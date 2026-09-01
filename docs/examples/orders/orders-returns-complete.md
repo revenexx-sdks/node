@@ -11,6 +11,6 @@ const orders = new sdk.Orders(client);
 const result = await orders.ordersReturnsComplete({
     id: '',
     rid: '',
-    resolution: '' // optional
+    resolution: sdk.OrderReturnSettlement.Refund // optional
 });
 ```

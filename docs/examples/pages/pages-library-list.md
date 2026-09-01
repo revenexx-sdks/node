@@ -8,5 +8,11 @@ const client = new sdk.Client()
 
 const pages = new sdk.Pages(client);
 
-const result = await pages.pagesLibraryList();
+const result = await pages.pagesLibraryList({
+    limit: 1, // optional
+    offset: 1, // optional
+    order: 'created_at.desc', // optional
+    bundles: 'hero,teaser', // optional
+    text: 'hero' // optional
+});
 ```

@@ -10,7 +10,7 @@ const orders = new sdk.Orders(client);
 
 const result = await orders.ordersCancel({
     id: '',
-    cancelledBy: '', // optional
-    reason: '' // optional
+    cancelledBy: 'service-desk', // optional
+    reason: 'Customer withdrew the order' // optional
 });
 ```

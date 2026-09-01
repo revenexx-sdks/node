@@ -10,8 +10,8 @@ const sites = new sdk.Sites(client);
 
 const result = await sites.sitesCreateVcsDeployment({
     siteId: '',
-    reference: '',
-    type: sdk.Type.Branch,
-    activate: null // optional
+    reference: 'main',
+    type: sdk.SitesCreateTemplateDeploymentType.Branch,
+    activate: true // optional
 });
 ```

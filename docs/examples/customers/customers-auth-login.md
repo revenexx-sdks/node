@@ -9,7 +9,7 @@ const client = new sdk.Client()
 const customers = new sdk.Customers(client);
 
 const result = await customers.customersAuthLogin({
-    email: '',
+    email: 'einkauf@example.com',
     password: ''
 });
 ```

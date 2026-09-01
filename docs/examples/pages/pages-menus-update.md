@@ -11,6 +11,6 @@ const pages = new sdk.Pages(client);
 const result = await pages.pagesMenusUpdate({
     id: '',
     items: [], // optional
-    label: '' // optional
+    label: 'Main navigation' // optional
 });
 ```

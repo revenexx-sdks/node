@@ -9,8 +9,8 @@ const client = new sdk.Client()
 const pages = new sdk.Pages(client);
 
 const result = await pages.pagesMenusUpsert({
-    label: '',
-    menuKey: '',
+    label: 'Main navigation',
+    menuKey: 'main',
     items: [] // optional
 });
 ```

@@ -11,8 +11,8 @@ const markets = new sdk.Markets(client);
 const result = await markets.marketsCurrenciesUpdate({
     marketId: '',
     id: '',
-    code: '', // optional
-    isDefault: null, // optional
-    position: null // optional
+    code: 'EUR', // optional
+    isDefault: true, // optional
+    position: 0 // optional
 });
 ```

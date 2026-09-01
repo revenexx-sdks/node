@@ -14,18 +14,18 @@ const result = await sites.sitesCreate({
     name: '',
     siteId: '',
     adapter: sdk.Adapter.Static, // optional
-    buildCommand: '', // optional
-    enabled: null, // optional
-    fallbackFile: '', // optional
-    installCommand: '', // optional
+    buildCommand: 'npm run build', // optional
+    enabled: true, // optional
+    fallbackFile: 'index.html', // optional
+    installCommand: 'npm install', // optional
     installationId: '', // optional
-    logging: null, // optional
+    logging: true, // optional
     outputDirectory: '', // optional
-    providerBranch: '', // optional
+    providerBranch: 'main', // optional
     providerRepositoryId: '', // optional
     providerRootDirectory: '', // optional
-    providerSilentMode: null, // optional
-    specification: '', // optional
-    timeout: null // optional
+    providerSilentMode: true, // optional
+    specification: 's-1vcpu-512mb', // optional
+    timeout: 1 // optional
 });
 ```

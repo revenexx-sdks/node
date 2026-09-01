@@ -8,5 +8,12 @@ const client = new sdk.Client()
 
 const pages = new sdk.Pages(client);
 
-const result = await pages.pagesPagesList();
+const result = await pages.pagesPagesList({
+    limit: 1, // optional
+    offset: 1, // optional
+    order: 'created_at.desc', // optional
+    bundle: 'standard', // optional
+    status: sdk.PageStatus.Draft, // optional
+    q: 'contact' // optional
+});
 ```

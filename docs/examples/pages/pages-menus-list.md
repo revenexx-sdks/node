@@ -8,5 +8,9 @@ const client = new sdk.Client()
 
 const pages = new sdk.Pages(client);
 
-const result = await pages.pagesMenusList();
+const result = await pages.pagesMenusList({
+    limit: 1, // optional
+    offset: 1, // optional
+    order: 'created_at.desc' // optional
+});
 ```

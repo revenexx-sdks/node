@@ -10,9 +10,12 @@ const orderlists = new sdk.Orderlists(client);
 
 const result = await orderlists.orderlistsUpdate({
     id: '',
-    kind: sdk.OrderListKind.Shopping, // optional
-    metadata: {}, // optional
-    name: '', // optional
-    shared: null // optional
+    kind: 'shopping', // optional
+    metadata: {
+        "department": "facility",
+        "erp_reference": "REQ-2026-0042"
+    }, // optional
+    name: 'Weekly office supplies', // optional
+    shared: true // optional
 });
 ```

@@ -1,0 +1,17 @@
+```javascript
+const sdk = require('@revenexx/node');
+
+const client = new sdk.Client()
+    .setEndpoint('https://api.revenexx.com') // Your API Endpoint
+    .setTenant('<TENANT_SLUG>') // Your tenant slug
+    .setApiKeyAuth('<API_KEY>'); // A gateway-managed scoped API key (rvxk_…).
+
+const shippingCarriers = new sdk.ShippingCarriers(client);
+
+const result = await shippingCarriers.shippingTracking({
+    carrier: 'acme-parcel',
+    country: 'DE', // optional
+    postalCode: '12345', // optional
+    trackingCode: 'ACME000000001DE' // optional
+});
+```

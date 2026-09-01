@@ -9,6 +9,12 @@ const client = new sdk.Client()
 const storage = new sdk.Storage(client);
 
 const result = await storage.syncRuleUpdate({
-    id: ''
+    id: '',
+    enabled: true, // optional
+    options: [], // optional
+    schedule: '0 3 * * *', // optional
+    sftpAccountId: '', // optional
+    sourcePath: '/uploads', // optional
+    targetFolderId: '' // optional
 });
 ```

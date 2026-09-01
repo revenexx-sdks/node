@@ -10,11 +10,11 @@ const apps = new sdk.Apps(client);
 
 const result = await apps.appsCreateExecution({
     functionId: '',
-    async: null, // optional
+    async: true, // optional
     body: '', // optional
     headers: {}, // optional
     method: sdk.Method.GET, // optional
-    path: '', // optional
+    path: '/', // optional
     scheduledAt: '' // optional
 });
 ```

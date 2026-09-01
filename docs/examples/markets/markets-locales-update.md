@@ -11,10 +11,10 @@ const markets = new sdk.Markets(client);
 const result = await markets.marketsLocalesUpdate({
     marketId: '',
     id: '',
-    code: '', // optional
-    country: '', // optional
-    isDefault: null, // optional
-    language: '', // optional
-    position: null // optional
+    code: 'de-DE', // optional
+    country: 'DE', // optional
+    isDefault: true, // optional
+    language: 'de', // optional
+    position: 0 // optional
 });
 ```

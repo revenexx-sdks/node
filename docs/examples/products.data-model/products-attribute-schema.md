@@ -1,0 +1,20 @@
+```javascript
+const sdk = require('@revenexx/node');
+
+const client = new sdk.Client()
+    .setEndpoint('https://api.revenexx.com') // Your API Endpoint
+    .setTenant('<TENANT_SLUG>') // Your tenant slug
+    .setApiKeyAuth('<API_KEY>'); // A gateway-managed scoped API key (rvxk_…).
+
+const productsDataModel = new sdk.ProductsDataModel(client);
+
+const result = await productsDataModel.productsAttributeSchema({
+    familyId: '', // optional
+    familyCode: '', // optional
+    entityType: sdk.EntityType.Product, // optional
+    entityRef: 'brand', // optional
+    locale: 'de_DE', // optional
+    channel: 'b2b', // optional
+    kind: sdk.Kind.Simple // optional
+});
+```

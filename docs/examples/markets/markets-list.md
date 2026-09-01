@@ -9,8 +9,18 @@ const client = new sdk.Client()
 const markets = new sdk.Markets(client);
 
 const result = await markets.marketsList({
-    limit: null, // optional
-    offset: null, // optional
-    order: '' // optional
+    id: '', // optional
+    code: 'northwind', // optional
+    name: 'Northwind', // optional
+    labels: '{"de-DE":"Nordwind","en-GB":"Northwind"}', // optional
+    currency: 'EUR', // optional
+    status: sdk.MarketsListStatus.Active, // optional
+    isDefault: false, // optional
+    position: 0, // optional
+    createdAt: '2026-01-01T12:00:00Z', // optional
+    updatedAt: '2026-01-01T12:00:00Z', // optional
+    limit: 50, // optional
+    offset: 0, // optional
+    order: 'position.asc' // optional
 });
 ```

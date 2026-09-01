@@ -11,6 +11,6 @@ const apps = new sdk.Apps(client);
 const result = await apps.appsGetDeploymentDownload({
     functionId: '',
     deploymentId: '',
-    type: sdk.Type.Source // optional
+    type: sdk.AppsGetDeploymentDownloadType.Source // optional
 });
 ```
