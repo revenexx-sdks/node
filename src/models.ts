@@ -6,6 +6,8 @@ import { AttributeValueBucket } from "./enums/attribute-value-bucket"
 import { AuthMailSource } from "./enums/auth-mail-source"
 import { RecoveryMailSource } from "./enums/recovery-mail-source"
 import { RegistrationStatus } from "./enums/registration-status"
+import { BudgetChangeReason } from "./enums/budget-change-reason"
+import { BudgetMovementResultStatus } from "./enums/budget-movement-result-status"
 import { CartStatus } from "./enums/cart-status"
 import { CartMergeStrategy } from "./enums/cart-merge-strategy"
 import { CartPriceSnapshotMode } from "./enums/cart-price-snapshot-mode"
@@ -42,8 +44,13 @@ import { ContactEventKindCreateRequestTone } from "./enums/contact-event-kind-cr
 import { ContactEventKindUpdateRequestTone } from "./enums/contact-event-kind-update-request-tone"
 import { ContactPermissionsPermissions } from "./enums/contact-permissions-permissions"
 import { ContactUpdateRequestRegistrationStatus } from "./enums/contact-update-request-registration-status"
+import { CostCenterBudgetType } from "./enums/cost-center-budget-type"
+import { CostCenterRestrictionType } from "./enums/cost-center-restriction-type"
+import { CostCenterRestrictionCreateRequestType } from "./enums/cost-center-restriction-create-request-type"
+import { CostCenterRestrictionUpdateRequestType } from "./enums/cost-center-restriction-update-request-type"
 import { PaymentFeeType } from "./enums/payment-fee-type"
 import { PaymentMethodKind } from "./enums/payment-method-kind"
+import { EvaluateRequestConditions } from "./enums/evaluate-request-conditions"
 import { FormStatus } from "./enums/form-status"
 import { FormSubmissionStatus } from "./enums/form-submission-status"
 import { FormNotifySource } from "./enums/form-notify-source"
@@ -2447,6 +2454,324 @@ Which attributes an asset of this family has comes from `attributes` rows with `
     }
 
     /**
+     * 
+     */
+    export type Budget = {
+        /**
+         * 
+         */
+        active?: boolean;
+        /**
+         * 
+         */
+        cost_center_id?: string;
+        /**
+         * 
+         */
+        created_at?: string;
+        /**
+         * 
+         */
+        id?: string;
+        /**
+         * 
+         */
+        initial_value?: number;
+        /**
+         * 
+         */
+        metadata?: object | null;
+        /**
+         * 
+         */
+        name?: string;
+        /**
+         * 
+         */
+        period_end?: string | null;
+        /**
+         * 
+         */
+        period_length?: number | null;
+        /**
+         * 
+         */
+        period_start?: string | null;
+        /**
+         * 
+         */
+        predecessor_id?: string | null;
+        /**
+         * 
+         */
+        recurring?: boolean;
+        /**
+         * 
+         */
+        remaining_value?: number;
+        /**
+         * 
+         */
+        sequence?: number;
+        /**
+         * 
+         */
+        takeover?: object | null;
+        /**
+         * 
+         */
+        updated_at?: string;
+    }
+
+    /**
+     * Provide exactly one of amount (signed delta) or target (absolute remaining_value).
+     */
+    export type BudgetAdjustRequest = {
+        /**
+         * 
+         */
+        actor: string;
+        /**
+         * 
+         */
+        amount?: number | null;
+        /**
+         * ISO 4217 code the amount is stated in. Omit to be read in the cost centre's (or the personal limit's) own currency; a code that differs from it is refused with 409 currency_mismatch.
+         */
+        currency?: string | null;
+        /**
+         * 
+         */
+        note?: string | null;
+        /**
+         * 
+         */
+        target?: number | null;
+    }
+
+    /**
+     * 
+     */
+    export type BudgetAdjustResult = {
+        /**
+         * 
+         */
+        budget?: Budget;
+        /**
+         * 
+         */
+        change?: BudgetChange;
+    }
+
+    /**
+     * 
+     */
+    export type BudgetChange = {
+        /**
+         * 
+         */
+        actor?: string | null;
+        /**
+         * 
+         */
+        amount?: number;
+        /**
+         * 
+         */
+        budget_id?: string;
+        /**
+         * 
+         */
+        created_at?: string;
+        /**
+         * 
+         */
+        id?: string;
+        /**
+         * 
+         */
+        metadata?: object | null;
+        /**
+         * 
+         */
+        new_value?: number;
+        /**
+         * 
+         */
+        note?: string | null;
+        /**
+         * 
+         */
+        old_value?: number;
+        /**
+         * 
+         */
+        order_id?: string | null;
+        /**
+         * 
+         */
+        purchase_request_id?: string | null;
+        /**
+         * 
+         */
+        reason?: BudgetChangeReason;
+    }
+
+    /**
+     * 
+     */
+    export type BudgetCreateRequest = {
+        /**
+         * 
+         */
+        active?: boolean;
+        /**
+         * 
+         */
+        cost_center_id: string;
+        /**
+         * 
+         */
+        initial_value?: number;
+        /**
+         * 
+         */
+        metadata?: object | null;
+        /**
+         * 
+         */
+        name: string;
+        /**
+         * 
+         */
+        period_length?: number | null;
+        /**
+         * 
+         */
+        period_start?: string | null;
+        /**
+         * 
+         */
+        recurring?: boolean;
+        /**
+         * 
+         */
+        sequence?: number;
+        /**
+         * 
+         */
+        takeover?: object | null;
+    }
+
+    /**
+     * 
+     */
+    export type BudgetMovementResult = {
+        /**
+         * 
+         */
+        changes?: BudgetChange[];
+        /**
+         * 
+         */
+        idempotent?: boolean;
+        /**
+         * 
+         */
+        order_id?: string | null;
+        /**
+         * 
+         */
+        purchase_request_id?: string | null;
+        /**
+         * 
+         */
+        status?: BudgetMovementResultStatus;
+    }
+
+    /**
+     * Optional `today` (YYYY-MM-DD) runs the pass as of that date instead of now.
+     */
+    export type BudgetRolloverRequest = {
+        /**
+         * 
+         */
+        today?: string | null;
+    }
+
+    /**
+     * 
+     */
+    export type BudgetRolloverResult = {
+        /**
+         * 
+         */
+        ran_for?: string;
+        /**
+         * 
+         */
+        rolled?: object[];
+        /**
+         * 
+         */
+        rolled_count?: number;
+        /**
+         * 
+         */
+        skipped?: number;
+        /**
+         * Periods that ended longer ago than they lasted; left untouched.
+         */
+        stale?: object[];
+    }
+
+    /**
+     * Partial update — omitted fields keep their current value.
+     */
+    export type BudgetUpdateRequest = {
+        /**
+         * 
+         */
+        active?: boolean;
+        /**
+         * 
+         */
+        cost_center_id?: string;
+        /**
+         * 
+         */
+        initial_value?: number;
+        /**
+         * 
+         */
+        metadata?: object | null;
+        /**
+         * 
+         */
+        name?: string;
+        /**
+         * 
+         */
+        period_length?: number | null;
+        /**
+         * 
+         */
+        period_start?: string | null;
+        /**
+         * 
+         */
+        recurring?: boolean;
+        /**
+         * 
+         */
+        sequence?: number;
+        /**
+         * 
+         */
+        takeover?: object | null;
+    }
+
+    /**
      * A bulk job as returned by `/bulk-jobs`. Note that the row counts are
 nested under `counts` — they are not top-level fields — and that the
 response carries no `tenant_id` (the listing envelope does) and no
@@ -4484,6 +4809,54 @@ response carries no `tenant_id` (the listing envelope does) and no
     }
 
     /**
+     * 
+     */
+    export type CommitRequest = {
+        /**
+         * 
+         */
+        allocations: object[];
+        /**
+         * 
+         */
+        contact_id?: string | null;
+        /**
+         * ISO 4217 code the amount is stated in. Omit to be read in the cost centre's (or the personal limit's) own currency; a code that differs from it is refused with 409 currency_mismatch.
+         */
+        currency?: string | null;
+        /**
+         * 
+         */
+        note?: string | null;
+        /**
+         * 
+         */
+        order_id: string;
+    }
+
+    /**
+     * 
+     */
+    export type ConfirmRequest = {
+        /**
+         * ISO 4217 code the amount is stated in. Omit to be read in the cost centre's (or the personal limit's) own currency; a code that differs from it is refused with 409 currency_mismatch.
+         */
+        currency?: string | null;
+        /**
+         * 
+         */
+        note?: string | null;
+        /**
+         * 
+         */
+        order_id?: string | null;
+        /**
+         * 
+         */
+        purchase_request_id: string;
+    }
+
+    /**
      * A PERSON, and the unit that logs in: one platform user, one email, one role inside its organization. A contact without an organization is a standalone buyer, not an error.
      */
     export type Contact = {
@@ -4862,6 +5235,84 @@ response carries no `tenant_id` (the listing envelope does) and no
     }
 
     /**
+     * 
+     */
+    export type ContactLimit = {
+        /**
+         * 
+         */
+        contact_id?: string;
+        /**
+         * 
+         */
+        created_at?: string;
+        /**
+         * 
+         */
+        currency?: string;
+        /**
+         * 
+         */
+        id?: string;
+        /**
+         * 
+         */
+        metadata?: object | null;
+        /**
+         * 
+         */
+        monetary_limit?: number;
+        /**
+         * 
+         */
+        updated_at?: string;
+    }
+
+    /**
+     * 
+     */
+    export type ContactLimitCreateRequest = {
+        /**
+         * 
+         */
+        contact_id: string;
+        /**
+         * 
+         */
+        currency?: string;
+        /**
+         * 
+         */
+        metadata?: object | null;
+        /**
+         * 
+         */
+        monetary_limit?: number;
+    }
+
+    /**
+     * Partial update — omitted fields keep their current value.
+     */
+    export type ContactLimitUpdateRequest = {
+        /**
+         * 
+         */
+        contact_id?: string;
+        /**
+         * 
+         */
+        currency?: string;
+        /**
+         * 
+         */
+        metadata?: object | null;
+        /**
+         * 
+         */
+        monetary_limit?: number;
+    }
+
+    /**
      * A contact&#039;s effective grants, derived from its role on every read — nothing here is stored, so a role change can never leave a stale grant behind. Carried here so a BFF does not need a second call to decide what to render.
      */
     export type ContactPermissions = {
@@ -4943,6 +5394,254 @@ response carries no `tenant_id` (the listing envelope does) and no
          * Whether this person may act: 'invited' has been created but has not accepted, 'active' works, 'blocked' cannot log in. A create through the API defaults to 'invited'; a self-registration in an open store lands 'active'. Default 'invited' on create.
          */
         status?: ContactStatus;
+    }
+
+    /**
+     * 
+     */
+    export type CostCenter = {
+        /**
+         * 
+         */
+        accountable_contact_id?: string | null;
+        /**
+         * 
+         */
+        active?: boolean;
+        /**
+         * 
+         */
+        budget_type?: CostCenterBudgetType;
+        /**
+         * 
+         */
+        code?: string;
+        /**
+         * 
+         */
+        created_at?: string;
+        /**
+         * 
+         */
+        currency?: string;
+        /**
+         * 
+         */
+        id?: string;
+        /**
+         * 
+         */
+        metadata?: object | null;
+        /**
+         * 
+         */
+        name?: string;
+        /**
+         * 
+         */
+        organization_id?: string | null;
+        /**
+         * 
+         */
+        updated_at?: string;
+    }
+
+    /**
+     * 
+     */
+    export type CostCenterConsumeRequest = {
+        /**
+         * 
+         */
+        actor?: string | null;
+        /**
+         * 
+         */
+        amount: number;
+        /**
+         * ISO 4217 code the amount is stated in. Omit to be read in the cost centre's (or the personal limit's) own currency; a code that differs from it is refused with 409 currency_mismatch.
+         */
+        currency?: string | null;
+        /**
+         * 
+         */
+        note?: string | null;
+        /**
+         * 
+         */
+        order_id?: string | null;
+        /**
+         * 
+         */
+        purchase_request_id?: string | null;
+    }
+
+    /**
+     * 
+     */
+    export type CostCenterConsumeResult = {
+        /**
+         * 
+         */
+        budgets?: object[];
+        /**
+         * 
+         */
+        changes?: BudgetChange[];
+        /**
+         * 
+         */
+        consumed?: number;
+        /**
+         * 
+         */
+        cost_center_id?: string;
+    }
+
+    /**
+     * 
+     */
+    export type CostCenterCreateRequest = {
+        /**
+         * 
+         */
+        accountable_contact_id?: string | null;
+        /**
+         * 
+         */
+        active?: boolean;
+        /**
+         * 
+         */
+        code: string;
+        /**
+         * 
+         */
+        currency?: string;
+        /**
+         * 
+         */
+        metadata?: object | null;
+        /**
+         * 
+         */
+        name: string;
+        /**
+         * 
+         */
+        organization_id?: string | null;
+    }
+
+    /**
+     * 
+     */
+    export type CostCenterRestriction = {
+        /**
+         * 
+         */
+        active?: boolean;
+        /**
+         * 
+         */
+        cost_center_id?: string;
+        /**
+         * 
+         */
+        created_at?: string;
+        /**
+         * 
+         */
+        id?: string;
+        /**
+         * 
+         */
+        parameters?: object;
+        /**
+         * 
+         */
+        type?: CostCenterRestrictionType;
+        /**
+         * 
+         */
+        updated_at?: string;
+    }
+
+    /**
+     * 
+     */
+    export type CostCenterRestrictionCreateRequest = {
+        /**
+         * 
+         */
+        active?: boolean;
+        /**
+         * 
+         */
+        cost_center_id: string;
+        /**
+         * 
+         */
+        parameters: object;
+        /**
+         * 
+         */
+        type: CostCenterRestrictionCreateRequestType;
+    }
+
+    /**
+     * Partial update — omitted fields keep their current value.
+     */
+    export type CostCenterRestrictionUpdateRequest = {
+        /**
+         * 
+         */
+        active?: boolean;
+        /**
+         * 
+         */
+        cost_center_id?: string;
+        /**
+         * 
+         */
+        parameters?: object;
+        /**
+         * 
+         */
+        type?: CostCenterRestrictionUpdateRequestType;
+    }
+
+    /**
+     * Partial update — omitted fields keep their current value.
+     */
+    export type CostCenterUpdateRequest = {
+        /**
+         * 
+         */
+        accountable_contact_id?: string | null;
+        /**
+         * 
+         */
+        active?: boolean;
+        /**
+         * 
+         */
+        code?: string;
+        /**
+         * 
+         */
+        currency?: string;
+        /**
+         * 
+         */
+        metadata?: object | null;
+        /**
+         * 
+         */
+        name?: string;
+        /**
+         * 
+         */
+        organization_id?: string | null;
     }
 
     /**
@@ -5177,6 +5876,62 @@ response carries no `tenant_id` (the listing envelope does) and no
          * Deprecated duplicate of `error`, kept so existing readers keep working. Read `error`.
          */
         message?: string;
+    }
+
+    /**
+     * 
+     */
+    export type EvaluateRequest = {
+        /**
+         * 
+         */
+        amount: number;
+        /**
+         * 
+         */
+        conditions?: string[];
+        /**
+         * 
+         */
+        contact_id?: string | null;
+        /**
+         * 
+         */
+        cost_center_id?: string;
+        /**
+         * ISO 4217 code the amount is stated in. Omit to be read in the cost centre's (or the personal limit's) own currency; a code that differs from it is refused with 409 currency_mismatch.
+         */
+        currency?: string | null;
+    }
+
+    /**
+     * 
+     */
+    export type EvaluateResult = {
+        /**
+         * 
+         */
+        amount?: number;
+        /**
+         * 
+         */
+        contact_id?: string | null;
+        /**
+         * 
+         */
+        cost_center_id?: string;
+        /**
+         * The currency the answer is stated in.
+         */
+        currency?: string | null;
+        /**
+         * 
+         */
+        results?: object[];
+        /**
+         * 
+         */
+        satisfied?: boolean;
     }
 
     /**
@@ -15760,6 +16515,58 @@ Which attributes a record of this entity has comes from `attributes` rows with `
     };
 
     /**
+     * 
+     */
+    export type ReserveAdjustRequest = {
+        /**
+         * 
+         */
+        allocations: object[];
+        /**
+         * 
+         */
+        contact_id?: string | null;
+        /**
+         * ISO 4217 code the amount is stated in. Omit to be read in the cost centre's (or the personal limit's) own currency; a code that differs from it is refused with 409 currency_mismatch.
+         */
+        currency?: string | null;
+        /**
+         * 
+         */
+        note?: string | null;
+        /**
+         * 
+         */
+        purchase_request_id: string;
+    }
+
+    /**
+     * 
+     */
+    export type ReserveRequest = {
+        /**
+         * 
+         */
+        allocations: object[];
+        /**
+         * 
+         */
+        contact_id?: string | null;
+        /**
+         * ISO 4217 code the amount is stated in. Omit to be read in the cost centre's (or the personal limit's) own currency; a code that differs from it is refused with 409 currency_mismatch.
+         */
+        currency?: string | null;
+        /**
+         * 
+         */
+        note?: string | null;
+        /**
+         * 
+         */
+        purchase_request_id: string;
+    }
+
+    /**
      * What one item costs this buyer, and which list said so.
      */
     export type ResolvedPrice = {
@@ -18429,6 +19236,38 @@ Which attributes a record of this entity has comes from `attributes` rows with `
     }
 
     /**
+     * Buyer identity + per-line context. Restrictions are open-by-default, AND across dimensions, OR within one.
+     */
+    export type UsableRequest = {
+        /**
+         * 
+         */
+        contact_id?: string | null;
+        /**
+         * 
+         */
+        lines: object[];
+        /**
+         * 
+         */
+        organization_id?: string | null;
+        /**
+         * 
+         */
+        roles?: string[];
+    }
+
+    /**
+     * 
+     */
+    export type UsableResult = {
+        /**
+         * 
+         */
+        lines?: object[];
+    }
+
+    /**
      * 
      */
     export type ValidationFailedResponse = {
@@ -18536,6 +19375,24 @@ Which attributes a record of this entity has comes from `attributes` rows with `
          * Which badge colour a UI should paint this value in.
          */
         tone?: VocabularyTone;
+    }
+
+    /**
+     * 
+     */
+    export type WithdrawRequest = {
+        /**
+         * ISO 4217 code the amount is stated in. Omit to be read in the cost centre's (or the personal limit's) own currency; a code that differs from it is refused with 409 currency_mismatch.
+         */
+        currency?: string | null;
+        /**
+         * 
+         */
+        note?: string | null;
+        /**
+         * 
+         */
+        purchase_request_id: string;
     }
 
     /**
