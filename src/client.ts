@@ -1,5 +1,3 @@
-import { fetch, FormData, File } from 'node-fetch-native-with-agent';
-import { createAgent } from 'node-fetch-native-with-agent/agent';
 import { Models } from './models';
 import JSONbigModule from 'json-bigint';
 const JSONbigParser = JSONbigModule({ storeAsString: false });
@@ -72,8 +70,29 @@ class RevenexxException extends Error {
     }
 }
 
+let selfSignedDispatcher: Promise<any> | null = null;
+
+/**
+ * Build a dispatcher that skips TLS verification, for `setSelfSigned(true)`.
+ *
+ * The platform `fetch` has no `rejectUnauthorized` switch of its own, so the
+ * only way to reach an endpoint with a self-signed certificate is to hand it
+ * an undici dispatcher. `undici` is loaded lazily and cached: a client that
+ * never calls `setSelfSigned(true)` never pays for it, and runtimes without
+ * Node's networking internals keep working as long as they stay off this path.
+ */
+function getSelfSignedDispatcher(): Promise<any> {
+    if (selfSignedDispatcher === null) {
+        selfSignedDispatcher = import('undici').then(
+            ({ Agent }) => new Agent({ connect: { rejectUnauthorized: false } })
+        );
+    }
+
+    return selfSignedDispatcher;
+}
+
 function getUserAgent() {
-    let ua = 'RevenexxNodeJSSDK/0.1.0';
+    let ua = 'RevenexxNodeJSSDK/0.1.1';
 
     // `process` is a global in Node.js, but not fully available in all runtimes.
     const platform: string[] = [];
@@ -117,7 +136,7 @@ class Client {
         'x-sdk-name': 'Revenexx Node',
         'x-sdk-platform': '',
         'x-sdk-language': 'nodejs',
-        'x-sdk-version': '0.1.0',
+        'x-sdk-version': '0.1.1',
         'user-agent' : getUserAgent(),
     };
 
@@ -234,6 +253,20 @@ class Client {
         return this;
     }
 
+    /**
+     * Extra `fetch` options for this client's TLS settings.
+     *
+     * Empty unless `setSelfSigned(true)` was called, so the default path stays
+     * on the platform `fetch` with certificate verification intact.
+     */
+    private async dispatcherOptions(): Promise<RequestInit> {
+        if (!this.config.selfSigned) {
+            return {};
+        }
+
+        return { dispatcher: await getSelfSignedDispatcher() } as RequestInit;
+    }
+
     prepareRequest(method: string, url: URL, headers: Headers = {}, params: Payload = {}): { uri: string, options: RequestInit } {
         method = method.toUpperCase();
 
@@ -242,7 +275,6 @@ class Client {
         let options: RequestInit = {
             method,
             headers,
-            ...createAgent(this.config.endpoint, { rejectUnauthorized: !this.config.selfSigned }),
         };
 
         if (method === 'GET') {
@@ -310,9 +342,10 @@ class Client {
 
     async redirect(method: string, url: URL, headers: Headers = {}, params: Payload = {}): Promise<string> {
         const { uri, options } = this.prepareRequest(method, url, headers, params);
-        
+
         const response = await fetch(uri, {
             ...options,
+            ...(await this.dispatcherOptions()),
             redirect: 'manual'
         });
 
@@ -328,7 +361,10 @@ class Client {
 
         let data: any = null;
 
-        const response = await fetch(uri, options);
+        const response = await fetch(uri, {
+            ...options,
+            ...(await this.dispatcherOptions())
+        });
 
         const warnings = response.headers.get('x-revenexx-warning');
         if (warnings) {
@@ -385,7 +421,7 @@ class Client {
     getAbout(): Record<string, string> {
         return {
             name: 'Revenexx Node',
-            version: '0.1.0',
+            version: '0.1.1',
             language: 'nodejs',
             generator: 'revenexx/sdk-generator',
             generatorUrl: 'https://github.com/revenexx/sdk-generator',

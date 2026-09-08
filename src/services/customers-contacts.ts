@@ -148,21 +148,21 @@ export class CustomersContacts {
      *
      * @param {string} params.id - The contact event to read.
      * @throws {RevenexxException}
-     * @returns {Promise<Models.Error>}
+     * @returns {Promise<Models.ContactEvent>}
      */
-    customersContactEventsGet(params: { id: string }): Promise<Models.Error>;
+    customersContactEventsGet(params: { id: string }): Promise<Models.ContactEvent>;
     /**
      * A contact event is one entry on a customer's timeline: an activity somebody logged (a call, a visit, a meeting, a note) or a registration decision this app recorded itself. Every entry is keyed by a CONTACT and stamped with the organization derived from that contact, so a company's history is one indexed read rather than a join. Append-only — there is no update and no delete, which is what makes it usable as evidence. One timeline entry by id, as it was written. Entries are never edited, so what this answers is what was recorded at the time.
      *
      * @param {string} id - The contact event to read.
      * @throws {RevenexxException}
-     * @returns {Promise<Models.Error>}
+     * @returns {Promise<Models.ContactEvent>}
      * @deprecated Use the object parameter style method for a better developer experience.
      */
-    customersContactEventsGet(id: string): Promise<Models.Error>;
+    customersContactEventsGet(id: string): Promise<Models.ContactEvent>;
     customersContactEventsGet(
         paramsOrFirst: { id: string } | string    
-    ): Promise<Models.Error> {
+    ): Promise<Models.ContactEvent> {
         let params: { id: string };
         
         if ((paramsOrFirst && typeof paramsOrFirst === 'object' && !Array.isArray(paramsOrFirst))) {
@@ -409,9 +409,9 @@ export class CustomersContacts {
      * @param {string} params.role - The person's role INSIDE its organization, and the only thing permissions are derived from. One of the tenant's own roles (GET /customers/roles); a tenant that never edited the ledger has viewer, requester, buyer, approver, admin. Also the team role on the platform mirror. There is no global role — the same person in two companies is two contacts. A tenant that never edited the ledger has viewer, requester, buyer, approver, admin; a create without a role gets the one flagged as default, and a role the tenant does not keep is a 400.
      * @param {ContactStatus} params.status - Whether this person may act: 'invited' has been created but has not accepted, 'active' works, 'blocked' cannot log in. A create through the API defaults to 'invited'; a self-registration in an open store lands 'active'. Default 'invited' on create.
      * @throws {RevenexxException}
-     * @returns {Promise<Models.Error>}
+     * @returns {Promise<Models.Contact>}
      */
-    customersContactsCreate(params: { email: string, firstName?: string, isPrimary?: boolean, jobTitle?: string, lastName?: string, locale?: string, orderApprovalLimit?: number, organizationId?: string, phone?: string, registrationStatus?: CustomersContactsCreateRegistrationStatus, role?: string, status?: ContactStatus }): Promise<Models.Error>;
+    customersContactsCreate(params: { email: string, firstName?: string, isPrimary?: boolean, jobTitle?: string, lastName?: string, locale?: string, orderApprovalLimit?: number, organizationId?: string, phone?: string, registrationStatus?: CustomersContactsCreateRegistrationStatus, role?: string, status?: ContactStatus }): Promise<Models.Contact>;
     /**
      * A contact is a PERSON, and the unit that logs in: one platform user, one email address, one role held inside its organization. A contact without an organization is a standalone buyer rather than an error, and two people at the same company are two contacts sharing an `organization_id`. Creates the person and their platform login together, so a contact that exists can always sign in. `role` names one of this tenant's own roles and decides what they may do; `registration_status` may only be set to `pending` or `approved` here, because a rejection has to carry a reason and that is the reject route's job. `email` is the only field a create cannot omit; everything else is optional or defaulted by the database. Two rows of this tenant may not share `email` or `external_user_id` (while external_user_id IS NOT NULL).
      *
@@ -428,14 +428,14 @@ export class CustomersContacts {
      * @param {string} role - The person's role INSIDE its organization, and the only thing permissions are derived from. One of the tenant's own roles (GET /customers/roles); a tenant that never edited the ledger has viewer, requester, buyer, approver, admin. Also the team role on the platform mirror. There is no global role — the same person in two companies is two contacts. A tenant that never edited the ledger has viewer, requester, buyer, approver, admin; a create without a role gets the one flagged as default, and a role the tenant does not keep is a 400.
      * @param {ContactStatus} status - Whether this person may act: 'invited' has been created but has not accepted, 'active' works, 'blocked' cannot log in. A create through the API defaults to 'invited'; a self-registration in an open store lands 'active'. Default 'invited' on create.
      * @throws {RevenexxException}
-     * @returns {Promise<Models.Error>}
+     * @returns {Promise<Models.Contact>}
      * @deprecated Use the object parameter style method for a better developer experience.
      */
-    customersContactsCreate(email: string, firstName?: string, isPrimary?: boolean, jobTitle?: string, lastName?: string, locale?: string, orderApprovalLimit?: number, organizationId?: string, phone?: string, registrationStatus?: CustomersContactsCreateRegistrationStatus, role?: string, status?: ContactStatus): Promise<Models.Error>;
+    customersContactsCreate(email: string, firstName?: string, isPrimary?: boolean, jobTitle?: string, lastName?: string, locale?: string, orderApprovalLimit?: number, organizationId?: string, phone?: string, registrationStatus?: CustomersContactsCreateRegistrationStatus, role?: string, status?: ContactStatus): Promise<Models.Contact>;
     customersContactsCreate(
         paramsOrFirst: { email: string, firstName?: string, isPrimary?: boolean, jobTitle?: string, lastName?: string, locale?: string, orderApprovalLimit?: number, organizationId?: string, phone?: string, registrationStatus?: CustomersContactsCreateRegistrationStatus, role?: string, status?: ContactStatus } | string,
         ...rest: [(string)?, (boolean)?, (string)?, (string)?, (string)?, (number)?, (string)?, (string)?, (CustomersContactsCreateRegistrationStatus)?, (string)?, (ContactStatus)?]    
-    ): Promise<Models.Error> {
+    ): Promise<Models.Contact> {
         let params: { email: string, firstName?: string, isPrimary?: boolean, jobTitle?: string, lastName?: string, locale?: string, orderApprovalLimit?: number, organizationId?: string, phone?: string, registrationStatus?: CustomersContactsCreateRegistrationStatus, role?: string, status?: ContactStatus };
         
         if ((paramsOrFirst && typeof paramsOrFirst === 'object' && !Array.isArray(paramsOrFirst))) {
@@ -536,9 +536,9 @@ export class CustomersContacts {
      * @param {string} params.note - The long form. Stored inside the event payload as `note`, not as a column of its own.
      * @param {string} params.occurredAt - When it actually happened. Defaults to now — a call logged on Monday about Friday should say Friday.
      * @throws {RevenexxException}
-     * @returns {Promise<Models.Error>}
+     * @returns {Promise<Models.ContactEvent>}
      */
-    customersContactsEventsCreate(params: { contactId: string, subject: string, actor?: string, kind?: ContactActivityKind, note?: string, occurredAt?: string }): Promise<Models.Error>;
+    customersContactsEventsCreate(params: { contactId: string, subject: string, actor?: string, kind?: ContactActivityKind, note?: string, occurredAt?: string }): Promise<Models.ContactEvent>;
     /**
      * This is how a call, a visit, a meeting, an email or a plain note reaches one person's timeline. It writes a contact_events row with kind != 'system' and emits contact_event.created, so an activity travels on the same bus as a registration decision and a timeline is one query rather than a union. organization_id is DERIVED from the contact, never taken from the body — an activity cannot be filed under a company the person does not belong to.
      *
@@ -549,14 +549,14 @@ export class CustomersContacts {
      * @param {string} note - The long form. Stored inside the event payload as `note`, not as a column of its own.
      * @param {string} occurredAt - When it actually happened. Defaults to now — a call logged on Monday about Friday should say Friday.
      * @throws {RevenexxException}
-     * @returns {Promise<Models.Error>}
+     * @returns {Promise<Models.ContactEvent>}
      * @deprecated Use the object parameter style method for a better developer experience.
      */
-    customersContactsEventsCreate(contactId: string, subject: string, actor?: string, kind?: ContactActivityKind, note?: string, occurredAt?: string): Promise<Models.Error>;
+    customersContactsEventsCreate(contactId: string, subject: string, actor?: string, kind?: ContactActivityKind, note?: string, occurredAt?: string): Promise<Models.ContactEvent>;
     customersContactsEventsCreate(
         paramsOrFirst: { contactId: string, subject: string, actor?: string, kind?: ContactActivityKind, note?: string, occurredAt?: string } | string,
         ...rest: [(string)?, (string)?, (ContactActivityKind)?, (string)?, (string)?]    
-    ): Promise<Models.Error> {
+    ): Promise<Models.ContactEvent> {
         let params: { contactId: string, subject: string, actor?: string, kind?: ContactActivityKind, note?: string, occurredAt?: string };
         
         if ((paramsOrFirst && typeof paramsOrFirst === 'object' && !Array.isArray(paramsOrFirst))) {
@@ -624,9 +624,9 @@ export class CustomersContacts {
      * @param {string} params.url - Where the invitation points — the storefront sign-in, normally. There is no token in it: the person is already a member and only has to sign in.
      * @param {string} params.invitedBy - Who did the inviting, as the recipient should read it. Absent, the company name is used — "Beispiel GmbH invited you" reads better than the name of somebody they have never heard of.
      * @throws {RevenexxException}
-     * @returns {Promise<Models.Error>}
+     * @returns {Promise<Models.ContactInviteResponse>}
      */
-    customersContactsInvite(params: { contactId: string, url: string, invitedBy?: string }): Promise<Models.Error>;
+    customersContactsInvite(params: { contactId: string, url: string, invitedBy?: string }): Promise<Models.ContactInviteResponse>;
     /**
      * Tell somebody they were added to a company. A deliberate act rather than a side effect of creating the contact: a merchant entering a colleague from a business card is not always ready to mail them, and "added" and "told" are different decisions. No secret travels — the platform team membership is confirmed as it is created, so there is nothing to accept; the message says "you are in, here is the way in". Unlike the auth mails, a failure here IS a failure: the identity service sends nothing for this occasion, so this is the only message the person gets.
      *
@@ -634,14 +634,14 @@ export class CustomersContacts {
      * @param {string} url - Where the invitation points — the storefront sign-in, normally. There is no token in it: the person is already a member and only has to sign in.
      * @param {string} invitedBy - Who did the inviting, as the recipient should read it. Absent, the company name is used — "Beispiel GmbH invited you" reads better than the name of somebody they have never heard of.
      * @throws {RevenexxException}
-     * @returns {Promise<Models.Error>}
+     * @returns {Promise<Models.ContactInviteResponse>}
      * @deprecated Use the object parameter style method for a better developer experience.
      */
-    customersContactsInvite(contactId: string, url: string, invitedBy?: string): Promise<Models.Error>;
+    customersContactsInvite(contactId: string, url: string, invitedBy?: string): Promise<Models.ContactInviteResponse>;
     customersContactsInvite(
         paramsOrFirst: { contactId: string, url: string, invitedBy?: string } | string,
         ...rest: [(string)?, (string)?]    
-    ): Promise<Models.Error> {
+    ): Promise<Models.ContactInviteResponse> {
         let params: { contactId: string, url: string, invitedBy?: string };
         
         if ((paramsOrFirst && typeof paramsOrFirst === 'object' && !Array.isArray(paramsOrFirst))) {
@@ -692,21 +692,21 @@ export class CustomersContacts {
      *
      * @param {string} params.contactId - The person whose grants are being read.
      * @throws {RevenexxException}
-     * @returns {Promise<Models.Error>}
+     * @returns {Promise<Models.ContactPermissions>}
      */
-    customersContactsPermissions(params: { contactId: string }): Promise<Models.Error>;
+    customersContactsPermissions(params: { contactId: string }): Promise<Models.ContactPermissions>;
     /**
      * Computed from contacts.role on every call — the grants are never persisted, so this always reflects the role the contact holds right now.
      *
      * @param {string} contactId - The person whose grants are being read.
      * @throws {RevenexxException}
-     * @returns {Promise<Models.Error>}
+     * @returns {Promise<Models.ContactPermissions>}
      * @deprecated Use the object parameter style method for a better developer experience.
      */
-    customersContactsPermissions(contactId: string): Promise<Models.Error>;
+    customersContactsPermissions(contactId: string): Promise<Models.ContactPermissions>;
     customersContactsPermissions(
         paramsOrFirst: { contactId: string } | string    
-    ): Promise<Models.Error> {
+    ): Promise<Models.ContactPermissions> {
         let params: { contactId: string };
         
         if ((paramsOrFirst && typeof paramsOrFirst === 'object' && !Array.isArray(paramsOrFirst))) {
@@ -744,23 +744,23 @@ export class CustomersContacts {
      * @param {string} params.contactId - The applicant. It is the CONTACT that is approved — the organization it founded is unblocked with it.
      * @param {string} params.decidedBy - Who approved it — recorded on the contact and carried in the event. Free text (operator id or email); this app does not resolve it.
      * @throws {RevenexxException}
-     * @returns {Promise<Models.Error>}
+     * @returns {Promise<Models.Contact>}
      */
-    customersRegistrationsApprove(params: { contactId: string, decidedBy?: string }): Promise<Models.Error>;
+    customersRegistrationsApprove(params: { contactId: string, decidedBy?: string }): Promise<Models.Contact>;
     /**
      * Only reachable for a contact whose registration_status is 'pending' or 'rejected' (approving a rejection reinstates it). Enables the platform user FIRST — the password the applicant chose at submit time works immediately, no new credential is issued — then sets registration_status='approved' and status='active', and un-blocks the organization this registration itself founded. Approving an already-approved registration is a no-op that emits nothing, so a retry is safe. Writes a contact_events row named 'registration.approved'.
      *
      * @param {string} contactId - The applicant. It is the CONTACT that is approved — the organization it founded is unblocked with it.
      * @param {string} decidedBy - Who approved it — recorded on the contact and carried in the event. Free text (operator id or email); this app does not resolve it.
      * @throws {RevenexxException}
-     * @returns {Promise<Models.Error>}
+     * @returns {Promise<Models.Contact>}
      * @deprecated Use the object parameter style method for a better developer experience.
      */
-    customersRegistrationsApprove(contactId: string, decidedBy?: string): Promise<Models.Error>;
+    customersRegistrationsApprove(contactId: string, decidedBy?: string): Promise<Models.Contact>;
     customersRegistrationsApprove(
         paramsOrFirst: { contactId: string, decidedBy?: string } | string,
         ...rest: [(string)?]    
-    ): Promise<Models.Error> {
+    ): Promise<Models.Contact> {
         let params: { contactId: string, decidedBy?: string };
         
         if ((paramsOrFirst && typeof paramsOrFirst === 'object' && !Array.isArray(paramsOrFirst))) {
@@ -805,9 +805,9 @@ export class CustomersContacts {
      * @param {string} params.reason - Why the application was declined. Always stored on the contact. It only reaches the APPLICANT when the tenant's registration_reason_disclosed setting is on — the event payload then carries it, and so does the 403 the login answers.
      * @param {string} params.decidedBy - Who rejected it — recorded on the contact and carried in the event.
      * @throws {RevenexxException}
-     * @returns {Promise<Models.Error>}
+     * @returns {Promise<Models.Contact>}
      */
-    customersRegistrationsReject(params: { contactId: string, reason: string, decidedBy?: string }): Promise<Models.Error>;
+    customersRegistrationsReject(params: { contactId: string, reason: string, decidedBy?: string }): Promise<Models.Contact>;
     /**
      * Only reachable from 'pending'. Sets registration_status='rejected' and status='blocked', keeps the platform user in place but disabled — the email must not fall free for a silent second identity, and the merchant keeps the record. Delete the contact to remove both. 'reason' is mandatory and is stored on the contact plus carried in the event payload, so the applicant can be told why. Rejecting an already-rejected registration is a no-op. Writes a contact_events row named 'registration.rejected'.
      *
@@ -815,14 +815,14 @@ export class CustomersContacts {
      * @param {string} reason - Why the application was declined. Always stored on the contact. It only reaches the APPLICANT when the tenant's registration_reason_disclosed setting is on — the event payload then carries it, and so does the 403 the login answers.
      * @param {string} decidedBy - Who rejected it — recorded on the contact and carried in the event.
      * @throws {RevenexxException}
-     * @returns {Promise<Models.Error>}
+     * @returns {Promise<Models.Contact>}
      * @deprecated Use the object parameter style method for a better developer experience.
      */
-    customersRegistrationsReject(contactId: string, reason: string, decidedBy?: string): Promise<Models.Error>;
+    customersRegistrationsReject(contactId: string, reason: string, decidedBy?: string): Promise<Models.Contact>;
     customersRegistrationsReject(
         paramsOrFirst: { contactId: string, reason: string, decidedBy?: string } | string,
         ...rest: [(string)?, (string)?]    
-    ): Promise<Models.Error> {
+    ): Promise<Models.Contact> {
         let params: { contactId: string, reason: string, decidedBy?: string };
         
         if ((paramsOrFirst && typeof paramsOrFirst === 'object' && !Array.isArray(paramsOrFirst))) {
@@ -873,21 +873,21 @@ export class CustomersContacts {
      *
      * @param {string} params.id - The contact to delete.
      * @throws {RevenexxException}
-     * @returns {Promise<Models.Error>}
+     * @returns {Promise<{}>}
      */
-    customersContactsDelete(params: { id: string }): Promise<Models.Error>;
+    customersContactsDelete(params: { id: string }): Promise<{}>;
     /**
      * A contact is a PERSON, and the unit that logs in: one platform user, one email address, one role held inside its organization. A contact without an organization is a standalone buyer rather than an error, and two people at the same company are two contacts sharing an `organization_id`. Removes the person and their platform login, so they can no longer sign in anywhere. Their company keeps trading; use `status: "blocked"` instead when the intent is to stop one person without erasing what they did. Deleting one takes every `contact_events` and `addresses` row that points at it with it — the foreign keys decide, not this route.
      *
      * @param {string} id - The contact to delete.
      * @throws {RevenexxException}
-     * @returns {Promise<Models.Error>}
+     * @returns {Promise<{}>}
      * @deprecated Use the object parameter style method for a better developer experience.
      */
-    customersContactsDelete(id: string): Promise<Models.Error>;
+    customersContactsDelete(id: string): Promise<{}>;
     customersContactsDelete(
         paramsOrFirst: { id: string } | string    
-    ): Promise<Models.Error> {
+    ): Promise<{}> {
         let params: { id: string };
         
         if ((paramsOrFirst && typeof paramsOrFirst === 'object' && !Array.isArray(paramsOrFirst))) {
@@ -924,21 +924,21 @@ export class CustomersContacts {
      *
      * @param {string} params.id - The contact to read.
      * @throws {RevenexxException}
-     * @returns {Promise<Models.Error>}
+     * @returns {Promise<Models.Contact>}
      */
-    customersContactsGet(params: { id: string }): Promise<Models.Error>;
+    customersContactsGet(params: { id: string }): Promise<Models.Contact>;
     /**
      * A contact is a PERSON, and the unit that logs in: one platform user, one email address, one role held inside its organization. A contact without an organization is a standalone buyer rather than an error, and two people at the same company are two contacts sharing an `organization_id`. One person by id. What they are ALLOWED to do is not in here: permissions are derived from `role` at read time and answered by `GET /customers/contacts/{contact_id}/permissions`.
      *
      * @param {string} id - The contact to read.
      * @throws {RevenexxException}
-     * @returns {Promise<Models.Error>}
+     * @returns {Promise<Models.Contact>}
      * @deprecated Use the object parameter style method for a better developer experience.
      */
-    customersContactsGet(id: string): Promise<Models.Error>;
+    customersContactsGet(id: string): Promise<Models.Contact>;
     customersContactsGet(
         paramsOrFirst: { id: string } | string    
-    ): Promise<Models.Error> {
+    ): Promise<Models.Contact> {
         let params: { id: string };
         
         if ((paramsOrFirst && typeof paramsOrFirst === 'object' && !Array.isArray(paramsOrFirst))) {
@@ -987,9 +987,9 @@ export class CustomersContacts {
      * @param {string} params.role - The person's role INSIDE its organization, and the only thing permissions are derived from. One of the tenant's own roles (GET /customers/roles); a tenant that never edited the ledger has viewer, requester, buyer, approver, admin. Also the team role on the platform mirror. There is no global role — the same person in two companies is two contacts. A tenant that never edited the ledger has viewer, requester, buyer, approver, admin; a create without a role gets the one flagged as default, and a role the tenant does not keep is a 400.
      * @param {ContactStatus} params.status - Whether this person may act: 'invited' has been created but has not accepted, 'active' works, 'blocked' cannot log in. A create through the API defaults to 'invited'; a self-registration in an open store lands 'active'. Default 'invited' on create.
      * @throws {RevenexxException}
-     * @returns {Promise<Models.Error>}
+     * @returns {Promise<Models.Contact>}
      */
-    customersContactsUpdate(params: { id: string, email?: string, firstName?: string, isPrimary?: boolean, jobTitle?: string, lastName?: string, locale?: string, orderApprovalLimit?: number, organizationId?: string, phone?: string, registrationStatus?: CustomersContactsCreateRegistrationStatus, role?: string, status?: ContactStatus }): Promise<Models.Error>;
+    customersContactsUpdate(params: { id: string, email?: string, firstName?: string, isPrimary?: boolean, jobTitle?: string, lastName?: string, locale?: string, orderApprovalLimit?: number, organizationId?: string, phone?: string, registrationStatus?: CustomersContactsCreateRegistrationStatus, role?: string, status?: ContactStatus }): Promise<Models.Contact>;
     /**
      * A contact is a PERSON, and the unit that logs in: one platform user, one email address, one role held inside its organization. A contact without an organization is a standalone buyer rather than an error, and two people at the same company are two contacts sharing an `organization_id`. A partial update — send only what changes. `external_user_id` and every `registration_*` column are ignored: the link to platform auth is mirror-managed, and registration state is only ever moved by the approve and reject routes, which record why. Two rows of this tenant may not share `email` or `external_user_id` (while external_user_id IS NOT NULL).
      *
@@ -1007,14 +1007,14 @@ export class CustomersContacts {
      * @param {string} role - The person's role INSIDE its organization, and the only thing permissions are derived from. One of the tenant's own roles (GET /customers/roles); a tenant that never edited the ledger has viewer, requester, buyer, approver, admin. Also the team role on the platform mirror. There is no global role — the same person in two companies is two contacts. A tenant that never edited the ledger has viewer, requester, buyer, approver, admin; a create without a role gets the one flagged as default, and a role the tenant does not keep is a 400.
      * @param {ContactStatus} status - Whether this person may act: 'invited' has been created but has not accepted, 'active' works, 'blocked' cannot log in. A create through the API defaults to 'invited'; a self-registration in an open store lands 'active'. Default 'invited' on create.
      * @throws {RevenexxException}
-     * @returns {Promise<Models.Error>}
+     * @returns {Promise<Models.Contact>}
      * @deprecated Use the object parameter style method for a better developer experience.
      */
-    customersContactsUpdate(id: string, email?: string, firstName?: string, isPrimary?: boolean, jobTitle?: string, lastName?: string, locale?: string, orderApprovalLimit?: number, organizationId?: string, phone?: string, registrationStatus?: CustomersContactsCreateRegistrationStatus, role?: string, status?: ContactStatus): Promise<Models.Error>;
+    customersContactsUpdate(id: string, email?: string, firstName?: string, isPrimary?: boolean, jobTitle?: string, lastName?: string, locale?: string, orderApprovalLimit?: number, organizationId?: string, phone?: string, registrationStatus?: CustomersContactsCreateRegistrationStatus, role?: string, status?: ContactStatus): Promise<Models.Contact>;
     customersContactsUpdate(
         paramsOrFirst: { id: string, email?: string, firstName?: string, isPrimary?: boolean, jobTitle?: string, lastName?: string, locale?: string, orderApprovalLimit?: number, organizationId?: string, phone?: string, registrationStatus?: CustomersContactsCreateRegistrationStatus, role?: string, status?: ContactStatus } | string,
         ...rest: [(string)?, (string)?, (boolean)?, (string)?, (string)?, (string)?, (number)?, (string)?, (string)?, (CustomersContactsCreateRegistrationStatus)?, (string)?, (ContactStatus)?]    
-    ): Promise<Models.Error> {
+    ): Promise<Models.Contact> {
         let params: { id: string, email?: string, firstName?: string, isPrimary?: boolean, jobTitle?: string, lastName?: string, locale?: string, orderApprovalLimit?: number, organizationId?: string, phone?: string, registrationStatus?: CustomersContactsCreateRegistrationStatus, role?: string, status?: ContactStatus };
         
         if ((paramsOrFirst && typeof paramsOrFirst === 'object' && !Array.isArray(paramsOrFirst))) {
@@ -1118,9 +1118,9 @@ export class CustomersContacts {
      * @param {string} params.note - The long form. Stored inside the event payload as `note`, not as a column of its own.
      * @param {string} params.occurredAt - When it actually happened. Defaults to now — a call logged on Monday about Friday should say Friday.
      * @throws {RevenexxException}
-     * @returns {Promise<Models.Error>}
+     * @returns {Promise<Models.ContactEvent>}
      */
-    customersOrganizationsEventsCreate(params: { organizationId: string, contactId: string, subject: string, actor?: string, kind?: ContactActivityKind, note?: string, occurredAt?: string }): Promise<Models.Error>;
+    customersOrganizationsEventsCreate(params: { organizationId: string, contactId: string, subject: string, actor?: string, kind?: ContactActivityKind, note?: string, occurredAt?: string }): Promise<Models.ContactEvent>;
     /**
      * Same row as the contact route, reached from the organization. 'contact_id' is required and must belong to THIS organization — the picker offering the contacts is not filtered, so the membership check here is what stops a call with one company being filed under someone else's person.
      *
@@ -1132,14 +1132,14 @@ export class CustomersContacts {
      * @param {string} note - The long form. Stored inside the event payload as `note`, not as a column of its own.
      * @param {string} occurredAt - When it actually happened. Defaults to now — a call logged on Monday about Friday should say Friday.
      * @throws {RevenexxException}
-     * @returns {Promise<Models.Error>}
+     * @returns {Promise<Models.ContactEvent>}
      * @deprecated Use the object parameter style method for a better developer experience.
      */
-    customersOrganizationsEventsCreate(organizationId: string, contactId: string, subject: string, actor?: string, kind?: ContactActivityKind, note?: string, occurredAt?: string): Promise<Models.Error>;
+    customersOrganizationsEventsCreate(organizationId: string, contactId: string, subject: string, actor?: string, kind?: ContactActivityKind, note?: string, occurredAt?: string): Promise<Models.ContactEvent>;
     customersOrganizationsEventsCreate(
         paramsOrFirst: { organizationId: string, contactId: string, subject: string, actor?: string, kind?: ContactActivityKind, note?: string, occurredAt?: string } | string,
         ...rest: [(string)?, (string)?, (string)?, (ContactActivityKind)?, (string)?, (string)?]    
-    ): Promise<Models.Error> {
+    ): Promise<Models.ContactEvent> {
         let params: { organizationId: string, contactId: string, subject: string, actor?: string, kind?: ContactActivityKind, note?: string, occurredAt?: string };
         
         if ((paramsOrFirst && typeof paramsOrFirst === 'object' && !Array.isArray(paramsOrFirst))) {

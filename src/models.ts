@@ -1,6 +1,15 @@
 import { AddressTypeRowTone } from "./enums/address-type-row-tone"
 import { AddressTypeRowCreateRequestTone } from "./enums/address-type-row-create-request-tone"
 import { AddressTypeRowUpdateRequestTone } from "./enums/address-type-row-update-request-tone"
+import { ApprovalRuleApproverType } from "./enums/approval-rule-approver-type"
+import { ApprovalRuleCondition } from "./enums/approval-rule-condition"
+import { ApprovalRuleEffect } from "./enums/approval-rule-effect"
+import { ApprovalRuleCreateRequestApproverType } from "./enums/approval-rule-create-request-approver-type"
+import { ApprovalRuleCreateRequestCondition } from "./enums/approval-rule-create-request-condition"
+import { ApprovalRuleCreateRequestEffect } from "./enums/approval-rule-create-request-effect"
+import { ApprovalRuleUpdateRequestApproverType } from "./enums/approval-rule-update-request-approver-type"
+import { ApprovalRuleUpdateRequestCondition } from "./enums/approval-rule-update-request-condition"
+import { ApprovalRuleUpdateRequestEffect } from "./enums/approval-rule-update-request-effect"
 import { AssetsSource } from "./enums/assets-source"
 import { AttributeValueBucket } from "./enums/attribute-value-bucket"
 import { AuthMailSource } from "./enums/auth-mail-source"
@@ -122,6 +131,8 @@ import { PaymentTermTone } from "./enums/payment-term-tone"
 import { PaymentTermCreateRequestTone } from "./enums/payment-term-create-request-tone"
 import { PaymentTermUpdateRequestTone } from "./enums/payment-term-update-request-tone"
 import { PaymentVocabularyTone } from "./enums/payment-vocabulary-tone"
+import { PendingApprovalApproverType } from "./enums/pending-approval-approver-type"
+import { PendingApprovalStatus } from "./enums/pending-approval-status"
 import { PriceEndingRule } from "./enums/price-ending-rule"
 import { PriceEntriesAdjustResponseRounding } from "./enums/price-entries-adjust-response-rounding"
 import { PriceEntriesAdjustResponseRoundingMode } from "./enums/price-entries-adjust-response-rounding-mode"
@@ -144,6 +155,11 @@ import { ProductGridColumnSource } from "./enums/product-grid-column-source"
 import { ProductLabelSource } from "./enums/product-label-source"
 import { ProductLabelAttributeSource } from "./enums/product-label-attribute-source"
 import { ProductsKind } from "./enums/products-kind"
+import { PurchaseRequestStatus } from "./enums/purchase-request-status"
+import { PurchaseRequestEventName } from "./enums/purchase-request-event-name"
+import { PurchaseRequestItemType } from "./enums/purchase-request-item-type"
+import { PurchaseRequestItemCreateRequestType } from "./enums/purchase-request-item-create-request-type"
+import { PurchaseRequestItemUpdateRequestType } from "./enums/purchase-request-item-update-request-type"
 import { ReorderPointSource } from "./enums/reorder-point-source"
 import { ReservationStatus } from "./enums/reservation-status"
 import { PriceOnRequestReason } from "./enums/price-on-request-reason"
@@ -181,6 +197,8 @@ import { ShippingWeightUnitRowTone } from "./enums/shipping-weight-unit-row-tone
 import { ShippingWeightUnitUpdateRequestTone } from "./enums/shipping-weight-unit-update-request-tone"
 import { StockMovementType } from "./enums/stock-movement-type"
 import { StoreAssetRequestVisibility } from "./enums/store-asset-request-visibility"
+import { SubmitItemType } from "./enums/submit-item-type"
+import { SubmitResultOutcome } from "./enums/submit-result-outcome"
 import { ValidationFailedResponseStatus } from "./enums/validation-failed-response-status"
 import { VocabularyDefaultTone } from "./enums/vocabulary-default-tone"
 import { VocabularySource } from "./enums/vocabulary-source"
@@ -553,6 +571,180 @@ export namespace Models {
          * Postal code, as text — leading zeros are real in most countries.
          */
         zip?: string;
+    }
+
+    /**
+     * 
+     */
+    export type ApprovalRule = {
+        /**
+         * 
+         */
+        active?: boolean;
+        /**
+         * 
+         */
+        approver_ref?: string | null;
+        /**
+         * 
+         */
+        approver_type?: ApprovalRuleApproverType;
+        /**
+         * 
+         */
+        condition?: ApprovalRuleCondition;
+        /**
+         * 
+         */
+        condition_parameters?: object | null;
+        /**
+         * 
+         */
+        cost_center_id?: string | null;
+        /**
+         * 
+         */
+        created_at?: string;
+        /**
+         * 
+         */
+        effect?: ApprovalRuleEffect;
+        /**
+         * 
+         */
+        effect_parameters?: object | null;
+        /**
+         * 
+         */
+        id?: string;
+        /**
+         * 
+         */
+        metadata?: object | null;
+        /**
+         * 
+         */
+        name?: string;
+        /**
+         * 
+         */
+        sequence?: number;
+        /**
+         * 
+         */
+        show_condition?: boolean;
+        /**
+         * 
+         */
+        updated_at?: string;
+    }
+
+    /**
+     * 
+     */
+    export type ApprovalRuleCreateRequest = {
+        /**
+         * 
+         */
+        active?: boolean;
+        /**
+         * 
+         */
+        approver_ref?: string | null;
+        /**
+         * 
+         */
+        approver_type?: ApprovalRuleCreateRequestApproverType;
+        /**
+         * 
+         */
+        condition: ApprovalRuleCreateRequestCondition;
+        /**
+         * 
+         */
+        condition_parameters?: object | null;
+        /**
+         * 
+         */
+        cost_center_id?: string | null;
+        /**
+         * 
+         */
+        effect: ApprovalRuleCreateRequestEffect;
+        /**
+         * 
+         */
+        effect_parameters?: object | null;
+        /**
+         * 
+         */
+        metadata?: object | null;
+        /**
+         * 
+         */
+        name: string;
+        /**
+         * 
+         */
+        sequence?: number;
+        /**
+         * 
+         */
+        show_condition?: boolean;
+    }
+
+    /**
+     * Partial update — omitted fields keep their current value.
+     */
+    export type ApprovalRuleUpdateRequest = {
+        /**
+         * 
+         */
+        active?: boolean;
+        /**
+         * 
+         */
+        approver_ref?: string | null;
+        /**
+         * 
+         */
+        approver_type?: ApprovalRuleUpdateRequestApproverType;
+        /**
+         * 
+         */
+        condition?: ApprovalRuleUpdateRequestCondition;
+        /**
+         * 
+         */
+        condition_parameters?: object | null;
+        /**
+         * 
+         */
+        cost_center_id?: string | null;
+        /**
+         * 
+         */
+        effect?: ApprovalRuleUpdateRequestEffect;
+        /**
+         * 
+         */
+        effect_parameters?: object | null;
+        /**
+         * 
+         */
+        metadata?: object | null;
+        /**
+         * 
+         */
+        name?: string;
+        /**
+         * 
+         */
+        sequence?: number;
+        /**
+         * 
+         */
+        show_condition?: boolean;
     }
 
     /**
@@ -14177,6 +14369,68 @@ are no `created_at` / `updated_at` fields on this resource.
     }
 
     /**
+     * 
+     */
+    export type PendingApproval = {
+        /**
+         * 
+         */
+        approver_ref?: string | null;
+        /**
+         * 
+         */
+        approver_type?: PendingApprovalApproverType;
+        /**
+         * 
+         */
+        cost_center_code?: string | null;
+        /**
+         * 
+         */
+        created_at?: string;
+        /**
+         * 
+         */
+        id?: string;
+        /**
+         * 
+         */
+        metadata?: object | null;
+        /**
+         * 
+         */
+        purchase_request_id?: string;
+        /**
+         * 
+         */
+        reason?: string | null;
+        /**
+         * 
+         */
+        resolved_at?: string | null;
+        /**
+         * 
+         */
+        resolved_by?: string | null;
+        /**
+         * 
+         */
+        rule_id?: string | null;
+        /**
+         * 
+         */
+        sequence?: number;
+        /**
+         * 
+         */
+        status?: PendingApprovalStatus;
+        /**
+         * 
+         */
+        updated_at?: string;
+    }
+
+    /**
      * One entry, before and after — the row a confirmation dialog shows.
      */
     export type PriceAdjustPreviewRow = {
@@ -15929,6 +16183,502 @@ It exists because a PIM import (Akeneo, BMEcat) carries these in one blob keyed 
     /**
      * 
      */
+    export type PurchaseRequest = {
+        /**
+         * 
+         */
+        approved_at?: string | null;
+        /**
+         * 
+         */
+        billing_address?: object | null;
+        /**
+         * 
+         */
+        buyer?: object | null;
+        /**
+         * 
+         */
+        cancelled_at?: string | null;
+        /**
+         * 
+         */
+        cart_id?: string | null;
+        /**
+         * 
+         */
+        channel_id?: string | null;
+        /**
+         * 
+         */
+        contact_id?: string | null;
+        /**
+         * 
+         */
+        created_at?: string;
+        /**
+         * 
+         */
+        currency?: string;
+        /**
+         * 
+         */
+        customer_order_number?: string | null;
+        /**
+         * 
+         */
+        decline_reason?: string | null;
+        /**
+         * 
+         */
+        declined_at?: string | null;
+        /**
+         * 
+         */
+        external_ref?: string | null;
+        /**
+         * 
+         */
+        grand_total?: number;
+        /**
+         * 
+         */
+        id?: string;
+        /**
+         * 
+         */
+        item_count?: number;
+        /**
+         * 
+         */
+        metadata?: object | null;
+        /**
+         * 
+         */
+        number?: string;
+        /**
+         * 
+         */
+        order_id?: string | null;
+        /**
+         * 
+         */
+        ordered_at?: string | null;
+        /**
+         * 
+         */
+        organization_id?: string | null;
+        /**
+         * 
+         */
+        payment?: object | null;
+        /**
+         * 
+         */
+        shipping?: object | null;
+        /**
+         * 
+         */
+        shipping_address?: object | null;
+        /**
+         * 
+         */
+        shipping_total?: number;
+        /**
+         * 
+         */
+        status?: PurchaseRequestStatus;
+        /**
+         * 
+         */
+        submitted_at?: string | null;
+        /**
+         * 
+         */
+        subtotal?: number;
+        /**
+         * 
+         */
+        tax_total?: number;
+        /**
+         * 
+         */
+        updated_at?: string;
+        /**
+         * 
+         */
+        user_data?: object | null;
+    }
+
+    /**
+     * 
+     */
+    export type PurchaseRequestEvent = {
+        /**
+         * 
+         */
+        actor?: string | null;
+        /**
+         * 
+         */
+        created_at?: string;
+        /**
+         * 
+         */
+        dedupe_key?: string | null;
+        /**
+         * 
+         */
+        id?: string;
+        /**
+         * 
+         */
+        name?: PurchaseRequestEventName;
+        /**
+         * 
+         */
+        payload?: object | null;
+        /**
+         * 
+         */
+        purchase_request_id?: string;
+    }
+
+    /**
+     * 
+     */
+    export type PurchaseRequestItem = {
+        /**
+         * 
+         */
+        configuration?: object | null;
+        /**
+         * 
+         */
+        cost_center?: string | null;
+        /**
+         * 
+         */
+        created_at?: string;
+        /**
+         * 
+         */
+        id?: string;
+        /**
+         * 
+         */
+        line_total?: number;
+        /**
+         * 
+         */
+        metadata?: object | null;
+        /**
+         * 
+         */
+        name?: string;
+        /**
+         * 
+         */
+        position?: number;
+        /**
+         * 
+         */
+        position_text?: string | null;
+        /**
+         * 
+         */
+        product?: object | null;
+        /**
+         * 
+         */
+        product_id?: string | null;
+        /**
+         * 
+         */
+        purchase_request_id?: string;
+        /**
+         * 
+         */
+        quantity?: number;
+        /**
+         * 
+         */
+        sku?: string | null;
+        /**
+         * 
+         */
+        tax_amount?: number;
+        /**
+         * 
+         */
+        tax_rate?: number;
+        /**
+         * 
+         */
+        type?: PurchaseRequestItemType;
+        /**
+         * 
+         */
+        unit?: string | null;
+        /**
+         * 
+         */
+        unit_price?: number;
+        /**
+         * 
+         */
+        updated_at?: string;
+        /**
+         * 
+         */
+        user_data?: object | null;
+    }
+
+    /**
+     * 
+     */
+    export type PurchaseRequestItemCreateRequest = {
+        /**
+         * 
+         */
+        configuration?: object | null;
+        /**
+         * 
+         */
+        cost_center?: string | null;
+        /**
+         * 
+         */
+        line_total?: number;
+        /**
+         * 
+         */
+        metadata?: object | null;
+        /**
+         * 
+         */
+        name: string;
+        /**
+         * 
+         */
+        position?: number;
+        /**
+         * 
+         */
+        position_text?: string | null;
+        /**
+         * 
+         */
+        product?: object | null;
+        /**
+         * 
+         */
+        product_id?: string | null;
+        /**
+         * 
+         */
+        purchase_request_id: string;
+        /**
+         * 
+         */
+        quantity: number;
+        /**
+         * 
+         */
+        sku?: string | null;
+        /**
+         * 
+         */
+        tax_amount?: number;
+        /**
+         * 
+         */
+        tax_rate?: number;
+        /**
+         * 
+         */
+        type?: PurchaseRequestItemCreateRequestType;
+        /**
+         * 
+         */
+        unit?: string | null;
+        /**
+         * 
+         */
+        unit_price?: number;
+        /**
+         * 
+         */
+        user_data?: object | null;
+    }
+
+    /**
+     * Partial update — omitted fields keep their current value. Refused (409) once the parent request has left `pending`; a line cannot be moved to another request.
+     */
+    export type PurchaseRequestItemUpdateRequest = {
+        /**
+         * 
+         */
+        configuration?: object | null;
+        /**
+         * 
+         */
+        cost_center?: string | null;
+        /**
+         * 
+         */
+        line_total?: number;
+        /**
+         * 
+         */
+        metadata?: object | null;
+        /**
+         * 
+         */
+        name?: string;
+        /**
+         * 
+         */
+        position?: number;
+        /**
+         * 
+         */
+        position_text?: string | null;
+        /**
+         * 
+         */
+        product?: object | null;
+        /**
+         * 
+         */
+        product_id?: string | null;
+        /**
+         * 
+         */
+        purchase_request_id?: string;
+        /**
+         * 
+         */
+        quantity?: number;
+        /**
+         * 
+         */
+        sku?: string | null;
+        /**
+         * 
+         */
+        tax_amount?: number;
+        /**
+         * 
+         */
+        tax_rate?: number;
+        /**
+         * 
+         */
+        type?: PurchaseRequestItemUpdateRequestType;
+        /**
+         * 
+         */
+        unit?: string | null;
+        /**
+         * 
+         */
+        unit_price?: number;
+        /**
+         * 
+         */
+        user_data?: object | null;
+    }
+
+    /**
+     * Administrative correction — omitted fields keep their current value. The state columns and their stamps are absent deliberately: they are written by approving, declining, cancelling or ordering the request. Once the request has left `pending`, only the reference, snapshot and note columns can still be corrected (409 otherwise).
+     */
+    export type PurchaseRequestUpdateRequest = {
+        /**
+         * 
+         */
+        billing_address?: object | null;
+        /**
+         * 
+         */
+        buyer?: object | null;
+        /**
+         * 
+         */
+        cart_id?: string | null;
+        /**
+         * 
+         */
+        channel_id?: string | null;
+        /**
+         * 
+         */
+        contact_id?: string | null;
+        /**
+         * 
+         */
+        currency?: string;
+        /**
+         * 
+         */
+        customer_order_number?: string | null;
+        /**
+         * 
+         */
+        external_ref?: string | null;
+        /**
+         * 
+         */
+        grand_total?: number;
+        /**
+         * 
+         */
+        item_count?: number;
+        /**
+         * 
+         */
+        metadata?: object | null;
+        /**
+         * 
+         */
+        number?: string;
+        /**
+         * 
+         */
+        organization_id?: string | null;
+        /**
+         * 
+         */
+        payment?: object | null;
+        /**
+         * 
+         */
+        shipping?: object | null;
+        /**
+         * 
+         */
+        shipping_address?: object | null;
+        /**
+         * 
+         */
+        shipping_total?: number;
+        /**
+         * 
+         */
+        subtotal?: number;
+        /**
+         * 
+         */
+        tax_total?: number;
+        /**
+         * 
+         */
+        user_data?: object | null;
+    }
+
+    /**
+     * 
+     */
     export type PushSubscription = {
         /**
          * 
@@ -15962,6 +16712,42 @@ It exists because a PIM import (Akeneo, BMEcat) carries these in one blob keyed 
          * 
          */
         user_agent: string | null;
+    }
+
+    /**
+     * Bounded sweep: how many purchase requests to examine per status.
+     */
+    export type ReconcileRequest = {
+        /**
+         * Requests examined per status (default 50, max 200).
+         */
+        limit?: number;
+    }
+
+    /**
+     * What the sweep repaired. Everything it does is idempotent, so a repeated run reports less.
+     */
+    export type ReconcileResult = {
+        /**
+         * Outcome events recorded for a state that had none.
+         */
+        announced?: object[];
+        /**
+         * Per-request failures ({ purchase_request_id, step, error }); the sweep continues past them.
+         */
+        failed?: object[];
+        /**
+         * Approved PRs whose Order creation was completed.
+         */
+        ordered?: string[];
+        /**
+         * Purchase requests examined.
+         */
+        scanned?: number;
+        /**
+         * Terminated PRs whose budget reservation was released.
+         */
+        withdrawn?: string[];
     }
 
     /**
@@ -16564,6 +17350,50 @@ Which attributes a record of this entity has comes from `attributes` rows with `
          * 
          */
         purchase_request_id: string;
+    }
+
+    /**
+     * Optional actor + reason recorded on the resolved approval / terminated PR.
+     */
+    export type ResolutionDecisionRequest = {
+        /**
+         * Who acted (contact id / ref); recorded as resolved_by.
+         */
+        by?: string | null;
+        /**
+         * Free-text note (decline/cancel reason, approval remark).
+         */
+        reason?: string | null;
+    }
+
+    /**
+     * 
+     */
+    export type ResolutionResult = {
+        /**
+         * PR is terminated but the budget withdrawal must still be retried (cost-centers unavailable).
+         */
+        budget_pending?: boolean;
+        /**
+         * True when the step found the transition already applied.
+         */
+        idempotent?: boolean;
+        /**
+         * The placed Order once approved→ordered completed.
+         */
+        order?: object | null;
+        /**
+         * PR is approved but Order creation must still be retried (orders unavailable).
+         */
+        order_pending?: boolean;
+        /**
+         * The PR's approvals after the transition.
+         */
+        pending_approvals?: object[];
+        /**
+         * The PR after the transition.
+         */
+        purchase_request?: object;
     }
 
     /**
@@ -18849,6 +19679,184 @@ Which attributes a record of this entity has comes from `attributes` rows with `
          * 
          */
         visibility?: StoreAssetRequestVisibility;
+    }
+
+    /**
+     * 
+     */
+    export type SubmitItem = {
+        /**
+         * 
+         */
+        configuration?: object | null;
+        /**
+         * Cost-centre CODE assigned to this line (loose ref to cost-centers; no FK).
+         */
+        cost_center?: string | null;
+        /**
+         * 
+         */
+        metadata?: object | null;
+        /**
+         * 
+         */
+        name: string;
+        /**
+         * 
+         */
+        position?: number;
+        /**
+         * 
+         */
+        position_text?: string | null;
+        /**
+         * 
+         */
+        product?: object | null;
+        /**
+         * 
+         */
+        product_id?: string | null;
+        /**
+         * 
+         */
+        quantity: number;
+        /**
+         * 
+         */
+        sku?: string | null;
+        /**
+         * 
+         */
+        tax_amount?: number;
+        /**
+         * 
+         */
+        tax_rate?: number;
+        /**
+         * 
+         */
+        type?: SubmitItemType;
+        /**
+         * 
+         */
+        unit?: string | null;
+        /**
+         * 
+         */
+        unit_price?: number;
+        /**
+         * 
+         */
+        user_data?: object | null;
+    }
+
+    /**
+     * Sealed cart context. The server decides Order-vs-PR from rule evaluation; the client cannot choose.
+     */
+    export type SubmitRequest = {
+        /**
+         * 
+         */
+        billing_address?: object | null;
+        /**
+         * 
+         */
+        buyer?: object | null;
+        /**
+         * Idempotency key — a re-submit for the same cart returns the existing PR/Order; a cart whose request was declined or cancelled is refused (409).
+         */
+        cart_id: string;
+        /**
+         * 
+         */
+        channel_id?: string | null;
+        /**
+         * 
+         */
+        contact_id?: string | null;
+        /**
+         * ISO 4217 code the line amounts are stated in. It travels with every question and every movement put to cost-centers; a cost centre or personal limit holding another currency refuses the submission (409, outcome `currency_mismatch`). Omit to be read in the record's own currency.
+         */
+        currency?: string;
+        /**
+         * 
+         */
+        customer_order_number?: string | null;
+        /**
+         * 
+         */
+        external_ref?: string | null;
+        /**
+         * 
+         */
+        items: SubmitItem[];
+        /**
+         * 
+         */
+        metadata?: object | null;
+        /**
+         * 
+         */
+        organization_id?: string | null;
+        /**
+         * 
+         */
+        payment?: object | null;
+        /**
+         * 
+         */
+        shipping?: object | null;
+        /**
+         * 
+         */
+        shipping_address?: object | null;
+        /**
+         * 
+         */
+        user_data?: object | null;
+    }
+
+    /**
+     * 
+     */
+    export type SubmitResult = {
+        /**
+         * { requested, actual, subject, reason } when the amount is stated in one currency and the cost centre or personal limit it is measured against holds another (currency_mismatch outcome, HTTP 409). Nothing converts, so the question is refused rather than decided (ADR-0099).
+         */
+        currency_mismatch?: object | null;
+        /**
+         * { status, reason } when this cart's request was already declined or cancelled (decided outcome, HTTP 409).
+         */
+        decided?: object | null;
+        /**
+         * sendEmail effect payloads (additive; delivery is RX-599).
+         */
+        emails?: object[];
+        /**
+         * True when a prior submit for this cart was returned unchanged.
+         */
+        idempotent?: boolean;
+        /**
+         * The placed Order (direct outcome).
+         */
+        order?: object | null;
+        /**
+         * 
+         */
+        outcome?: SubmitResultOutcome;
+        /**
+         * Pending approvals created for the PR (approval outcome).
+         */
+        pending_approvals?: object[];
+        /**
+         * { rule_id, reason } when blocked (prevent outcome, HTTP 409).
+         */
+        prevent?: object | null;
+        /**
+         * The created Purchase Request (approval outcome).
+         */
+        purchase_request?: object | null;
     }
 
     /**

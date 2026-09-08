@@ -125,9 +125,9 @@ export class PaymentsMethods {
      * @param {string} params.provider - The PSP code this method transacts through, from GET /payments/providers/catalog. Only meaningful for kind 'psp'; a PSP method that names none falls back to the tenant's `default_provider` setting. Must be a code GET /payments/providers/catalog carries.
      * @param {string} params.providerMethod - The provider's own payment-method id ('card', 'paypal', 'sepa_debit') — what the driver is told to charge. Copied onto every payment created with this method as `metadata.provider_method`.
      * @throws {RevenexxException}
-     * @returns {Promise<Models.Error>}
+     * @returns {Promise<Models.PaymentMethod>}
      */
-    paymentsMethodsCreate(params: { code: string, name: string, countries?: string[], description?: string, enabled?: boolean, feeAmount?: number, feeCurrency?: string, feeType?: PaymentFeeType, kind?: PaymentMethodKind, labels?: object, maxOrderValue?: number, metadata?: object, minOrderValue?: number, position?: number, provider?: string, providerMethod?: string }): Promise<Models.Error>;
+    paymentsMethodsCreate(params: { code: string, name: string, countries?: string[], description?: string, enabled?: boolean, feeAmount?: number, feeCurrency?: string, feeType?: PaymentFeeType, kind?: PaymentMethodKind, labels?: object, maxOrderValue?: number, metadata?: object, minOrderValue?: number, position?: number, provider?: string, providerMethod?: string }): Promise<Models.PaymentMethod>;
     /**
      * Adds a line a checkout can offer. A create cannot omit `code` and `name`; every other column is optional or defaulted by the database. Two rows of this tenant may not share `code` — that is the 409. Two defaults are worth knowing before the first call: `enabled` is false, so a new method reaches no checkout until it is switched on, and `kind` is 'self_managed' — a card or wallet method needs `kind: "psp"` plus a `provider` the catalog carries, or it falls back to the tenant's `default_provider` at payment time and fails there if none is set. The `code` is the value every payment, every checkout and every ERP will name this method by from now on, and once a single payment has been made under it a rename is refused with 409: choose it once.
      *
@@ -148,14 +148,14 @@ export class PaymentsMethods {
      * @param {string} provider - The PSP code this method transacts through, from GET /payments/providers/catalog. Only meaningful for kind 'psp'; a PSP method that names none falls back to the tenant's `default_provider` setting. Must be a code GET /payments/providers/catalog carries.
      * @param {string} providerMethod - The provider's own payment-method id ('card', 'paypal', 'sepa_debit') — what the driver is told to charge. Copied onto every payment created with this method as `metadata.provider_method`.
      * @throws {RevenexxException}
-     * @returns {Promise<Models.Error>}
+     * @returns {Promise<Models.PaymentMethod>}
      * @deprecated Use the object parameter style method for a better developer experience.
      */
-    paymentsMethodsCreate(code: string, name: string, countries?: string[], description?: string, enabled?: boolean, feeAmount?: number, feeCurrency?: string, feeType?: PaymentFeeType, kind?: PaymentMethodKind, labels?: object, maxOrderValue?: number, metadata?: object, minOrderValue?: number, position?: number, provider?: string, providerMethod?: string): Promise<Models.Error>;
+    paymentsMethodsCreate(code: string, name: string, countries?: string[], description?: string, enabled?: boolean, feeAmount?: number, feeCurrency?: string, feeType?: PaymentFeeType, kind?: PaymentMethodKind, labels?: object, maxOrderValue?: number, metadata?: object, minOrderValue?: number, position?: number, provider?: string, providerMethod?: string): Promise<Models.PaymentMethod>;
     paymentsMethodsCreate(
         paramsOrFirst: { code: string, name: string, countries?: string[], description?: string, enabled?: boolean, feeAmount?: number, feeCurrency?: string, feeType?: PaymentFeeType, kind?: PaymentMethodKind, labels?: object, maxOrderValue?: number, metadata?: object, minOrderValue?: number, position?: number, provider?: string, providerMethod?: string } | string,
         ...rest: [(string)?, (string[])?, (string)?, (boolean)?, (number)?, (string)?, (PaymentFeeType)?, (PaymentMethodKind)?, (object)?, (number)?, (object)?, (number)?, (number)?, (string)?, (string)?]    
-    ): Promise<Models.Error> {
+    ): Promise<Models.PaymentMethod> {
         let params: { code: string, name: string, countries?: string[], description?: string, enabled?: boolean, feeAmount?: number, feeCurrency?: string, feeType?: PaymentFeeType, kind?: PaymentMethodKind, labels?: object, maxOrderValue?: number, metadata?: object, minOrderValue?: number, position?: number, provider?: string, providerMethod?: string };
         
         if ((paramsOrFirst && typeof paramsOrFirst === 'object' && !Array.isArray(paramsOrFirst))) {
@@ -364,21 +364,21 @@ export class PaymentsMethods {
      *
      * @param {string} params.id - The payment method configuration. A uuid — the data plane casts this segment and answers 400, not 404, for anything else.
      * @throws {RevenexxException}
-     * @returns {Promise<Models.Error>}
+     * @returns {Promise<{}>}
      */
-    paymentsMethodsDelete(params: { id: string }): Promise<Models.Error>;
+    paymentsMethodsDelete(params: { id: string }): Promise<{}>;
     /**
      * payments.method_code is a CODE, not a foreign key: a payment records what happened and has to survive the configuration it was made with. The cost of that looseness is that deleting a method turns every payment made with it into a row naming something that no longer exists. So the count is taken HERE and answered as 409 with the number, rather than left to whoever is about to click delete — a client that pre-counts asks a second question whose answer disagrees the moment a payment lands between the two calls. Disabling the method (enabled: false) is what an operator usually meant and stays available.
      *
      * @param {string} id - The payment method configuration. A uuid — the data plane casts this segment and answers 400, not 404, for anything else.
      * @throws {RevenexxException}
-     * @returns {Promise<Models.Error>}
+     * @returns {Promise<{}>}
      * @deprecated Use the object parameter style method for a better developer experience.
      */
-    paymentsMethodsDelete(id: string): Promise<Models.Error>;
+    paymentsMethodsDelete(id: string): Promise<{}>;
     paymentsMethodsDelete(
         paramsOrFirst: { id: string } | string    
-    ): Promise<Models.Error> {
+    ): Promise<{}> {
         let params: { id: string };
         
         if ((paramsOrFirst && typeof paramsOrFirst === 'object' && !Array.isArray(paramsOrFirst))) {
@@ -415,21 +415,21 @@ export class PaymentsMethods {
      *
      * @param {string} params.id - The payment method configuration. A uuid — the data plane casts this segment and answers 400, not 404, for anything else.
      * @throws {RevenexxException}
-     * @returns {Promise<Models.Error>}
+     * @returns {Promise<Models.PaymentMethod>}
      */
-    paymentsMethodsGet(params: { id: string }): Promise<Models.Error>;
+    paymentsMethodsGet(params: { id: string }): Promise<Models.PaymentMethod>;
     /**
      * One configuration, every column, addressed by its row id — the edit form's read. It is addressed by ID and there is no route that takes a `code`, which matters because the CODE is what a checkout, a payment and an ERP name a method by: to resolve one, filter the list (`GET /payments/methods?code=invoice`), which answers a page of at most one row because (tenant_id, code) is unique. Reading a method says nothing about whether a buyer may use it — that is POST /payments/methods/eligible — and nothing about whether its PSP can transact, which is under the provider configuration.
      *
      * @param {string} id - The payment method configuration. A uuid — the data plane casts this segment and answers 400, not 404, for anything else.
      * @throws {RevenexxException}
-     * @returns {Promise<Models.Error>}
+     * @returns {Promise<Models.PaymentMethod>}
      * @deprecated Use the object parameter style method for a better developer experience.
      */
-    paymentsMethodsGet(id: string): Promise<Models.Error>;
+    paymentsMethodsGet(id: string): Promise<Models.PaymentMethod>;
     paymentsMethodsGet(
         paramsOrFirst: { id: string } | string    
-    ): Promise<Models.Error> {
+    ): Promise<Models.PaymentMethod> {
         let params: { id: string };
         
         if ((paramsOrFirst && typeof paramsOrFirst === 'object' && !Array.isArray(paramsOrFirst))) {
@@ -482,9 +482,9 @@ export class PaymentsMethods {
      * @param {string} params.provider - The PSP code this method transacts through, from GET /payments/providers/catalog. Only meaningful for kind 'psp'; a PSP method that names none falls back to the tenant's `default_provider` setting. Must be a code GET /payments/providers/catalog carries.
      * @param {string} params.providerMethod - The provider's own payment-method id ('card', 'paypal', 'sepa_debit') — what the driver is told to charge. Copied onto every payment created with this method as `metadata.provider_method`.
      * @throws {RevenexxException}
-     * @returns {Promise<Models.Error>}
+     * @returns {Promise<Models.PaymentMethod>}
      */
-    paymentsMethodsUpdate(params: { id: string, code?: string, countries?: string[], description?: string, enabled?: boolean, feeAmount?: number, feeCurrency?: string, feeType?: PaymentFeeType, kind?: PaymentMethodKind, labels?: object, maxOrderValue?: number, metadata?: object, minOrderValue?: number, name?: string, position?: number, provider?: string, providerMethod?: string }): Promise<Models.Error>;
+    paymentsMethodsUpdate(params: { id: string, code?: string, countries?: string[], description?: string, enabled?: boolean, feeAmount?: number, feeCurrency?: string, feeType?: PaymentFeeType, kind?: PaymentMethodKind, labels?: object, maxOrderValue?: number, metadata?: object, minOrderValue?: number, name?: string, position?: number, provider?: string, providerMethod?: string }): Promise<Models.PaymentMethod>;
     /**
      * A PUT that PATCHES: only the keys in the body are written and every omitted column keeps its value, so `{"enabled": false}` is the whole request for taking a method out of checkout. A body with no writable key is refused with 400 rather than treated as a no-op. This is the route for all three things an operator changes about a method after it exists — the `enabled` switch that puts it in or out of checkout, the fee it charges (`fee_type`, `fee_amount`, `fee_currency`) and the restrictions that decide who is offered it (`countries`, `min_order_value`, `max_order_value`) — alongside its labels, description and `position`. `enabled: false` is the safe way to retire one — it disappears from POST /payments/methods/eligible immediately and stays on every payment ever made with it. The one write this route refuses is a rename of `code` while the ledger still names the old one. The three tables of this app carry no foreign keys at all: a payment names its method by `method_code` and its acquirer by `provider`, both plain text, because a payment records what happened and has to survive the configuration it was made with. So the database will not stop this — whatever the ledger still names, it goes on naming. A rename would therefore leave every recorded payment pointing at a code no configuration carries, which is the same harm DELETE on this row answers 409 for — so it answers the same 409, with the same `method_in_use` code and the same count. Renaming a method nothing has been paid with is still free, and so is every other column at any time.
      *
@@ -506,14 +506,14 @@ export class PaymentsMethods {
      * @param {string} provider - The PSP code this method transacts through, from GET /payments/providers/catalog. Only meaningful for kind 'psp'; a PSP method that names none falls back to the tenant's `default_provider` setting. Must be a code GET /payments/providers/catalog carries.
      * @param {string} providerMethod - The provider's own payment-method id ('card', 'paypal', 'sepa_debit') — what the driver is told to charge. Copied onto every payment created with this method as `metadata.provider_method`.
      * @throws {RevenexxException}
-     * @returns {Promise<Models.Error>}
+     * @returns {Promise<Models.PaymentMethod>}
      * @deprecated Use the object parameter style method for a better developer experience.
      */
-    paymentsMethodsUpdate(id: string, code?: string, countries?: string[], description?: string, enabled?: boolean, feeAmount?: number, feeCurrency?: string, feeType?: PaymentFeeType, kind?: PaymentMethodKind, labels?: object, maxOrderValue?: number, metadata?: object, minOrderValue?: number, name?: string, position?: number, provider?: string, providerMethod?: string): Promise<Models.Error>;
+    paymentsMethodsUpdate(id: string, code?: string, countries?: string[], description?: string, enabled?: boolean, feeAmount?: number, feeCurrency?: string, feeType?: PaymentFeeType, kind?: PaymentMethodKind, labels?: object, maxOrderValue?: number, metadata?: object, minOrderValue?: number, name?: string, position?: number, provider?: string, providerMethod?: string): Promise<Models.PaymentMethod>;
     paymentsMethodsUpdate(
         paramsOrFirst: { id: string, code?: string, countries?: string[], description?: string, enabled?: boolean, feeAmount?: number, feeCurrency?: string, feeType?: PaymentFeeType, kind?: PaymentMethodKind, labels?: object, maxOrderValue?: number, metadata?: object, minOrderValue?: number, name?: string, position?: number, provider?: string, providerMethod?: string } | string,
         ...rest: [(string)?, (string[])?, (string)?, (boolean)?, (number)?, (string)?, (PaymentFeeType)?, (PaymentMethodKind)?, (object)?, (number)?, (object)?, (number)?, (string)?, (number)?, (string)?, (string)?]    
-    ): Promise<Models.Error> {
+    ): Promise<Models.PaymentMethod> {
         let params: { id: string, code?: string, countries?: string[], description?: string, enabled?: boolean, feeAmount?: number, feeCurrency?: string, feeType?: PaymentFeeType, kind?: PaymentMethodKind, labels?: object, maxOrderValue?: number, metadata?: object, minOrderValue?: number, name?: string, position?: number, provider?: string, providerMethod?: string };
         
         if ((paramsOrFirst && typeof paramsOrFirst === 'object' && !Array.isArray(paramsOrFirst))) {

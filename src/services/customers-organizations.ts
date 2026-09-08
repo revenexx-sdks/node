@@ -206,9 +206,9 @@ export class CustomersOrganizations {
      * @param {string} params.street2 - The second address line: building, floor, gate, c/o. Null when there is none.
      * @param {string} params.type - What the address is FOR — one of the tenant's own address types (GET /customers/address-types), seeded with billing and shipping. A merchant may add their own (a works entrance, a central accounts office) without a release of this app. A create without it gets the type flagged as default; a type the tenant does not keep is a 400.
      * @throws {RevenexxException}
-     * @returns {Promise<Models.Error>}
+     * @returns {Promise<Models.Address>}
      */
-    customersAddressesCreate(params: { city: string, country: string, street: string, zip: string, company?: string, contactId?: string, isDefault?: boolean, name?: string, organizationId?: string, phone?: string, region?: string, street2?: string, type?: string }): Promise<Models.Error>;
+    customersAddressesCreate(params: { city: string, country: string, street: string, zip: string, company?: string, contactId?: string, isDefault?: boolean, name?: string, organizationId?: string, phone?: string, region?: string, street2?: string, type?: string }): Promise<Models.Address>;
     /**
      * A postal address used for billing or for shipping, owned by exactly one of the two parties: an organization (the company address everyone in it may use) or a contact (a private one only that person uses). Both owner columns are nullable and exactly one is set — sending both, or neither, is refused. `type` names one of this tenant's own address types — billing and shipping are seeded, and a merchant may add a works entrance or a central accounts office without a release of this app. `is_default` picks the one a checkout should preselect for that owner and that type. A create cannot omit `street`, `zip`, `city` and `country`; everything else is optional or defaulted by the database.
      *
@@ -226,14 +226,14 @@ export class CustomersOrganizations {
      * @param {string} street2 - The second address line: building, floor, gate, c/o. Null when there is none.
      * @param {string} type - What the address is FOR — one of the tenant's own address types (GET /customers/address-types), seeded with billing and shipping. A merchant may add their own (a works entrance, a central accounts office) without a release of this app. A create without it gets the type flagged as default; a type the tenant does not keep is a 400.
      * @throws {RevenexxException}
-     * @returns {Promise<Models.Error>}
+     * @returns {Promise<Models.Address>}
      * @deprecated Use the object parameter style method for a better developer experience.
      */
-    customersAddressesCreate(city: string, country: string, street: string, zip: string, company?: string, contactId?: string, isDefault?: boolean, name?: string, organizationId?: string, phone?: string, region?: string, street2?: string, type?: string): Promise<Models.Error>;
+    customersAddressesCreate(city: string, country: string, street: string, zip: string, company?: string, contactId?: string, isDefault?: boolean, name?: string, organizationId?: string, phone?: string, region?: string, street2?: string, type?: string): Promise<Models.Address>;
     customersAddressesCreate(
         paramsOrFirst: { city: string, country: string, street: string, zip: string, company?: string, contactId?: string, isDefault?: boolean, name?: string, organizationId?: string, phone?: string, region?: string, street2?: string, type?: string } | string,
         ...rest: [(string)?, (string)?, (string)?, (string)?, (string)?, (boolean)?, (string)?, (string)?, (string)?, (string)?, (string)?, (string)?]    
-    ): Promise<Models.Error> {
+    ): Promise<Models.Address> {
         let params: { city: string, country: string, street: string, zip: string, company?: string, contactId?: string, isDefault?: boolean, name?: string, organizationId?: string, phone?: string, region?: string, street2?: string, type?: string };
         
         if ((paramsOrFirst && typeof paramsOrFirst === 'object' && !Array.isArray(paramsOrFirst))) {
@@ -343,21 +343,21 @@ export class CustomersOrganizations {
      *
      * @param {string} params.id - The address to delete.
      * @throws {RevenexxException}
-     * @returns {Promise<Models.Error>}
+     * @returns {Promise<{}>}
      */
-    customersAddressesDelete(params: { id: string }): Promise<Models.Error>;
+    customersAddressesDelete(params: { id: string }): Promise<{}>;
     /**
      * A postal address used for billing or for shipping, owned by exactly one of the two parties: an organization (the company address everyone in it may use) or a contact (a private one only that person uses). Both owner columns are nullable and exactly one is set — sending both, or neither, is refused. Removes the address. Orders already placed keep the address they were placed with; nothing in this app reaches back. Nothing else in this app points at it, so nothing else goes with it.
      *
      * @param {string} id - The address to delete.
      * @throws {RevenexxException}
-     * @returns {Promise<Models.Error>}
+     * @returns {Promise<{}>}
      * @deprecated Use the object parameter style method for a better developer experience.
      */
-    customersAddressesDelete(id: string): Promise<Models.Error>;
+    customersAddressesDelete(id: string): Promise<{}>;
     customersAddressesDelete(
         paramsOrFirst: { id: string } | string    
-    ): Promise<Models.Error> {
+    ): Promise<{}> {
         let params: { id: string };
         
         if ((paramsOrFirst && typeof paramsOrFirst === 'object' && !Array.isArray(paramsOrFirst))) {
@@ -394,21 +394,21 @@ export class CustomersOrganizations {
      *
      * @param {string} params.id - The address to read.
      * @throws {RevenexxException}
-     * @returns {Promise<Models.Error>}
+     * @returns {Promise<Models.Address>}
      */
-    customersAddressesGet(params: { id: string }): Promise<Models.Error>;
+    customersAddressesGet(params: { id: string }): Promise<Models.Address>;
     /**
      * A postal address used for billing or for shipping, owned by exactly one of the two parties: an organization (the company address everyone in it may use) or a contact (a private one only that person uses). Both owner columns are nullable and exactly one is set — sending both, or neither, is refused. One address by id, whichever of the two owners it hangs off.
      *
      * @param {string} id - The address to read.
      * @throws {RevenexxException}
-     * @returns {Promise<Models.Error>}
+     * @returns {Promise<Models.Address>}
      * @deprecated Use the object parameter style method for a better developer experience.
      */
-    customersAddressesGet(id: string): Promise<Models.Error>;
+    customersAddressesGet(id: string): Promise<Models.Address>;
     customersAddressesGet(
         paramsOrFirst: { id: string } | string    
-    ): Promise<Models.Error> {
+    ): Promise<Models.Address> {
         let params: { id: string };
         
         if ((paramsOrFirst && typeof paramsOrFirst === 'object' && !Array.isArray(paramsOrFirst))) {
@@ -458,9 +458,9 @@ export class CustomersOrganizations {
      * @param {string} params.type - What the address is FOR — one of the tenant's own address types (GET /customers/address-types), seeded with billing and shipping. A merchant may add their own (a works entrance, a central accounts office) without a release of this app. A create without it gets the type flagged as default; a type the tenant does not keep is a 400.
      * @param {string} params.zip - Postal code, as text — leading zeros are real in most countries.
      * @throws {RevenexxException}
-     * @returns {Promise<Models.Error>}
+     * @returns {Promise<Models.Address>}
      */
-    customersAddressesUpdate(params: { id: string, city?: string, company?: string, contactId?: string, country?: string, isDefault?: boolean, name?: string, organizationId?: string, phone?: string, region?: string, street?: string, street2?: string, type?: string, zip?: string }): Promise<Models.Error>;
+    customersAddressesUpdate(params: { id: string, city?: string, company?: string, contactId?: string, country?: string, isDefault?: boolean, name?: string, organizationId?: string, phone?: string, region?: string, street?: string, street2?: string, type?: string, zip?: string }): Promise<Models.Address>;
     /**
      * A postal address used for billing or for shipping, owned by exactly one of the two parties: an organization (the company address everyone in it may use) or a contact (a private one only that person uses). Both owner columns are nullable and exactly one is set — sending both, or neither, is refused. A partial update — send only what changes. An empty body is refused rather than answered as a no-op, so a client that built the wrong patch finds out.
      *
@@ -479,14 +479,14 @@ export class CustomersOrganizations {
      * @param {string} type - What the address is FOR — one of the tenant's own address types (GET /customers/address-types), seeded with billing and shipping. A merchant may add their own (a works entrance, a central accounts office) without a release of this app. A create without it gets the type flagged as default; a type the tenant does not keep is a 400.
      * @param {string} zip - Postal code, as text — leading zeros are real in most countries.
      * @throws {RevenexxException}
-     * @returns {Promise<Models.Error>}
+     * @returns {Promise<Models.Address>}
      * @deprecated Use the object parameter style method for a better developer experience.
      */
-    customersAddressesUpdate(id: string, city?: string, company?: string, contactId?: string, country?: string, isDefault?: boolean, name?: string, organizationId?: string, phone?: string, region?: string, street?: string, street2?: string, type?: string, zip?: string): Promise<Models.Error>;
+    customersAddressesUpdate(id: string, city?: string, company?: string, contactId?: string, country?: string, isDefault?: boolean, name?: string, organizationId?: string, phone?: string, region?: string, street?: string, street2?: string, type?: string, zip?: string): Promise<Models.Address>;
     customersAddressesUpdate(
         paramsOrFirst: { id: string, city?: string, company?: string, contactId?: string, country?: string, isDefault?: boolean, name?: string, organizationId?: string, phone?: string, region?: string, street?: string, street2?: string, type?: string, zip?: string } | string,
         ...rest: [(string)?, (string)?, (string)?, (string)?, (boolean)?, (string)?, (string)?, (string)?, (string)?, (string)?, (string)?, (string)?, (string)?]    
-    ): Promise<Models.Error> {
+    ): Promise<Models.Address> {
         let params: { id: string, city?: string, company?: string, contactId?: string, country?: string, isDefault?: boolean, name?: string, organizationId?: string, phone?: string, region?: string, street?: string, street2?: string, type?: string, zip?: string };
         
         if ((paramsOrFirst && typeof paramsOrFirst === 'object' && !Array.isArray(paramsOrFirst))) {
@@ -820,9 +820,9 @@ export class CustomersOrganizations {
      * @param {string} params.cursor - Continue an unfinished refresh: the value the previous call returned, verbatim. It is the id of the last organization processed, so only a value this API handed out ever resolves.
      * @param {string[]} params.organizationIds - Refresh exactly these organizations in one call instead of walking all of them.
      * @throws {RevenexxException}
-     * @returns {Promise<Models.Error>}
+     * @returns {Promise<Models.OrganizationMetricsRefreshResponse>}
      */
-    customersOrganizationMetricsRefresh(params?: { asOf?: string, cursor?: string, organizationIds?: string[] }): Promise<Models.Error>;
+    customersOrganizationMetricsRefresh(params?: { asOf?: string, cursor?: string, organizationIds?: string[] }): Promise<Models.OrganizationMetricsRefreshResponse>;
     /**
      * Revenue lives in the orders app and cannot be joined (ADR-0055: no cross-app FK, grant or view), so it is PULLED: this route walks organizations in id order, asks orders.reports.customer-rollup about a batch of them at a time and materializes the answer into organization_metrics — one row per organization, all-zero for those that never ordered, so that 'never bought' rules match something. Rows are only rewritten when a value actually changed, so a routine refresh costs almost no writes. Bounded by a wall-clock budget below the gateway's upstream timeout: while 'done' is false, POST again with the returned 'cursor' AND 'as_of' (pinning as_of is what stops the rolling windows sliding during a multi-call refresh). 'organization_ids' refreshes exactly those organizations in a single call — the targeted path after a customer ordered.
      *
@@ -830,14 +830,14 @@ export class CustomersOrganizations {
      * @param {string} cursor - Continue an unfinished refresh: the value the previous call returned, verbatim. It is the id of the last organization processed, so only a value this API handed out ever resolves.
      * @param {string[]} organizationIds - Refresh exactly these organizations in one call instead of walking all of them.
      * @throws {RevenexxException}
-     * @returns {Promise<Models.Error>}
+     * @returns {Promise<Models.OrganizationMetricsRefreshResponse>}
      * @deprecated Use the object parameter style method for a better developer experience.
      */
-    customersOrganizationMetricsRefresh(asOf?: string, cursor?: string, organizationIds?: string[]): Promise<Models.Error>;
+    customersOrganizationMetricsRefresh(asOf?: string, cursor?: string, organizationIds?: string[]): Promise<Models.OrganizationMetricsRefreshResponse>;
     customersOrganizationMetricsRefresh(
         paramsOrFirst?: { asOf?: string, cursor?: string, organizationIds?: string[] } | string,
         ...rest: [(string)?, (string[])?]    
-    ): Promise<Models.Error> {
+    ): Promise<Models.OrganizationMetricsRefreshResponse> {
         let params: { asOf?: string, cursor?: string, organizationIds?: string[] };
         
         if (!paramsOrFirst || (paramsOrFirst && typeof paramsOrFirst === 'object' && !Array.isArray(paramsOrFirst))) {
@@ -885,21 +885,21 @@ export class CustomersOrganizations {
      *
      * @param {string} params.id - The organization metrics row to read.
      * @throws {RevenexxException}
-     * @returns {Promise<Models.Error>}
+     * @returns {Promise<Models.OrganizationMetrics>}
      */
-    customersOrganizationMetricsGet(params: { id: string }): Promise<Models.Error>;
+    customersOrganizationMetricsGet(params: { id: string }): Promise<Models.OrganizationMetrics>;
     /**
      * What an organization has BOUGHT, materialized into this app from the orders app: lifetime revenue, revenue over the last 30/90/365 days, order count, average order value, and the first and last order dates. Revenue lives in orders and may not be joined (ADR-0055: no cross-app foreign key, grant or view), so it is pulled on a schedule and stored here — one row per organization, all-zero for a company that never ordered, so that a "never bought anything" rule has something to match. One company's numbers by the metrics row id. All zeroes mean the company has never ordered, not that the projection is missing — a missing row means the refresh has not reached that company yet.
      *
      * @param {string} id - The organization metrics row to read.
      * @throws {RevenexxException}
-     * @returns {Promise<Models.Error>}
+     * @returns {Promise<Models.OrganizationMetrics>}
      * @deprecated Use the object parameter style method for a better developer experience.
      */
-    customersOrganizationMetricsGet(id: string): Promise<Models.Error>;
+    customersOrganizationMetricsGet(id: string): Promise<Models.OrganizationMetrics>;
     customersOrganizationMetricsGet(
         paramsOrFirst: { id: string } | string    
-    ): Promise<Models.Error> {
+    ): Promise<Models.OrganizationMetrics> {
         let params: { id: string };
         
         if ((paramsOrFirst && typeof paramsOrFirst === 'object' && !Array.isArray(paramsOrFirst))) {
@@ -1110,9 +1110,9 @@ export class CustomersOrganizations {
      * @param {OrganizationStatus} params.status - ACCESS, not pipeline: 'blocked' stops this company's people from logging in and is where a rejected registration parks the company it founded. 'active' is the default. For how far along a company is, read `lifecycle_stage` — reading this one for that is how a won deal gets locked out. Default 'active'.
      * @param {string} params.vatId - VAT identification number (USt-IdNr. in Germany) — the closest thing a B2B buyer has to a legal identity. Validated against the EU VIES service when the tenant's `organization_vat_id_required` setting is on, and stored verbatim otherwise, including for buyers outside the EU.
      * @throws {RevenexxException}
-     * @returns {Promise<Models.Error>}
+     * @returns {Promise<Models.Organization>}
      */
-    customersOrganizationsCreate(params: { name: string, branche?: string, creditLimit?: number, customerNumber?: string, deliveryBlock?: boolean, lifecycleStage?: string, paymentTerms?: string, priceList?: string, settings?: object, status?: OrganizationStatus, vatId?: string }): Promise<Models.Error>;
+    customersOrganizationsCreate(params: { name: string, branche?: string, creditLimit?: number, customerNumber?: string, deliveryBlock?: boolean, lifecycleStage?: string, paymentTerms?: string, priceList?: string, settings?: object, status?: OrganizationStatus, vatId?: string }): Promise<Models.Organization>;
     /**
      * An organization is a buying COMPANY — the unit a contract, a credit limit, a price list and a payment term belong to, and the unit an order is placed on behalf of. It is not a household and not a person: the people are `contacts`, and a company with no contacts yet is a perfectly normal row. Every organization is mirrored into platform auth as a team, so a name written here is the name storefront authentication shows. Registers a company as a customer. It is mirrored into platform auth as a team in the same call, so a failure of the identity service fails the create rather than leaving half a company behind. `payment_terms` and `lifecycle_stage` name values from this tenant's own sets, and a newly founded company inherits the tenant's `default_payment_terms` / `default_credit_limit` where the merchant set them. `name` is the only field a create cannot omit; everything else is optional or defaulted by the database. Two rows of this tenant may not share `customer_number` (while customer_number IS NOT NULL) or `external_team_id` (while external_team_id IS NOT NULL).
      *
@@ -1128,14 +1128,14 @@ export class CustomersOrganizations {
      * @param {OrganizationStatus} status - ACCESS, not pipeline: 'blocked' stops this company's people from logging in and is where a rejected registration parks the company it founded. 'active' is the default. For how far along a company is, read `lifecycle_stage` — reading this one for that is how a won deal gets locked out. Default 'active'.
      * @param {string} vatId - VAT identification number (USt-IdNr. in Germany) — the closest thing a B2B buyer has to a legal identity. Validated against the EU VIES service when the tenant's `organization_vat_id_required` setting is on, and stored verbatim otherwise, including for buyers outside the EU.
      * @throws {RevenexxException}
-     * @returns {Promise<Models.Error>}
+     * @returns {Promise<Models.Organization>}
      * @deprecated Use the object parameter style method for a better developer experience.
      */
-    customersOrganizationsCreate(name: string, branche?: string, creditLimit?: number, customerNumber?: string, deliveryBlock?: boolean, lifecycleStage?: string, paymentTerms?: string, priceList?: string, settings?: object, status?: OrganizationStatus, vatId?: string): Promise<Models.Error>;
+    customersOrganizationsCreate(name: string, branche?: string, creditLimit?: number, customerNumber?: string, deliveryBlock?: boolean, lifecycleStage?: string, paymentTerms?: string, priceList?: string, settings?: object, status?: OrganizationStatus, vatId?: string): Promise<Models.Organization>;
     customersOrganizationsCreate(
         paramsOrFirst: { name: string, branche?: string, creditLimit?: number, customerNumber?: string, deliveryBlock?: boolean, lifecycleStage?: string, paymentTerms?: string, priceList?: string, settings?: object, status?: OrganizationStatus, vatId?: string } | string,
         ...rest: [(string)?, (number)?, (string)?, (boolean)?, (string)?, (string)?, (string)?, (object)?, (OrganizationStatus)?, (string)?]    
-    ): Promise<Models.Error> {
+    ): Promise<Models.Organization> {
         let params: { name: string, branche?: string, creditLimit?: number, customerNumber?: string, deliveryBlock?: boolean, lifecycleStage?: string, paymentTerms?: string, priceList?: string, settings?: object, status?: OrganizationStatus, vatId?: string };
         
         if ((paramsOrFirst && typeof paramsOrFirst === 'object' && !Array.isArray(paramsOrFirst))) {
@@ -1226,21 +1226,21 @@ export class CustomersOrganizations {
      *
      * @param {string} params.id - The organization to delete.
      * @throws {RevenexxException}
-     * @returns {Promise<Models.Error>}
+     * @returns {Promise<{}>}
      */
-    customersOrganizationsDelete(params: { id: string }): Promise<Models.Error>;
+    customersOrganizationsDelete(params: { id: string }): Promise<{}>;
     /**
      * An organization is a buying COMPANY — the unit a contract, a credit limit, a price list and a payment term belong to, and the unit an order is placed on behalf of. It is not a household and not a person: the people are `contacts`, and a company with no contacts yet is a perfectly normal row. Every organization is mirrored into platform auth as a team, so a name written here is the name storefront authentication shows. Removes the company and its mirrored team. Its people are NOT deleted: they become standalone buyers who can still sign in and still order, which is the behaviour a merchant winding down a subsidiary wants. Deleting one takes every `contact_events`, `addresses`, `organization_metrics` and `segment_members` row that points at it with it and clears `contacts.organization_id` rather than deleting those rows — the foreign keys decide, not this route.
      *
      * @param {string} id - The organization to delete.
      * @throws {RevenexxException}
-     * @returns {Promise<Models.Error>}
+     * @returns {Promise<{}>}
      * @deprecated Use the object parameter style method for a better developer experience.
      */
-    customersOrganizationsDelete(id: string): Promise<Models.Error>;
+    customersOrganizationsDelete(id: string): Promise<{}>;
     customersOrganizationsDelete(
         paramsOrFirst: { id: string } | string    
-    ): Promise<Models.Error> {
+    ): Promise<{}> {
         let params: { id: string };
         
         if ((paramsOrFirst && typeof paramsOrFirst === 'object' && !Array.isArray(paramsOrFirst))) {
@@ -1277,21 +1277,21 @@ export class CustomersOrganizations {
      *
      * @param {string} params.id - The organization to read.
      * @throws {RevenexxException}
-     * @returns {Promise<Models.Error>}
+     * @returns {Promise<Models.Organization>}
      */
-    customersOrganizationsGet(params: { id: string }): Promise<Models.Error>;
+    customersOrganizationsGet(params: { id: string }): Promise<Models.Organization>;
     /**
      * An organization is a buying COMPANY — the unit a contract, a credit limit, a price list and a payment term belong to, and the unit an order is placed on behalf of. It is not a household and not a person: the people are `contacts`, and a company with no contacts yet is a perfectly normal row. Every organization is mirrored into platform auth as a team, so a name written here is the name storefront authentication shows. One company by id, with its commercial terms as stored. What it has BOUGHT is not in here — that is the `organization_metrics` row for the same id, refreshed on its own schedule.
      *
      * @param {string} id - The organization to read.
      * @throws {RevenexxException}
-     * @returns {Promise<Models.Error>}
+     * @returns {Promise<Models.Organization>}
      * @deprecated Use the object parameter style method for a better developer experience.
      */
-    customersOrganizationsGet(id: string): Promise<Models.Error>;
+    customersOrganizationsGet(id: string): Promise<Models.Organization>;
     customersOrganizationsGet(
         paramsOrFirst: { id: string } | string    
-    ): Promise<Models.Error> {
+    ): Promise<Models.Organization> {
         let params: { id: string };
         
         if ((paramsOrFirst && typeof paramsOrFirst === 'object' && !Array.isArray(paramsOrFirst))) {
@@ -1339,9 +1339,9 @@ export class CustomersOrganizations {
      * @param {OrganizationStatus} params.status - ACCESS, not pipeline: 'blocked' stops this company's people from logging in and is where a rejected registration parks the company it founded. 'active' is the default. For how far along a company is, read `lifecycle_stage` — reading this one for that is how a won deal gets locked out. Default 'active'.
      * @param {string} params.vatId - VAT identification number (USt-IdNr. in Germany) — the closest thing a B2B buyer has to a legal identity. Validated against the EU VIES service when the tenant's `organization_vat_id_required` setting is on, and stored verbatim otherwise, including for buyers outside the EU.
      * @throws {RevenexxException}
-     * @returns {Promise<Models.Error>}
+     * @returns {Promise<Models.Organization>}
      */
-    customersOrganizationsUpdate(params: { id: string, branche?: string, creditLimit?: number, customerNumber?: string, deliveryBlock?: boolean, lifecycleStage?: string, name?: string, paymentTerms?: string, priceList?: string, settings?: object, status?: OrganizationStatus, vatId?: string }): Promise<Models.Error>;
+    customersOrganizationsUpdate(params: { id: string, branche?: string, creditLimit?: number, customerNumber?: string, deliveryBlock?: boolean, lifecycleStage?: string, name?: string, paymentTerms?: string, priceList?: string, settings?: object, status?: OrganizationStatus, vatId?: string }): Promise<Models.Organization>;
     /**
      * An organization is a buying COMPANY — the unit a contract, a credit limit, a price list and a payment term belong to, and the unit an order is placed on behalf of. It is not a household and not a person: the people are `contacts`, and a company with no contacts yet is a perfectly normal row. Every organization is mirrored into platform auth as a team, so a name written here is the name storefront authentication shows. A partial update — send only what changes. `external_team_id` is mirror-managed and ignored if sent. Blocking a company here is what stops it trading; moving it through the pipeline is `lifecycle_stage`, and the two are independent. Two rows of this tenant may not share `customer_number` (while customer_number IS NOT NULL) or `external_team_id` (while external_team_id IS NOT NULL).
      *
@@ -1358,14 +1358,14 @@ export class CustomersOrganizations {
      * @param {OrganizationStatus} status - ACCESS, not pipeline: 'blocked' stops this company's people from logging in and is where a rejected registration parks the company it founded. 'active' is the default. For how far along a company is, read `lifecycle_stage` — reading this one for that is how a won deal gets locked out. Default 'active'.
      * @param {string} vatId - VAT identification number (USt-IdNr. in Germany) — the closest thing a B2B buyer has to a legal identity. Validated against the EU VIES service when the tenant's `organization_vat_id_required` setting is on, and stored verbatim otherwise, including for buyers outside the EU.
      * @throws {RevenexxException}
-     * @returns {Promise<Models.Error>}
+     * @returns {Promise<Models.Organization>}
      * @deprecated Use the object parameter style method for a better developer experience.
      */
-    customersOrganizationsUpdate(id: string, branche?: string, creditLimit?: number, customerNumber?: string, deliveryBlock?: boolean, lifecycleStage?: string, name?: string, paymentTerms?: string, priceList?: string, settings?: object, status?: OrganizationStatus, vatId?: string): Promise<Models.Error>;
+    customersOrganizationsUpdate(id: string, branche?: string, creditLimit?: number, customerNumber?: string, deliveryBlock?: boolean, lifecycleStage?: string, name?: string, paymentTerms?: string, priceList?: string, settings?: object, status?: OrganizationStatus, vatId?: string): Promise<Models.Organization>;
     customersOrganizationsUpdate(
         paramsOrFirst: { id: string, branche?: string, creditLimit?: number, customerNumber?: string, deliveryBlock?: boolean, lifecycleStage?: string, name?: string, paymentTerms?: string, priceList?: string, settings?: object, status?: OrganizationStatus, vatId?: string } | string,
         ...rest: [(string)?, (number)?, (string)?, (boolean)?, (string)?, (string)?, (string)?, (string)?, (object)?, (OrganizationStatus)?, (string)?]    
-    ): Promise<Models.Error> {
+    ): Promise<Models.Organization> {
         let params: { id: string, branche?: string, creditLimit?: number, customerNumber?: string, deliveryBlock?: boolean, lifecycleStage?: string, name?: string, paymentTerms?: string, priceList?: string, settings?: object, status?: OrganizationStatus, vatId?: string };
         
         if ((paramsOrFirst && typeof paramsOrFirst === 'object' && !Array.isArray(paramsOrFirst))) {

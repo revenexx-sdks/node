@@ -27,9 +27,9 @@ export class Io {
      * @param {string} params.entity - 
      * @param {number} params.limit - 
      * @throws {RevenexxException}
-     * @returns {Promise<Models.ValidationFailedResponse>}
+     * @returns {Promise<{}>}
      */
-    listBulkJobs(params?: { type?: any, status?: any, vendor?: string, app?: string, entity?: string, limit?: number }): Promise<Models.ValidationFailedResponse>;
+    listBulkJobs(params?: { type?: any, status?: any, vendor?: string, app?: string, entity?: string, limit?: number }): Promise<{}>;
     /**
      * The calling tenant's bulk jobs, newest first. Jobs are created by the
      * feature blocks (import / export / A/B swap / tenant copy / sample) —
@@ -43,14 +43,14 @@ export class Io {
      * @param {string} entity - 
      * @param {number} limit - 
      * @throws {RevenexxException}
-     * @returns {Promise<Models.ValidationFailedResponse>}
+     * @returns {Promise<{}>}
      * @deprecated Use the object parameter style method for a better developer experience.
      */
-    listBulkJobs(type?: any, status?: any, vendor?: string, app?: string, entity?: string, limit?: number): Promise<Models.ValidationFailedResponse>;
+    listBulkJobs(type?: any, status?: any, vendor?: string, app?: string, entity?: string, limit?: number): Promise<{}>;
     listBulkJobs(
         paramsOrFirst?: { type?: any, status?: any, vendor?: string, app?: string, entity?: string, limit?: number } | any,
         ...rest: [(any)?, (string)?, (string)?, (string)?, (number)?]    
-    ): Promise<Models.ValidationFailedResponse> {
+    ): Promise<{}> {
         let params: { type?: any, status?: any, vendor?: string, app?: string, entity?: string, limit?: number };
         
         if (!paramsOrFirst || (paramsOrFirst && typeof paramsOrFirst === 'object' && !Array.isArray(paramsOrFirst) && ('type' in paramsOrFirst || 'status' in paramsOrFirst || 'vendor' in paramsOrFirst || 'app' in paramsOrFirst || 'entity' in paramsOrFirst || 'limit' in paramsOrFirst))) {
@@ -117,9 +117,9 @@ export class Io {
      *
      * @param {string} params.id - 
      * @throws {RevenexxException}
-     * @returns {Promise<Models.ValidationFailedResponse>}
+     * @returns {Promise<Models.BulkJob>}
      */
-    getBulkJob(params: { id: string }): Promise<Models.ValidationFailedResponse>;
+    getBulkJob(params: { id: string }): Promise<Models.BulkJob>;
     /**
      * Status, row counts, and progress for one bulk job.
      * 
@@ -130,13 +130,13 @@ export class Io {
      *
      * @param {string} id - 
      * @throws {RevenexxException}
-     * @returns {Promise<Models.ValidationFailedResponse>}
+     * @returns {Promise<Models.BulkJob>}
      * @deprecated Use the object parameter style method for a better developer experience.
      */
-    getBulkJob(id: string): Promise<Models.ValidationFailedResponse>;
+    getBulkJob(id: string): Promise<Models.BulkJob>;
     getBulkJob(
         paramsOrFirst: { id: string } | string    
-    ): Promise<Models.ValidationFailedResponse> {
+    ): Promise<Models.BulkJob> {
         let params: { id: string };
         
         if ((paramsOrFirst && typeof paramsOrFirst === 'object' && !Array.isArray(paramsOrFirst))) {
@@ -181,9 +181,9 @@ export class Io {
      * 
      *
      * @throws {RevenexxException}
-     * @returns {Promise<Models.ValidationFailedResponse>}
+     * @returns {Promise<{}>}
      */
-    listIoEntities(): Promise<Models.ValidationFailedResponse> {
+    listIoEntities(): Promise<{}> {
 
         const apiPath = '/v1/io/entities';
         const apiPayload: Payload = {};
@@ -213,9 +213,9 @@ export class Io {
      * @param {Format} params.format - 
      * @param {string} params.profileId - 
      * @throws {RevenexxException}
-     * @returns {Promise<Models.ValidationFailedResponse>}
+     * @returns {Promise<{}>}
      */
-    createExport(params: { app: string, entity: string, vendor: string, format?: Format, profileId?: string }): Promise<Models.ValidationFailedResponse>;
+    createExport(params: { app: string, entity: string, vendor: string, format?: Format, profileId?: string }): Promise<{}>;
     /**
      * Creates a `bulk_job` and dispatches the engine to export the tenant's
      * rows for an entity. CSV/XML stream row-by-row into an S3 multipart
@@ -229,14 +229,14 @@ export class Io {
      * @param {Format} format - 
      * @param {string} profileId - 
      * @throws {RevenexxException}
-     * @returns {Promise<Models.ValidationFailedResponse>}
+     * @returns {Promise<{}>}
      * @deprecated Use the object parameter style method for a better developer experience.
      */
-    createExport(app: string, entity: string, vendor: string, format?: Format, profileId?: string): Promise<Models.ValidationFailedResponse>;
+    createExport(app: string, entity: string, vendor: string, format?: Format, profileId?: string): Promise<{}>;
     createExport(
         paramsOrFirst: { app: string, entity: string, vendor: string, format?: Format, profileId?: string } | string,
         ...rest: [(string)?, (string)?, (Format)?, (string)?]    
-    ): Promise<Models.ValidationFailedResponse> {
+    ): Promise<{}> {
         let params: { app: string, entity: string, vendor: string, format?: Format, profileId?: string };
         
         if ((paramsOrFirst && typeof paramsOrFirst === 'object' && !Array.isArray(paramsOrFirst))) {
@@ -310,9 +310,9 @@ export class Io {
      *
      * @param {string} params.id - The export job's id.
      * @throws {RevenexxException}
-     * @returns {Promise<Models.ValidationFailedResponse>}
+     * @returns {Promise<{}>}
      */
-    getExportUrl(params: { id: string }): Promise<Models.ValidationFailedResponse>;
+    getExportUrl(params: { id: string }): Promise<{}>;
     /**
      * Mints a short-TTL signed S3 `GET` URL for the object a completed
      * export wrote. Tenant-scoped: an id belonging to another tenant — or
@@ -325,13 +325,13 @@ export class Io {
      *
      * @param {string} id - The export job's id.
      * @throws {RevenexxException}
-     * @returns {Promise<Models.ValidationFailedResponse>}
+     * @returns {Promise<{}>}
      * @deprecated Use the object parameter style method for a better developer experience.
      */
-    getExportUrl(id: string): Promise<Models.ValidationFailedResponse>;
+    getExportUrl(id: string): Promise<{}>;
     getExportUrl(
         paramsOrFirst: { id: string } | string    
-    ): Promise<Models.ValidationFailedResponse> {
+    ): Promise<{}> {
         let params: { id: string };
         
         if ((paramsOrFirst && typeof paramsOrFirst === 'object' && !Array.isArray(paramsOrFirst))) {
@@ -385,9 +385,9 @@ unlimited (reject-and-continue); `0` = fail-fast.
 sibling for diff + switch-over instead of writing live.
 
      * @throws {RevenexxException}
-     * @returns {Promise<Models.ValidationFailedResponse>}
+     * @returns {Promise<{}>}
      */
-    createImport(params: { app: string, entity: string, objectKey: string, vendor: string, format?: Format, keys?: string[], maxRejects?: number, mode?: Mode, profileId?: string, target?: CreateImportTarget }): Promise<Models.ValidationFailedResponse>;
+    createImport(params: { app: string, entity: string, objectKey: string, vendor: string, format?: Format, keys?: string[], maxRejects?: number, mode?: Mode, profileId?: string, target?: CreateImportTarget }): Promise<{}>;
     /**
      * Creates a `bulk_job` and dispatches the engine to import a previously
      * uploaded object into the named entity. The engine streams CSV
@@ -410,14 +410,14 @@ unlimited (reject-and-continue); `0` = fail-fast.
 sibling for diff + switch-over instead of writing live.
 
      * @throws {RevenexxException}
-     * @returns {Promise<Models.ValidationFailedResponse>}
+     * @returns {Promise<{}>}
      * @deprecated Use the object parameter style method for a better developer experience.
      */
-    createImport(app: string, entity: string, objectKey: string, vendor: string, format?: Format, keys?: string[], maxRejects?: number, mode?: Mode, profileId?: string, target?: CreateImportTarget): Promise<Models.ValidationFailedResponse>;
+    createImport(app: string, entity: string, objectKey: string, vendor: string, format?: Format, keys?: string[], maxRejects?: number, mode?: Mode, profileId?: string, target?: CreateImportTarget): Promise<{}>;
     createImport(
         paramsOrFirst: { app: string, entity: string, objectKey: string, vendor: string, format?: Format, keys?: string[], maxRejects?: number, mode?: Mode, profileId?: string, target?: CreateImportTarget } | string,
         ...rest: [(string)?, (string)?, (string)?, (Format)?, (string[])?, (number)?, (Mode)?, (string)?, (CreateImportTarget)?]    
-    ): Promise<Models.ValidationFailedResponse> {
+    ): Promise<{}> {
         let params: { app: string, entity: string, objectKey: string, vendor: string, format?: Format, keys?: string[], maxRejects?: number, mode?: Mode, profileId?: string, target?: CreateImportTarget };
         
         if ((paramsOrFirst && typeof paramsOrFirst === 'object' && !Array.isArray(paramsOrFirst))) {
@@ -517,9 +517,9 @@ sibling for diff + switch-over instead of writing live.
      * 
      *
      * @throws {RevenexxException}
-     * @returns {Promise<Models.ValidationFailedResponse>}
+     * @returns {Promise<{}>}
      */
-    listProfiles(): Promise<Models.ValidationFailedResponse> {
+    listProfiles(): Promise<{}> {
 
         const apiPath = '/v1/io/profiles';
         const apiPayload: Payload = {};
@@ -559,9 +559,9 @@ empty means global — offered for every market.
 
      * @param {object} params.options - Free-form per-profile engine options.
      * @throws {RevenexxException}
-     * @returns {Promise<Models.ValidationFailedResponse>}
+     * @returns {Promise<Models.IoProfileResource>}
      */
-    createProfile(params: { app: string, direction: Direction, entity: string, format: string, name: string, vendor: string, applyMode?: ApplyMode, mapping?: object, markets?: string[], options?: object }): Promise<Models.ValidationFailedResponse>;
+    createProfile(params: { app: string, direction: Direction, entity: string, format: string, name: string, vendor: string, applyMode?: ApplyMode, mapping?: object, markets?: string[], options?: object }): Promise<Models.IoProfileResource>;
     /**
      * A tenant-secured, reusable mapping (field rename + transforms + keys)
      * for a direction (`import`/`export`), format, and entity. Runnable
@@ -585,14 +585,14 @@ empty means global — offered for every market.
 
      * @param {object} options - Free-form per-profile engine options.
      * @throws {RevenexxException}
-     * @returns {Promise<Models.ValidationFailedResponse>}
+     * @returns {Promise<Models.IoProfileResource>}
      * @deprecated Use the object parameter style method for a better developer experience.
      */
-    createProfile(app: string, direction: Direction, entity: string, format: string, name: string, vendor: string, applyMode?: ApplyMode, mapping?: object, markets?: string[], options?: object): Promise<Models.ValidationFailedResponse>;
+    createProfile(app: string, direction: Direction, entity: string, format: string, name: string, vendor: string, applyMode?: ApplyMode, mapping?: object, markets?: string[], options?: object): Promise<Models.IoProfileResource>;
     createProfile(
         paramsOrFirst: { app: string, direction: Direction, entity: string, format: string, name: string, vendor: string, applyMode?: ApplyMode, mapping?: object, markets?: string[], options?: object } | string,
         ...rest: [(Direction)?, (string)?, (string)?, (string)?, (string)?, (ApplyMode)?, (object)?, (string[])?, (object)?]    
-    ): Promise<Models.ValidationFailedResponse> {
+    ): Promise<Models.IoProfileResource> {
         let params: { app: string, direction: Direction, entity: string, format: string, name: string, vendor: string, applyMode?: ApplyMode, mapping?: object, markets?: string[], options?: object };
         
         if ((paramsOrFirst && typeof paramsOrFirst === 'object' && !Array.isArray(paramsOrFirst))) {
@@ -697,9 +697,9 @@ empty means global — offered for every market.
      *
      * @param {string} params.id - 
      * @throws {RevenexxException}
-     * @returns {Promise<Models.ValidationFailedResponse>}
+     * @returns {Promise<{}>}
      */
-    deleteProfile(params: { id: string }): Promise<Models.ValidationFailedResponse>;
+    deleteProfile(params: { id: string }): Promise<{}>;
     /**
      * Permanently remove a saved profile owned by the calling tenant.
      * 
@@ -709,13 +709,13 @@ empty means global — offered for every market.
      *
      * @param {string} id - 
      * @throws {RevenexxException}
-     * @returns {Promise<Models.ValidationFailedResponse>}
+     * @returns {Promise<{}>}
      * @deprecated Use the object parameter style method for a better developer experience.
      */
-    deleteProfile(id: string): Promise<Models.ValidationFailedResponse>;
+    deleteProfile(id: string): Promise<{}>;
     deleteProfile(
         paramsOrFirst: { id: string } | string    
-    ): Promise<Models.ValidationFailedResponse> {
+    ): Promise<{}> {
         let params: { id: string };
         
         if ((paramsOrFirst && typeof paramsOrFirst === 'object' && !Array.isArray(paramsOrFirst))) {
@@ -754,9 +754,9 @@ empty means global — offered for every market.
      *
      * @param {string} params.id - 
      * @throws {RevenexxException}
-     * @returns {Promise<Models.ValidationFailedResponse>}
+     * @returns {Promise<Models.IoProfileResource>}
      */
-    showProfile(params: { id: string }): Promise<Models.ValidationFailedResponse>;
+    showProfile(params: { id: string }): Promise<Models.IoProfileResource>;
     /**
      * A single saved profile. Tenant-scoped: an id owned by another tenant
      * is indistinguishable from a non-existent one and answers `404`.
@@ -764,13 +764,13 @@ empty means global — offered for every market.
      *
      * @param {string} id - 
      * @throws {RevenexxException}
-     * @returns {Promise<Models.ValidationFailedResponse>}
+     * @returns {Promise<Models.IoProfileResource>}
      * @deprecated Use the object parameter style method for a better developer experience.
      */
-    showProfile(id: string): Promise<Models.ValidationFailedResponse>;
+    showProfile(id: string): Promise<Models.IoProfileResource>;
     showProfile(
         paramsOrFirst: { id: string } | string    
-    ): Promise<Models.ValidationFailedResponse> {
+    ): Promise<Models.IoProfileResource> {
         let params: { id: string };
         
         if ((paramsOrFirst && typeof paramsOrFirst === 'object' && !Array.isArray(paramsOrFirst))) {
@@ -823,9 +823,9 @@ empty means global — offered for every market.
 
      * @param {object} params.options - Free-form per-profile engine options.
      * @throws {RevenexxException}
-     * @returns {Promise<Models.ValidationFailedResponse>}
+     * @returns {Promise<Models.IoProfileResource>}
      */
-    updateProfile(params: { id: string, app: string, direction: Direction, entity: string, format: string, name: string, vendor: string, applyMode?: ApplyMode, mapping?: object, markets?: string[], options?: object }): Promise<Models.ValidationFailedResponse>;
+    updateProfile(params: { id: string, app: string, direction: Direction, entity: string, format: string, name: string, vendor: string, applyMode?: ApplyMode, mapping?: object, markets?: string[], options?: object }): Promise<Models.IoProfileResource>;
     /**
      * Replace a saved profile's mapping, format, or apply mode (tenant-scoped).
      *
@@ -847,14 +847,14 @@ empty means global — offered for every market.
 
      * @param {object} options - Free-form per-profile engine options.
      * @throws {RevenexxException}
-     * @returns {Promise<Models.ValidationFailedResponse>}
+     * @returns {Promise<Models.IoProfileResource>}
      * @deprecated Use the object parameter style method for a better developer experience.
      */
-    updateProfile(id: string, app: string, direction: Direction, entity: string, format: string, name: string, vendor: string, applyMode?: ApplyMode, mapping?: object, markets?: string[], options?: object): Promise<Models.ValidationFailedResponse>;
+    updateProfile(id: string, app: string, direction: Direction, entity: string, format: string, name: string, vendor: string, applyMode?: ApplyMode, mapping?: object, markets?: string[], options?: object): Promise<Models.IoProfileResource>;
     updateProfile(
         paramsOrFirst: { id: string, app: string, direction: Direction, entity: string, format: string, name: string, vendor: string, applyMode?: ApplyMode, mapping?: object, markets?: string[], options?: object } | string,
         ...rest: [(string)?, (Direction)?, (string)?, (string)?, (string)?, (string)?, (ApplyMode)?, (object)?, (string[])?, (object)?]    
-    ): Promise<Models.ValidationFailedResponse> {
+    ): Promise<Models.IoProfileResource> {
         let params: { id: string, app: string, direction: Direction, entity: string, format: string, name: string, vendor: string, applyMode?: ApplyMode, mapping?: object, markets?: string[], options?: object };
         
         if ((paramsOrFirst && typeof paramsOrFirst === 'object' && !Array.isArray(paramsOrFirst))) {
@@ -971,9 +971,9 @@ key. Omitting it on an import answers `422` with
 `RUN_NO_OBJECT`.
 
      * @throws {RevenexxException}
-     * @returns {Promise<Models.ValidationFailedResponse>}
+     * @returns {Promise<{}>}
      */
-    runProfile(params: { id: string, markets?: string[], objectKey?: string }): Promise<Models.ValidationFailedResponse>;
+    runProfile(params: { id: string, markets?: string[], objectKey?: string }): Promise<{}>;
     /**
      * Dispatches the engine using the saved profile. An import run requires
      * `object_key` (upload first); an export run writes a generated key.
@@ -990,14 +990,14 @@ key. Omitting it on an import answers `422` with
 `RUN_NO_OBJECT`.
 
      * @throws {RevenexxException}
-     * @returns {Promise<Models.ValidationFailedResponse>}
+     * @returns {Promise<{}>}
      * @deprecated Use the object parameter style method for a better developer experience.
      */
-    runProfile(id: string, markets?: string[], objectKey?: string): Promise<Models.ValidationFailedResponse>;
+    runProfile(id: string, markets?: string[], objectKey?: string): Promise<{}>;
     runProfile(
         paramsOrFirst: { id: string, markets?: string[], objectKey?: string } | string,
         ...rest: [(string[])?, (string)?]    
-    ): Promise<Models.ValidationFailedResponse> {
+    ): Promise<{}> {
         let params: { id: string, markets?: string[], objectKey?: string };
         
         if ((paramsOrFirst && typeof paramsOrFirst === 'object' && !Array.isArray(paramsOrFirst))) {
@@ -1049,9 +1049,9 @@ key. Omitting it on an import answers `422` with
      *
      * @param {string} params.extension - File extension for the generated key.
      * @throws {RevenexxException}
-     * @returns {Promise<Models.ValidationFailedResponse>}
+     * @returns {Promise<{}>}
      */
-    createUpload(params?: { extension?: string }): Promise<Models.ValidationFailedResponse>;
+    createUpload(params?: { extension?: string }): Promise<{}>;
     /**
      * Returns a short-lived signed S3 `PUT` URL (+ required headers) and
      * the `object_key` to reference in a subsequent `/io/imports`. The
@@ -1061,13 +1061,13 @@ key. Omitting it on an import answers `422` with
      *
      * @param {string} extension - File extension for the generated key.
      * @throws {RevenexxException}
-     * @returns {Promise<Models.ValidationFailedResponse>}
+     * @returns {Promise<{}>}
      * @deprecated Use the object parameter style method for a better developer experience.
      */
-    createUpload(extension?: string): Promise<Models.ValidationFailedResponse>;
+    createUpload(extension?: string): Promise<{}>;
     createUpload(
         paramsOrFirst?: { extension?: string } | string    
-    ): Promise<Models.ValidationFailedResponse> {
+    ): Promise<{}> {
         let params: { extension?: string };
         
         if (!paramsOrFirst || (paramsOrFirst && typeof paramsOrFirst === 'object' && !Array.isArray(paramsOrFirst))) {

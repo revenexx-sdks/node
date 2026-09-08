@@ -1,4 +1,3 @@
-import { File } from "node-fetch-native-with-agent";
 import { realpathSync, readFileSync } from "fs";
 import type { BinaryLike } from "crypto";
 

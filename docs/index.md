@@ -13,6 +13,9 @@ Revenexx Node.js SDK for server-side applications.
 
 ## Installation
 
+Requires **Node.js 20.18.1 or newer** — the client uses the runtime's built-in
+`fetch`, `FormData` and `File`.
+
 To install via [NPM](https://www.npmjs.com/):
 
 ```bash
