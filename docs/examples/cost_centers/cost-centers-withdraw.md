@@ -10,6 +10,7 @@ const costCenters = new sdk.CostCenters(client);
 
 const result = await costCenters.costCentersWithdraw({
     purchaseRequestId: '',
+    allocations: [], // optional
     currency: '', // optional
     note: '' // optional
 });

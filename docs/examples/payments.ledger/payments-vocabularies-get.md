@@ -9,6 +9,6 @@ const client = new sdk.Client()
 const paymentsLedger = new sdk.PaymentsLedger(client);
 
 const result = await paymentsLedger.paymentsVocabulariesGet({
-    name: sdk.PaymentsVocabulariesGetName.DunningStages
+    name: sdk.PaymentsVocabulariesGetName.Dunningstages
 });
 ```

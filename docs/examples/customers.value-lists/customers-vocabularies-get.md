@@ -9,6 +9,6 @@ const client = new sdk.Client()
 const customersValueLists = new sdk.CustomersValueLists(client);
 
 const result = await customersValueLists.customersVocabulariesGet({
-    name: sdk.CustomersVocabulariesGetName.AddressTypes
+    name: sdk.CustomersVocabulariesGetName.Addresstypes
 });
 ```

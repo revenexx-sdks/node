@@ -9,6 +9,6 @@ const client = new sdk.Client()
 const forms = new sdk.Forms(client);
 
 const result = await forms.formsVocabulariesGet({
-    name: sdk.FormsVocabulariesGetName.FormStatuses
+    name: sdk.FormsVocabulariesGetName.Formstatuses
 });
 ```

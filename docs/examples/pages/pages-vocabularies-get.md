@@ -9,6 +9,6 @@ const client = new sdk.Client()
 const pages = new sdk.Pages(client);
 
 const result = await pages.pagesVocabulariesGet({
-    name: sdk.PagesVocabulariesGetName.EditStateStatuses
+    name: sdk.PagesVocabulariesGetName.Editstatestatuses
 });
 ```

@@ -14,6 +14,8 @@ const result = await customersSegments.customersSegmentsList({
     position: 1, // optional
     ruleMatch: sdk.RuleMatch.All, // optional
     rulesComputedAt: '2026-01-01T12:00:00Z', // optional
+    externalId: 'PREISGRUPPE-03', // optional
+    sourceSyncedAt: '2026-01-01T12:00:00Z', // optional
     createdAt: '2026-01-01T12:00:00Z', // optional
     updatedAt: '2026-01-01T12:00:00Z', // optional
     limit: 1, // optional

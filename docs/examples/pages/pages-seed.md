@@ -9,7 +9,10 @@ const client = new sdk.Client()
 const pages = new sdk.Pages(client);
 
 const result = await pages.pagesSeed({
+    library: [], // optional
     menus: [], // optional
-    pages: [] // optional
+    mode: sdk.PagesSeedMode.Fill, // optional
+    pages: [], // optional
+    settings: {} // optional
 });
 ```

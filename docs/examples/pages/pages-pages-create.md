@@ -14,6 +14,7 @@ const result = await pages.pagesPagesCreate({
     hostOptions: {}, // optional
     meta: {}, // optional
     slug: 'about-us', // optional
-    sourceLanguage: 'de' // optional
+    sourceLanguage: 'de', // optional
+    templateId: '' // optional
 });
 ```

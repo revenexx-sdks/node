@@ -14,7 +14,7 @@ const result = await products.productsList({
     order: 'created_at.desc', // optional
     id: '', // optional
     sku: 'ACME-4711-BLK', // optional
-    kind: sdk.Kind.Simple, // optional
+    kind: sdk.ProductsListKind.Simple, // optional
     parentId: '', // optional
     familyId: '', // optional
     familyVariantId: '', // optional
@@ -24,6 +24,10 @@ const result = await products.productsList({
     label: 'Akku-Bohrschrauber 18V', // optional
     quantifiedAssociations: '{}', // optional
     completeness: '{}', // optional
+    externalId: 'ART-4711', // optional
+    externalRefs: '{}', // optional
+    sourceSyncedAt: '2026-01-01T12:00:00Z', // optional
+    sourceData: '{}', // optional
     createdAt: '2026-01-01T12:00:00Z', // optional
     updatedAt: '2026-01-01T12:00:00Z', // optional
     deletedAt: '2026-01-01T12:00:00Z' // optional

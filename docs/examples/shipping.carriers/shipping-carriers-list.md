@@ -14,6 +14,7 @@ const result = await shippingCarriers.shippingCarriersList({
     order: 'position.asc', // optional
     code: 'acme-parcel', // optional
     status: sdk.ShippingCarriersListStatus.Active, // optional
-    serviceLevel: 'express' // optional
+    serviceLevel: 'express', // optional
+    externalId: 'SPEDITEUR-014' // optional
 });
 ```

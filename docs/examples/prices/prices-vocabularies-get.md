@@ -9,6 +9,6 @@ const client = new sdk.Client()
 const prices = new sdk.Prices(client);
 
 const result = await prices.pricesVocabulariesGet({
-    name: sdk.PricesVocabulariesGetName.ListStatuses
+    name: sdk.PricesVocabulariesGetName.Liststatuses
 });
 ```

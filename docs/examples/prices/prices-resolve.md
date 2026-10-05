@@ -15,6 +15,7 @@ const result = await prices.pricesResolve({
     contactId: '', // optional
     currency: 'EUR', // optional
     marketId: '', // optional
-    organizationId: '' // optional
+    organizationId: '', // optional
+    segmentCodes: ["wholesale"] // optional
 });
 ```

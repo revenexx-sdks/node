@@ -9,6 +9,6 @@ const client = new sdk.Client()
 const inventoriesStock = new sdk.InventoriesStock(client);
 
 const result = await inventoriesStock.inventoriesVocabulariesGet({
-    name: sdk.InventoriesVocabulariesGetName.LocationTypes
+    name: sdk.InventoriesVocabulariesGetName.Availabilitystates
 });
 ```

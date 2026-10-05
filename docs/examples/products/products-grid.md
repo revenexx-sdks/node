@@ -13,7 +13,7 @@ const result = await products.productsGrid({
     offset: 1, // optional
     order: 'created_at.desc', // optional
     q: 'cordless drill', // optional
-    kind: sdk.Kind.Simple, // optional
+    kind: sdk.ProductsListKind.Simple, // optional
     enabled: true, // optional
     familyId: '' // optional
 });

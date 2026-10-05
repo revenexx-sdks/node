@@ -9,6 +9,6 @@ const client = new sdk.Client()
 const shippingValueLists = new sdk.ShippingValueLists(client);
 
 const result = await shippingValueLists.shippingVocabulariesGet({
-    name: sdk.ShippingVocabulariesGetName.CarrierStatuses
+    name: sdk.ShippingVocabulariesGetName.Carrierstatuses
 });
 ```

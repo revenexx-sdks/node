@@ -4,4 +4,5 @@ export enum CostCenterRestrictionType {
     Product = 'product',
     Category = 'category',
     Catalog = 'catalog',
+    Punchout = 'punchout',
 }

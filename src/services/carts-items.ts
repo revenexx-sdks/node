@@ -22,7 +22,6 @@ export class CartsItems {
      * @param {number} params.quantity - Exact quantity — equality, so it matches a line of exactly this many, never 'at least'.
      * @param {string} params.unit - Lines counted in one unit ('pcs', 'm').
      * @param {number} params.unitPrice - Exact unit price — the lines still sitting at one particular number after a repricing run.
-     * @param {string} params.currency - Lines priced in one currency — normally the cart's, so this earns its place only where a cart mixes them.
      * @param {number} params.taxRate - Lines at one VAT rate.
      * @param {number} params.lineTotal - Exact line total. Equality only — there is no range form, so this finds `0` and little else.
      * @param {number} params.position - The line at one position.
@@ -34,7 +33,7 @@ export class CartsItems {
      * @throws {RevenexxException}
      * @returns {Promise<{}>}
      */
-    cartsItemsList(params: { cartId: string, id?: string, type?: CartItemType, productId?: string, sku?: string, name?: string, quantity?: number, unit?: string, unitPrice?: number, currency?: string, taxRate?: number, lineTotal?: number, position?: number, createdAt?: string, updatedAt?: string, limit?: number, offset?: number, order?: string }): Promise<{}>;
+    cartsItemsList(params: { cartId: string, id?: string, type?: CartItemType, productId?: string, sku?: string, name?: string, quantity?: number, unit?: string, unitPrice?: number, taxRate?: number, lineTotal?: number, position?: number, createdAt?: string, updatedAt?: string, limit?: number, offset?: number, order?: string }): Promise<{}>;
     /**
      * The array is still called 'items'; the response also carries 'page' and 'filter' like every other list, and an unknown cart_id answers 404 instead of an empty page. A cart with more lines than the page size is not silently truncated — 'page.hasMore' says so. Lines come back in position order unless 'order' says otherwise.
      *
@@ -47,7 +46,6 @@ export class CartsItems {
      * @param {number} quantity - Exact quantity — equality, so it matches a line of exactly this many, never 'at least'.
      * @param {string} unit - Lines counted in one unit ('pcs', 'm').
      * @param {number} unitPrice - Exact unit price — the lines still sitting at one particular number after a repricing run.
-     * @param {string} currency - Lines priced in one currency — normally the cart's, so this earns its place only where a cart mixes them.
      * @param {number} taxRate - Lines at one VAT rate.
      * @param {number} lineTotal - Exact line total. Equality only — there is no range form, so this finds `0` and little else.
      * @param {number} position - The line at one position.
@@ -60,15 +58,15 @@ export class CartsItems {
      * @returns {Promise<{}>}
      * @deprecated Use the object parameter style method for a better developer experience.
      */
-    cartsItemsList(cartId: string, id?: string, type?: CartItemType, productId?: string, sku?: string, name?: string, quantity?: number, unit?: string, unitPrice?: number, currency?: string, taxRate?: number, lineTotal?: number, position?: number, createdAt?: string, updatedAt?: string, limit?: number, offset?: number, order?: string): Promise<{}>;
+    cartsItemsList(cartId: string, id?: string, type?: CartItemType, productId?: string, sku?: string, name?: string, quantity?: number, unit?: string, unitPrice?: number, taxRate?: number, lineTotal?: number, position?: number, createdAt?: string, updatedAt?: string, limit?: number, offset?: number, order?: string): Promise<{}>;
     cartsItemsList(
-        paramsOrFirst: { cartId: string, id?: string, type?: CartItemType, productId?: string, sku?: string, name?: string, quantity?: number, unit?: string, unitPrice?: number, currency?: string, taxRate?: number, lineTotal?: number, position?: number, createdAt?: string, updatedAt?: string, limit?: number, offset?: number, order?: string } | string,
-        ...rest: [(string)?, (CartItemType)?, (string)?, (string)?, (string)?, (number)?, (string)?, (number)?, (string)?, (number)?, (number)?, (number)?, (string)?, (string)?, (number)?, (number)?, (string)?]    
+        paramsOrFirst: { cartId: string, id?: string, type?: CartItemType, productId?: string, sku?: string, name?: string, quantity?: number, unit?: string, unitPrice?: number, taxRate?: number, lineTotal?: number, position?: number, createdAt?: string, updatedAt?: string, limit?: number, offset?: number, order?: string } | string,
+        ...rest: [(string)?, (CartItemType)?, (string)?, (string)?, (string)?, (number)?, (string)?, (number)?, (number)?, (number)?, (number)?, (string)?, (string)?, (number)?, (number)?, (string)?]    
     ): Promise<{}> {
-        let params: { cartId: string, id?: string, type?: CartItemType, productId?: string, sku?: string, name?: string, quantity?: number, unit?: string, unitPrice?: number, currency?: string, taxRate?: number, lineTotal?: number, position?: number, createdAt?: string, updatedAt?: string, limit?: number, offset?: number, order?: string };
+        let params: { cartId: string, id?: string, type?: CartItemType, productId?: string, sku?: string, name?: string, quantity?: number, unit?: string, unitPrice?: number, taxRate?: number, lineTotal?: number, position?: number, createdAt?: string, updatedAt?: string, limit?: number, offset?: number, order?: string };
         
         if ((paramsOrFirst && typeof paramsOrFirst === 'object' && !Array.isArray(paramsOrFirst))) {
-            params = (paramsOrFirst || {}) as { cartId: string, id?: string, type?: CartItemType, productId?: string, sku?: string, name?: string, quantity?: number, unit?: string, unitPrice?: number, currency?: string, taxRate?: number, lineTotal?: number, position?: number, createdAt?: string, updatedAt?: string, limit?: number, offset?: number, order?: string };
+            params = (paramsOrFirst || {}) as { cartId: string, id?: string, type?: CartItemType, productId?: string, sku?: string, name?: string, quantity?: number, unit?: string, unitPrice?: number, taxRate?: number, lineTotal?: number, position?: number, createdAt?: string, updatedAt?: string, limit?: number, offset?: number, order?: string };
         } else {
             params = {
                 cartId: paramsOrFirst as string,
@@ -80,15 +78,14 @@ export class CartsItems {
                 quantity: rest[5] as number,
                 unit: rest[6] as string,
                 unitPrice: rest[7] as number,
-                currency: rest[8] as string,
-                taxRate: rest[9] as number,
-                lineTotal: rest[10] as number,
-                position: rest[11] as number,
-                createdAt: rest[12] as string,
-                updatedAt: rest[13] as string,
-                limit: rest[14] as number,
-                offset: rest[15] as number,
-                order: rest[16] as string            
+                taxRate: rest[8] as number,
+                lineTotal: rest[9] as number,
+                position: rest[10] as number,
+                createdAt: rest[11] as string,
+                updatedAt: rest[12] as string,
+                limit: rest[13] as number,
+                offset: rest[14] as number,
+                order: rest[15] as string            
             };
         }
         
@@ -101,7 +98,6 @@ export class CartsItems {
         const quantity = params.quantity;
         const unit = params.unit;
         const unitPrice = params.unitPrice;
-        const currency = params.currency;
         const taxRate = params.taxRate;
         const lineTotal = params.lineTotal;
         const position = params.position;
@@ -141,9 +137,6 @@ export class CartsItems {
         if (typeof unitPrice !== 'undefined') {
             apiPayload['unit_price'] = unitPrice;
         }
-        if (typeof currency !== 'undefined') {
-            apiPayload['currency'] = currency;
-        }
         if (typeof taxRate !== 'undefined') {
             apiPayload['tax_rate'] = taxRate;
         }
@@ -182,11 +175,11 @@ export class CartsItems {
     }
 
     /**
-     * Adds one line to an ACTIVE cart — the add-to-basket call. `name` or `sku` is required (a line sent with only a SKU takes the SKU as its name, so a line always has something to show) and `quantity` must be greater than zero; everything else defaults, including the currency, which falls back to the cart's. The one thing that surprises a caller: a plain product line with the same product/sku AND the same `unit_price` as a line already in the cart does not open a second row — its quantity is added to that line, and the 201 names a row that already existed. Price is part of that identity on purpose, so a changed price never averages into an old line. A configured or custom line always stands alone. The cart's `item_count` (the sum of QUANTITIES) and `subtotal` are recomputed before the answer, and `max_items_per_cart` / `max_quantity_per_line` are checked on the RESULT of the merge (422), so ten calls of one piece cannot walk past a limit one call of ten would hit.
+     * Adds one line to an ACTIVE cart — the add-to-basket call. `name` or `sku` is required (a line sent with only a SKU takes the SKU as its name, so a line always has something to show) and `quantity` must be greater than zero; everything else defaults. The line is priced in the CART's currency and stores none of its own, so a `currency` in the payload may only repeat the cart's — a different one is a 409. The one thing that surprises a caller: a plain product line with the same product/sku AND the same `unit_price` as a line already in the cart does not open a second row — its quantity is added to that line, and the 201 names a row that already existed. Price is part of that identity on purpose, so a changed price never averages into an old line. A configured or custom line always stands alone. The cart's `item_count` (the sum of QUANTITIES) and `subtotal` are recomputed before the answer, and `max_items_per_cart` / `max_quantity_per_line` are checked on the RESULT of the merge (422), so ten calls of one piece cannot walk past a limit one call of ten would hit.
      *
      * @param {string} params.cartId - The cart the line belongs to, by its id. An id no cart in this tenant has answers 404 rather than an empty list, so a wrong cart is never mistaken for an empty one.
      * @param {object} params.configuration - What was configured on this line, in the configurator's own vocabulary — this app stores it and reads nothing out of it. Its mere PRESENCE is behaviour: a line that carries a configuration never merges with another, because two differently configured units of the same article are not one line. Keys are the configurator's; the example is one shape, not the shape.
-     * @param {string} params.currency - ISO 4217 code. Defaults to the cart's currency.
+     * @param {string} params.currency - Optional, and it cannot change anything: a line is read in its CART's currency and stores none of its own. Sending the cart's code (or nothing) is accepted — which is what makes an exported line re-importable — and sending a different one answers 409 `currency_mismatch` rather than being converted or quietly stored.
      * @param {object} params.metadata - Free-form data the storefront hangs on the line. Stored and returned verbatim; no key in here is read by this app.
      * @param {string} params.name - What the line reads as on the cart page. Falls back to 'sku' when omitted, so a line always has something to show.
      * @param {number} params.position - Sort order within the cart, ascending. Default 0 when adding a line; in a bulk replace the payload order fills it in.
@@ -203,11 +196,11 @@ export class CartsItems {
      */
     cartsItemsCreate(params: { cartId: string, configuration?: object, currency?: string, metadata?: object, name?: string, position?: number, productId?: string, quantity?: number, sku?: string, snapshot?: object, taxRate?: number, type?: CartItemType, unit?: string, unitPrice?: number }): Promise<Models.CartItem>;
     /**
-     * Adds one line to an ACTIVE cart — the add-to-basket call. `name` or `sku` is required (a line sent with only a SKU takes the SKU as its name, so a line always has something to show) and `quantity` must be greater than zero; everything else defaults, including the currency, which falls back to the cart's. The one thing that surprises a caller: a plain product line with the same product/sku AND the same `unit_price` as a line already in the cart does not open a second row — its quantity is added to that line, and the 201 names a row that already existed. Price is part of that identity on purpose, so a changed price never averages into an old line. A configured or custom line always stands alone. The cart's `item_count` (the sum of QUANTITIES) and `subtotal` are recomputed before the answer, and `max_items_per_cart` / `max_quantity_per_line` are checked on the RESULT of the merge (422), so ten calls of one piece cannot walk past a limit one call of ten would hit.
+     * Adds one line to an ACTIVE cart — the add-to-basket call. `name` or `sku` is required (a line sent with only a SKU takes the SKU as its name, so a line always has something to show) and `quantity` must be greater than zero; everything else defaults. The line is priced in the CART's currency and stores none of its own, so a `currency` in the payload may only repeat the cart's — a different one is a 409. The one thing that surprises a caller: a plain product line with the same product/sku AND the same `unit_price` as a line already in the cart does not open a second row — its quantity is added to that line, and the 201 names a row that already existed. Price is part of that identity on purpose, so a changed price never averages into an old line. A configured or custom line always stands alone. The cart's `item_count` (the sum of QUANTITIES) and `subtotal` are recomputed before the answer, and `max_items_per_cart` / `max_quantity_per_line` are checked on the RESULT of the merge (422), so ten calls of one piece cannot walk past a limit one call of ten would hit.
      *
      * @param {string} cartId - The cart the line belongs to, by its id. An id no cart in this tenant has answers 404 rather than an empty list, so a wrong cart is never mistaken for an empty one.
      * @param {object} configuration - What was configured on this line, in the configurator's own vocabulary — this app stores it and reads nothing out of it. Its mere PRESENCE is behaviour: a line that carries a configuration never merges with another, because two differently configured units of the same article are not one line. Keys are the configurator's; the example is one shape, not the shape.
-     * @param {string} currency - ISO 4217 code. Defaults to the cart's currency.
+     * @param {string} currency - Optional, and it cannot change anything: a line is read in its CART's currency and stores none of its own. Sending the cart's code (or nothing) is accepted — which is what makes an exported line re-importable — and sending a different one answers 409 `currency_mismatch` rather than being converted or quietly stored.
      * @param {object} metadata - Free-form data the storefront hangs on the line. Stored and returned verbatim; no key in here is read by this app.
      * @param {string} name - What the line reads as on the cart page. Falls back to 'sku' when omitted, so a line always has something to show.
      * @param {number} position - Sort order within the cart, ascending. Default 0 when adding a line; in a bulk replace the payload order fills it in.
@@ -512,7 +505,7 @@ export class CartsItems {
      * @param {string} params.cartId - The cart the line belongs to, by its id. An id no cart in this tenant has answers 404 rather than an empty list, so a wrong cart is never mistaken for an empty one.
      * @param {string} params.id - The line, by its id. The cart in the path is checked too: a line that belongs to a different cart answers 404, so an id guessed from another cart never resolves here.
      * @param {object} params.configuration - What was configured on this line, in the configurator's own vocabulary — this app stores it and reads nothing out of it. Its mere PRESENCE is behaviour: a line that carries a configuration never merges with another, because two differently configured units of the same article are not one line. Keys are the configurator's; the example is one shape, not the shape.
-     * @param {string} params.currency - ISO 4217 code. Defaults to the cart's currency.
+     * @param {string} params.currency - Optional, and it cannot change anything: a line is read in its CART's currency and stores none of its own. Sending the cart's code (or nothing) is accepted — which is what makes an exported line re-importable — and sending a different one answers 409 `currency_mismatch` rather than being converted or quietly stored.
      * @param {object} params.metadata - Free-form data the storefront hangs on the line. Stored and returned verbatim; no key in here is read by this app.
      * @param {string} params.name - What the line reads as on the cart page. Falls back to 'sku' when omitted, so a line always has something to show.
      * @param {number} params.position - Sort order within the cart, ascending. Default 0 when adding a line; in a bulk replace the payload order fills it in.
@@ -534,7 +527,7 @@ export class CartsItems {
      * @param {string} cartId - The cart the line belongs to, by its id. An id no cart in this tenant has answers 404 rather than an empty list, so a wrong cart is never mistaken for an empty one.
      * @param {string} id - The line, by its id. The cart in the path is checked too: a line that belongs to a different cart answers 404, so an id guessed from another cart never resolves here.
      * @param {object} configuration - What was configured on this line, in the configurator's own vocabulary — this app stores it and reads nothing out of it. Its mere PRESENCE is behaviour: a line that carries a configuration never merges with another, because two differently configured units of the same article are not one line. Keys are the configurator's; the example is one shape, not the shape.
-     * @param {string} currency - ISO 4217 code. Defaults to the cart's currency.
+     * @param {string} currency - Optional, and it cannot change anything: a line is read in its CART's currency and stores none of its own. Sending the cart's code (or nothing) is accepted — which is what makes an exported line re-importable — and sending a different one answers 409 `currency_mismatch` rather than being converted or quietly stored.
      * @param {object} metadata - Free-form data the storefront hangs on the line. Stored and returned verbatim; no key in here is read by this app.
      * @param {string} name - What the line reads as on the cart page. Falls back to 'sku' when omitted, so a line always has something to show.
      * @param {number} position - Sort order within the cart, ascending. Default 0 when adding a line; in a bulk replace the payload order fills it in.

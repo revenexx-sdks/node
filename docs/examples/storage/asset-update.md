@@ -16,6 +16,6 @@ const result = await storage.assetUpdate({
     folderId: '', // optional
     name: '', // optional
     tags: [], // optional
-    visibility: sdk.Visibility.Public // optional
+    visibility: sdk.AssetStoreVisibility.Public // optional
 });
 ```

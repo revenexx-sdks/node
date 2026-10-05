@@ -9,6 +9,6 @@ const client = new sdk.Client()
 const carts = new sdk.Carts(client);
 
 const result = await carts.cartsVocabulariesGet({
-    name: sdk.Name.IoApplyModes
+    name: sdk.Name.Ioapplymodes
 });
 ```

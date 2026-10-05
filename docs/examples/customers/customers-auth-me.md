@@ -9,7 +9,7 @@ const client = new sdk.Client()
 const customers = new sdk.Customers(client);
 
 const result = await customers.customersAuthMe({
-    userId: '',
-    sessionId: '' // optional
+    sessionId: '',
+    userId: ''
 });
 ```

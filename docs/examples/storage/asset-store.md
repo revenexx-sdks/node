@@ -18,6 +18,6 @@ const result = await storage.assetStore({
     keepArchive: true, // optional
     tags: [], // optional
     unpack: true, // optional
-    visibility: sdk.Visibility.Public // optional
+    visibility: sdk.AssetStoreVisibility.Public // optional
 });
 ```

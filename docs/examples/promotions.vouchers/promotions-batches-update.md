@@ -1,0 +1,22 @@
+```javascript
+const sdk = require('@revenexx/node');
+
+const client = new sdk.Client()
+    .setEndpoint('https://api.revenexx.com') // Your API Endpoint
+    .setTenant('<TENANT_SLUG>') // Your tenant slug
+    .setApiKeyAuth('<API_KEY>'); // A gateway-managed scoped API key (rvxk_…).
+
+const promotionsVouchers = new sdk.PromotionsVouchers(client);
+
+const result = await promotionsVouchers.promotionsBatchesUpdate({
+    id: '',
+    name: '',
+    promotionId: '',
+    alphabet: '', // optional
+    metadata: {}, // optional
+    pattern: '', // optional
+    requestRef: '', // optional
+    requested: 1, // optional
+    status: sdk.PromotionsBatchesCreateStatus.Active // optional
+});
+```

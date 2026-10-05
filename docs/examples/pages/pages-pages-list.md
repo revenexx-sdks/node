@@ -14,6 +14,7 @@ const result = await pages.pagesPagesList({
     order: 'created_at.desc', // optional
     bundle: 'standard', // optional
     status: sdk.PageStatus.Draft, // optional
-    q: 'contact' // optional
+    q: 'contact', // optional
+    deleted: sdk.Deleted.Only // optional
 });
 ```

@@ -11,6 +11,8 @@ const costCenters = new sdk.CostCenters(client);
 const result = await costCenters.costCentersCostCentersList({
     limit: 1, // optional
     offset: 1, // optional
-    order: '' // optional
+    order: '', // optional
+    punchoutAccountCode: '', // optional
+    externalId: 'KOSTENSTELLE-4711' // optional
 });
 ```

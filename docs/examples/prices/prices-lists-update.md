@@ -28,6 +28,7 @@ const result = await prices.pricesListsUpdate({
     organizationId: '', // optional
     priority: 1, // optional
     requiresAuth: true, // optional
+    segmentCode: 'wholesale', // optional
     status: sdk.PriceListStatus.Active, // optional
     taxBasis: sdk.PriceListTaxBasis.Net, // optional
     taxIncluded: true, // optional

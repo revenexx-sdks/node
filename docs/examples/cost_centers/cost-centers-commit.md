@@ -10,9 +10,10 @@ const costCenters = new sdk.CostCenters(client);
 
 const result = await costCenters.costCentersCommit({
     allocations: [],
-    orderId: '',
     contactId: '', // optional
     currency: '', // optional
-    note: '' // optional
+    dryRun: true, // optional
+    note: '', // optional
+    orderId: '' // optional
 });
 ```

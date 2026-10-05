@@ -15,9 +15,7 @@ const result = await forms.formsSubmissionsCreate({
         "message": "Please quote 200 units of ACME-4711-BLK, delivered to Hamburg."
     },
     formId: '',
-    formSlug: 'contact', // optional
     metadata: {}, // optional
-    source: '/contact', // optional
-    status: sdk.FormSubmissionStatus.New // optional
+    source: '/contact' // optional
 });
 ```

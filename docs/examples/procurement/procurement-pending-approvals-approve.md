@@ -10,7 +10,6 @@ const procurement = new sdk.Procurement(client);
 
 const result = await procurement.procurementPendingApprovalsApprove({
     id: '',
-    by: '', // optional
     reason: '' // optional
 });
 ```

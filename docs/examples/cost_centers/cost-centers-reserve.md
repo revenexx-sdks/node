@@ -10,9 +10,10 @@ const costCenters = new sdk.CostCenters(client);
 
 const result = await costCenters.costCentersReserve({
     allocations: [],
-    purchaseRequestId: '',
     contactId: '', // optional
     currency: '', // optional
-    note: '' // optional
+    dryRun: true, // optional
+    note: '', // optional
+    purchaseRequestId: '' // optional
 });
 ```

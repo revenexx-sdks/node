@@ -9,6 +9,7 @@ const client = new sdk.Client()
 const products = new sdk.Products(client);
 
 const result = await products.productsBatch({
+    full: true, // optional
     ids: [], // optional
     skus: [] // optional
 });

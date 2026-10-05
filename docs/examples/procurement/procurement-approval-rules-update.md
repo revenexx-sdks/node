@@ -11,9 +11,10 @@ const procurement = new sdk.Procurement(client);
 const result = await procurement.procurementApprovalRulesUpdate({
     id: '',
     active: true, // optional
-    approverRef: '', // optional
+    approverContactId: '', // optional
+    approverRole: '', // optional
     approverType: sdk.ApproverType.Contact, // optional
-    condition: sdk.Condition.Always, // optional
+    condition: sdk.ConditionEnum.Always, // optional
     conditionParameters: {}, // optional
     costCenterId: '', // optional
     effect: sdk.Effect.PendingOrder, // optional

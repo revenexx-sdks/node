@@ -10,6 +10,6 @@ const customers = new sdk.Customers(client);
 
 const result = await customers.customersAuthMfaChallenge({
     userId: '',
-    factor: 'email' // optional
+    factor: sdk.Factor.Email // optional
 });
 ```

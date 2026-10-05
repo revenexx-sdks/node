@@ -11,6 +11,7 @@ const customersSegments = new sdk.CustomersSegments(client);
 const result = await customersSegments.customersSegmentMembersCreate({
     organizationId: '',
     segmentId: '',
+    createdAt: '2026-01-01T12:00:00Z', // optional
     source: sdk.SegmentMemberSource.Manual // optional
 });
 ```

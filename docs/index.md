@@ -2,10 +2,8 @@
 
 # Revenexx Node SDK
 
-![License](https://img.shields.io/github/license/revenexx-sdks/node.svg?style=flat-square)
+![License](https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square)
 ![Version](https://img.shields.io/badge/api%20version-1.0.0-blue.svg?style=flat-square)
-[![Build Status](https://img.shields.io/github/actions/workflow/status/revenexx/sdk-generator/tests.yml?style=flat-square)](https://github.com/revenexx/sdk-generator/actions)
-[![Twitter Account](https://img.shields.io/twitter/follow/revenexx?color=00acee&label=twitter&style=flat-square)](https://twitter.com/revenexx)
 
 Revenexx Node.js SDK for server-side applications.
 

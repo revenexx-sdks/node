@@ -12,6 +12,7 @@ const result = await costCenters.costCentersUsable({
     lines: [],
     contactId: '', // optional
     organizationId: '', // optional
+    punchoutAccountCode: '', // optional
     roles: [] // optional
 });
 ```

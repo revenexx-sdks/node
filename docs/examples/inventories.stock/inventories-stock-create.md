@@ -10,6 +10,8 @@ const inventoriesStock = new sdk.InventoriesStock(client);
 
 const result = await inventoriesStock.inventoriesStockCreate({
     locationId: '',
+    availabilityCode: 'available', // optional
+    expectedAt: '2026-11-14', // optional
     metadata: {
         "backorder": true
     }, // optional

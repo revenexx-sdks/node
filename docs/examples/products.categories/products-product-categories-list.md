@@ -16,7 +16,8 @@ const result = await productsCategories.productsProductCategoriesList({
     productId: '', // optional
     categoryId: '', // optional
     position: 1, // optional
-    source: sdk.Source.Manual, // optional
-    createdAt: '2026-01-01T12:00:00Z' // optional
+    source: sdk.ProductsProductCategoriesListSource.Manual, // optional
+    createdAt: '2026-01-01T12:00:00Z', // optional
+    updatedAt: '2026-01-01T12:00:00Z' // optional
 });
 ```

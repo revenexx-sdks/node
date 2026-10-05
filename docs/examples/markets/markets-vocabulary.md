@@ -9,6 +9,6 @@ const client = new sdk.Client()
 const markets = new sdk.Markets(client);
 
 const result = await markets.marketsVocabulary({
-    name: sdk.MarketsVocabularyName.MarketStatuses
+    name: sdk.MarketsVocabularyName.Marketstatuses
 });
 ```

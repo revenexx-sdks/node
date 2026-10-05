@@ -9,11 +9,12 @@ const client = new sdk.Client()
 const procurement = new sdk.Procurement(client);
 
 const result = await procurement.procurementApprovalRulesCreate({
-    condition: sdk.Condition.Always,
+    condition: sdk.ConditionEnum.Always,
     effect: sdk.Effect.PendingOrder,
     name: '',
     active: true, // optional
-    approverRef: '', // optional
+    approverContactId: '', // optional
+    approverRole: '', // optional
     approverType: sdk.ApproverType.Contact, // optional
     conditionParameters: {}, // optional
     costCenterId: '', // optional

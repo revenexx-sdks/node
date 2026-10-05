@@ -9,6 +9,7 @@ const client = new sdk.Client()
 const customers = new sdk.Customers(client);
 
 const result = await customers.customersPrincipalResolve({
-    contactId: ''
+    contactId: '', // optional
+    userId: '284392058374652910' // optional
 });
 ```
