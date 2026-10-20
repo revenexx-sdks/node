@@ -10,6 +10,7 @@ const documentsKinds = new sdk.DocumentsKinds(client);
 
 const result = await documentsKinds.documentsKindsUpdate({
     id: '',
+    active: true, // optional
     code: 'invoice', // optional
     description: 'What the buyer owes for an order.', // optional
     descriptions: {

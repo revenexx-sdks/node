@@ -10,6 +10,7 @@ const cartsItems = new sdk.CartsItems(client);
 
 const result = await cartsItems.cartsItemsReplace({
     cartId: '',
-    items: []
+    items: [],
+    sessionKey: 'a1b2c3d4e5f6' // optional
 });
 ```

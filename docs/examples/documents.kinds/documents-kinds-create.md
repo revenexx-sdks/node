@@ -11,6 +11,7 @@ const documentsKinds = new sdk.DocumentsKinds(client);
 const result = await documentsKinds.documentsKindsCreate({
     code: 'invoice',
     title: 'Invoice',
+    active: true, // optional
     description: 'What the buyer owes for an order.', // optional
     descriptions: {
         "de": "Was der K\u00e4ufer f\u00fcr eine Bestellung schuldet.",

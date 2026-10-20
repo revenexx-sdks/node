@@ -1,0 +1,18 @@
+```javascript
+const sdk = require('@revenexx/node');
+
+const client = new sdk.Client()
+    .setEndpoint('https://api.revenexx.com') // Your API Endpoint
+    .setTenant('<TENANT_SLUG>') // Your tenant slug
+    .setApiKeyAuth('<API_KEY>'); // A gateway-managed scoped API key (rvxk_…).
+
+const loyaltyBonus = new sdk.LoyaltyBonus(client);
+
+const result = await loyaltyBonus.loyaltyBonusUpdate({
+    id: '',
+    baseTurnover: 9.99, // optional
+    documentRef: '', // optional
+    metadata: null, // optional
+    turnoverSource: sdk.TurnoverSource.Orders // optional
+});
+```

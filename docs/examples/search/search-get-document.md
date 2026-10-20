@@ -9,7 +9,7 @@ const client = new sdk.Client()
 const search = new sdk.Search(client);
 
 const result = await search.searchGetDocument({
-    collection: sdk.Collection.Products,
+    collection: sdk.Collection.Categories,
     documentId: ''
 });
 ```

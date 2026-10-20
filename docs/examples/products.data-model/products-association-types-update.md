@@ -10,6 +10,7 @@ const productsDataModel = new sdk.ProductsDataModel(client);
 
 const result = await productsDataModel.productsAssociationTypesUpdate({
     id: '',
+    active: true, // optional
     code: 'cross_sell', // optional
     isQuantified: true, // optional
     isTwoWay: true, // optional

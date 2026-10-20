@@ -15,6 +15,7 @@ const result = await paymentsLedger.paymentsList({
     cartId: '', // optional
     contactId: '', // optional
     orderId: '', // optional
+    organizationId: '', // optional
     status: sdk.PaymentStatus.Created, // optional
     orderRef: 'ORD-10042', // optional
     methodCode: 'invoice', // optional
@@ -23,6 +24,7 @@ const result = await paymentsLedger.paymentsList({
     dunningStage: sdk.PaymentDunningStage.None, // optional
     idempotencyKey: 'checkout-2f9c41', // optional
     externalId: 'ZAHL-4711', // optional
+    reference: 'pi_29f4c1b7a3d24e10', // optional
     sourceSyncedAt: '2026-01-01T12:00:00Z' // optional
 });
 ```

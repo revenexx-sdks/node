@@ -10,6 +10,7 @@ const orderlists = new sdk.Orderlists(client);
 
 const result = await orderlists.orderlistsKindsUpdate({
     id: '',
+    active: true, // optional
     description: 'Chemicals ordered against a standing lab protocol.', // optional
     descriptions: {
         "de": "Chemikalien, die nach einem festen Laborprotokoll bestellt werden.",

@@ -11,6 +11,7 @@ const shippingValueLists = new sdk.ShippingValueLists(client);
 const result = await shippingValueLists.shippingServiceLevelsCreate({
     code: 'night_courier',
     title: 'Night courier',
+    active: true, // optional
     description: 'When to pick this service level.', // optional
     descriptions: {
         "de": "Wann diese Option zu w\u00e4hlen ist.",

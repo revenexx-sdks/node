@@ -11,6 +11,7 @@ const productsDataModel = new sdk.ProductsDataModel(client);
 const result = await productsDataModel.productsFamilyVariantsCreate({
     code: 'clothing_by_colour_size',
     familyId: '',
+    active: true, // optional
     axes: [
         "colour",
         "size"

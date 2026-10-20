@@ -11,6 +11,7 @@ const punchout = new sdk.Punchout(client);
 const result = await punchout.punchoutAccountsList({
     limit: 1, // optional
     offset: 1, // optional
-    order: '' // optional
+    order: '', // optional
+    fallbackContactId: '' // optional
 });
 ```

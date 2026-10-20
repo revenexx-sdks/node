@@ -9,6 +9,6 @@ const client = new sdk.Client()
 const orders = new sdk.Orders(client);
 
 const result = await orders.ordersVocabulariesGet({
-    name: sdk.OrdersVocabulariesGetName.Cancellationscopes
+    name: sdk.OrdersVocabulariesGetName.Cancellationkinds
 });
 ```

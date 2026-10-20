@@ -10,17 +10,17 @@ const promotionsPromotions = new sdk.PromotionsPromotions(client);
 
 const result = await promotionsPromotions.promotionsConditionsUpdate({
     id: '',
-    promotionId: '',
     addend: 9.99, // optional
-    compareValue: {}, // optional
-    compareValueTo: {}, // optional
+    compareValue: null, // optional
+    compareValueTo: null, // optional
     comparison: '', // optional
     factor: 9.99, // optional
-    kind: sdk.PromotionsConditionsCreateKind.Group, // optional
+    kind: sdk.AudiencesRulesCreateKind.Group, // optional
     matchMode: sdk.MatchMode.All, // optional
     negate: true, // optional
     parentId: '', // optional
     position: 1, // optional
+    promotionId: '', // optional
     rightSubject: '', // optional
     subject: '' // optional
 });

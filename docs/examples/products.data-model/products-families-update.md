@@ -10,6 +10,7 @@ const productsDataModel = new sdk.ProductsDataModel(client);
 
 const result = await productsDataModel.productsFamiliesUpdate({
     id: '',
+    active: true, // optional
     code: 'power_tools', // optional
     externalId: 'EC001234', // optional
     externalRefs: {

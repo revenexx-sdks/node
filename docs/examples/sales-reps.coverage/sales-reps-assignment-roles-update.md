@@ -10,6 +10,7 @@ const salesRepsCoverage = new sdk.SalesRepsCoverage(client);
 
 const result = await salesRepsCoverage.salesRepsAssignmentRolesUpdate({
     id: '',
+    active: true, // optional
     code: 'field_sales', // optional
     description: 'Visits the customer. The rep who travels to the account.', // optional
     descriptions: {

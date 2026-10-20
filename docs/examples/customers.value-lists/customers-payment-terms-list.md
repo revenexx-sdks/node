@@ -8,5 +8,7 @@ const client = new sdk.Client()
 
 const customersValueLists = new sdk.CustomersValueLists(client);
 
-const result = await customersValueLists.customersPaymentTermsList();
+const result = await customersValueLists.customersPaymentTermsList({
+    active: true // optional
+});
 ```

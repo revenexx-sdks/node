@@ -10,6 +10,7 @@ const carts = new sdk.Carts(client);
 
 const result = await carts.cartsOrder({
     id: '',
+    sessionKey: 'a1b2c3d4e5f6', // optional
     orderRef: 'SO-10042' // optional
 });
 ```

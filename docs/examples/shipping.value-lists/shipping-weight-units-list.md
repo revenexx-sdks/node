@@ -10,6 +10,7 @@ const shippingValueLists = new sdk.ShippingValueLists(client);
 
 const result = await shippingValueLists.shippingWeightUnitsList({
     limit: 1, // optional
-    offset: 1 // optional
+    offset: 1, // optional
+    active: true // optional
 });
 ```

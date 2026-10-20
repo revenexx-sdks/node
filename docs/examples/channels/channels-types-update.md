@@ -10,6 +10,7 @@ const channels = new sdk.Channels(client);
 
 const result = await channels.channelsTypesUpdate({
     id: '',
+    active: false, // optional
     description: 'A web shop a human browses.', // optional
     descriptions: {
         "de": "Shop",

@@ -10,9 +10,14 @@ const orders = new sdk.Orders(client);
 
 const result = await orders.ordersNumberRangesUpdate({
     id: '',
+    active: true, // optional
     channelId: '', // optional
     code: 'order', // optional
     counter: 123, // optional
+    labels: {
+        "de": "Bestellnummern",
+        "en": "Order numbers"
+    }, // optional
     metadata: {
         "owner": "erp-sync"
     }, // optional
@@ -20,6 +25,7 @@ const result = await orders.ordersNumberRangesUpdate({
     positionStep: 10, // optional
     prefix: 'ORD-', // optional
     step: 1, // optional
-    suffix: '' // optional
+    suffix: '', // optional
+    title: 'Order numbers' // optional
 });
 ```

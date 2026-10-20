@@ -10,6 +10,7 @@ const cartsIo = new sdk.CartsIo(client);
 
 const result = await cartsIo.cartsIoProfilesUpdate({
     id: '',
+    active: true, // optional
     applyMode: sdk.CartIoApplyMode.Insert, // optional
     direction: sdk.CartIoDirection.Import, // optional
     entity: sdk.CartIoEntity.Carts, // optional

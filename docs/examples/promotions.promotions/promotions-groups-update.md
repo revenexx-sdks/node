@@ -10,11 +10,12 @@ const promotionsPromotions = new sdk.PromotionsPromotions(client);
 
 const result = await promotionsPromotions.promotionsGroupsUpdate({
     id: '',
-    code: '',
-    name: '',
-    labels: {}, // optional
-    metadata: {}, // optional
+    active: true, // optional
+    code: '', // optional
+    labels: null, // optional
+    metadata: null, // optional
     mode: sdk.PromotionsGroupsCreateMode.Stack, // optional
+    name: '', // optional
     parentId: '', // optional
     position: 1 // optional
 });

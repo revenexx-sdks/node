@@ -10,6 +10,7 @@ const productsReferences = new sdk.ProductsReferences(client);
 
 const result = await productsReferences.productsReferenceEntitiesUpdate({
     id: '',
+    active: true, // optional
     code: 'brand', // optional
     externalId: 'REG-BRAND', // optional
     externalRefs: {

@@ -10,11 +10,11 @@ const promotionsPromotions = new sdk.PromotionsPromotions(client);
 
 const result = await promotionsPromotions.promotionsBundlesUpdate({
     id: '',
-    name: '',
-    promotionId: '',
     allocation: sdk.Allocation.BestForBuyer, // optional
     maxPerCart: 1, // optional
-    selectors: {}, // optional
+    name: '', // optional
+    promotionId: '', // optional
+    selectors: null, // optional
     unitsRequired: 1 // optional
 });
 ```

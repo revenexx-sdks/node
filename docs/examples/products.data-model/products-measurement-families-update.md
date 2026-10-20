@@ -10,6 +10,7 @@ const productsDataModel = new sdk.ProductsDataModel(client);
 
 const result = await productsDataModel.productsMeasurementFamiliesUpdate({
     id: '',
+    active: true, // optional
     code: 'weight', // optional
     labels: {
         "de": "Gewicht",

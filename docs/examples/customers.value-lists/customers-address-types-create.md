@@ -11,6 +11,7 @@ const customersValueLists = new sdk.CustomersValueLists(client);
 const result = await customersValueLists.customersAddressTypesCreate({
     code: '',
     title: 'Shipping address',
+    active: true, // optional
     description: 'Where the goods go.', // optional
     descriptions: {
         "de": "Wohin die Ware geliefert wird.",

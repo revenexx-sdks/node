@@ -14,6 +14,7 @@ const result = await promotionsRedemptions.promotionsRedemptionsReserve({
     currency: '', // optional
     fromCartId: '', // optional
     organizationId: '', // optional
-    promotions: [] // optional
+    promotions: [], // optional
+    redeemedBy: '' // optional
 });
 ```

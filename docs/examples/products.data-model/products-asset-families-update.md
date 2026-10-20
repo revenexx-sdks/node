@@ -10,6 +10,7 @@ const productsDataModel = new sdk.ProductsDataModel(client);
 
 const result = await productsDataModel.productsAssetFamiliesUpdate({
     id: '',
+    active: true, // optional
     code: 'packshots', // optional
     labels: {
         "de": "Packshots",

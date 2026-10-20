@@ -9,7 +9,7 @@ const client = new sdk.Client()
 const search = new sdk.Search(client);
 
 const result = await search.searchSearchDocumentsGet({
-    collection: sdk.Collection.Products,
+    collection: sdk.Collection.Categories,
     q: '', // optional
     queryBy: '', // optional
     filterBy: '', // optional

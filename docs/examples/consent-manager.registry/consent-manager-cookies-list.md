@@ -12,7 +12,7 @@ const result = await consentManagerRegistry.consentManagerCookiesList({
     id: '', // optional
     vendorId: '', // optional
     name: '_ga', // optional
-    kind: sdk.Kind.Cookie, // optional
+    kind: sdk.ConsentManagerCookiesListKind.Cookie, // optional
     host: 'first-party', // optional
     position: 1, // optional
     createdAt: '2026-01-01T12:00:00Z', // optional

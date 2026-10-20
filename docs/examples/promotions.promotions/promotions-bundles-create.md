@@ -13,7 +13,7 @@ const result = await promotionsPromotions.promotionsBundlesCreate({
     promotionId: '',
     allocation: sdk.Allocation.BestForBuyer, // optional
     maxPerCart: 1, // optional
-    selectors: {}, // optional
+    selectors: null, // optional
     unitsRequired: 1 // optional
 });
 ```

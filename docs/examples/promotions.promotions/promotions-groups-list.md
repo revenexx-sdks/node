@@ -17,6 +17,7 @@ const result = await promotionsPromotions.promotionsGroupsList({
     name: '', // optional
     mode: '', // optional
     parentId: '', // optional
-    position: '' // optional
+    position: '', // optional
+    active: '' // optional
 });
 ```

@@ -14,6 +14,7 @@ const result = await markets.marketsLocalesCreate({
     country: 'DE', // optional
     isDefault: true, // optional
     language: 'de', // optional
-    position: 0 // optional
+    position: 0, // optional
+    status: sdk.MarketsLocalesCreateStatus.Active // optional
 });
 ```

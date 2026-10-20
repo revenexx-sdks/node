@@ -11,6 +11,7 @@ const channels = new sdk.Channels(client);
 const result = await channels.channelsTypesCreate({
     code: 'feed',
     title: 'Product feed',
+    active: true, // optional
     description: 'A web shop a human browses.', // optional
     descriptions: {
         "de": "Shop",

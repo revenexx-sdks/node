@@ -10,6 +10,10 @@ const productsCategories = new sdk.ProductsCategories(client);
 
 const result = await productsCategories.productsCategoriesCreate({
     code: 'cordless_drills',
+    active: true, // optional
+    deletedAt: '2026-01-01T12:00:00Z', // optional
+    deletedBy: 'merchant@example.com', // optional
+    deletedById: '283746592837465012', // optional
     externalId: 'EG000024', // optional
     externalRefs: {
         "entitys": "4711",
@@ -26,6 +30,8 @@ const result = await productsCategories.productsCategoriesCreate({
     parentId: '', // optional
     path: 'tools/power_tools/cordless_drills', // optional
     position: 1, // optional
+    purgeAt: '2026-01-01T12:00:00Z', // optional
+    purgeBlockedReason: ''S1230020C1TI25' still has stock at 2 location(s)', // optional
     ruleMatch: sdk.CategoriesRuleMatch.All, // optional
     rules: {
         "conditions": [
@@ -53,8 +59,9 @@ const result = await productsCategories.productsCategoriesCreate({
         "system": "pim"
     }, // optional
     sourceSyncedAt: '2026-01-01T12:00:00Z', // optional
+    trashBatch: '', // optional
     values: {
-        "hero_asset": "packshots\/cordless_drills_hero",
+        "image": "categories\/cordless-drills.jpg",
         "seo_title": "Cordless drills"
     } // optional
 });

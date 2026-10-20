@@ -16,7 +16,7 @@ const result = await consentManagerRegistry.consentManagerCookiesUpdate({
         "en": "2 years"
     }, // optional
     host: 'first-party', // optional
-    kind: sdk.Kind.Cookie, // optional
+    kind: sdk.ConsentManagerCookiesListKind.Cookie, // optional
     name: '_ga', // optional
     position: 1, // optional
     vendorId: '' // optional

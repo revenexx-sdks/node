@@ -9,6 +9,7 @@ const client = new sdk.Client()
 const carts = new sdk.Carts(client);
 
 const result = await carts.cartsAbandon({
-    id: ''
+    id: '',
+    sessionKey: 'a1b2c3d4e5f6' // optional
 });
 ```

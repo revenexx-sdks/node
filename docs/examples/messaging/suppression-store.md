@@ -11,7 +11,7 @@ const messaging = new sdk.Messaging(client);
 const result = await messaging.suppressionStore({
     address: '',
     channel: '',
-    reason: sdk.Reason.HardBounce,
+    reason: sdk.SuppressionIndexReason.HardBounce,
     expiresAt: '2026-01-01T12:00:00Z', // optional
     note: '', // optional
     scope: sdk.Scope.All // optional

@@ -20,6 +20,7 @@ const result = await inventoriesStock.inventoriesAvailabilityStatesList({
     descriptions: '{}', // optional
     orderable: true, // optional
     isDefault: true, // optional
+    active: true, // optional
     tone: sdk.Tone.Neutral, // optional
     position: 1, // optional
     isSystem: true, // optional

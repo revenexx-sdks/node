@@ -10,6 +10,7 @@ const customersValueLists = new sdk.CustomersValueLists(client);
 
 const result = await customersValueLists.customersPaymentTermsUpdate({
     id: '',
+    active: true, // optional
     description: 'Invoice due 30 days after the delivery note.', // optional
     descriptions: {
         "de": "Rechnung 30 Tage nach Lieferschein f\u00e4llig.",

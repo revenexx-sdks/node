@@ -11,6 +11,7 @@ const costCenters = new sdk.CostCenters(client);
 const result = await costCenters.costCentersBudgetsList({
     limit: 1, // optional
     offset: 1, // optional
-    order: '' // optional
+    order: '', // optional
+    discarded: sdk.Discarded.Include // optional
 });
 ```

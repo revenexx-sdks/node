@@ -10,6 +10,7 @@ const cartsIo = new sdk.CartsIo(client);
 
 const result = await cartsIo.cartsExport({
     id: '',
+    sessionKey: 'a1b2c3d4e5f6', // optional
     format: sdk.CartExportFormat.Json, // optional
     profileId: '' // optional
 });

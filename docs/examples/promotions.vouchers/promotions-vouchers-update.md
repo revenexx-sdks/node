@@ -10,14 +10,14 @@ const promotionsVouchers = new sdk.PromotionsVouchers(client);
 
 const result = await promotionsVouchers.promotionsVouchersUpdate({
     id: '',
-    code: '',
-    promotionId: '',
     batchId: '', // optional
+    code: '', // optional
     contactId: '', // optional
     currency: '', // optional
     endsAt: '2026-01-01T12:00:00Z', // optional
-    metadata: {}, // optional
+    metadata: null, // optional
     organizationId: '', // optional
+    promotionId: '', // optional
     reservationLimit: 1, // optional
     reservationRequired: true, // optional
     residualValue: 9.99, // optional

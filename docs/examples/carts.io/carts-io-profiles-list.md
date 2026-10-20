@@ -16,6 +16,7 @@ const result = await cartsIo.cartsIoProfilesList({
     format: sdk.CartIoFormat.Json, // optional
     applyMode: sdk.CartIoApplyMode.Insert, // optional
     isTemplate: true, // optional
+    active: true, // optional
     createdAt: '2026-01-01T12:00:00Z', // optional
     updatedAt: '2026-01-01T12:00:00Z', // optional
     limit: 1, // optional

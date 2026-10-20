@@ -17,6 +17,7 @@ const result = await productsDataModel.productsFamiliesList({
     labelAttribute: 'name', // optional
     imageAttribute: 'main_image', // optional
     labels: '{}', // optional
+    active: true, // optional
     externalId: 'EC001234', // optional
     externalRefs: '{}', // optional
     sourceSyncedAt: '2026-01-01T12:00:00Z', // optional

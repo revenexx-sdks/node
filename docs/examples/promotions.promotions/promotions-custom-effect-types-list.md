@@ -15,6 +15,7 @@ const result = await promotionsPromotions.promotionsCustomEffectTypesList({
     id: '', // optional
     name: '', // optional
     shapeVersion: '', // optional
-    carriesAmount: '' // optional
+    carriesAmount: '', // optional
+    active: '' // optional
 });
 ```

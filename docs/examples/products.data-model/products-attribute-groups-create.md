@@ -10,6 +10,7 @@ const productsDataModel = new sdk.ProductsDataModel(client);
 
 const result = await productsDataModel.productsAttributeGroupsCreate({
     code: 'technical_attributes',
+    active: true, // optional
     externalId: 'GRP-TECHNICAL', // optional
     externalRefs: {
         "entitys": "4711",

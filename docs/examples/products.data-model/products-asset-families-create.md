@@ -10,6 +10,7 @@ const productsDataModel = new sdk.ProductsDataModel(client);
 
 const result = await productsDataModel.productsAssetFamiliesCreate({
     code: 'packshots',
+    active: true, // optional
     labels: {
         "de": "Packshots",
         "en": "Packshots"

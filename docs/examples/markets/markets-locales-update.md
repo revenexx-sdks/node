@@ -15,6 +15,7 @@ const result = await markets.marketsLocalesUpdate({
     country: 'DE', // optional
     isDefault: true, // optional
     language: 'de', // optional
-    position: 0 // optional
+    position: 0, // optional
+    status: 'active' // optional
 });
 ```

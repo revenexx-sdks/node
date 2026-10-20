@@ -12,17 +12,19 @@ const result = await promotionsPromotions.promotionsPromotionsList({
     limit: 50, // optional
     offset: 0, // optional
     order: 'created_at.desc', // optional
+    trashed: sdk.Trashed.Exclude, // optional
     id: '', // optional
     code: '', // optional
     name: '', // optional
     description: '', // optional
     reach: '', // optional
     status: '', // optional
+    effectiveState: '', // optional
     priority: '', // optional
     exclusive: '', // optional
     groupId: '', // optional
     searchBestCombination: '', // optional
     conditionMatch: '', // optional
-    recurrenceKind: '' // optional
+    campaignRef: '' // optional
 });
 ```

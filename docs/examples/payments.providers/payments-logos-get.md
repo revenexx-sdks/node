@@ -9,6 +9,7 @@ const client = new sdk.Client()
 const paymentsProviders = new sdk.PaymentsProviders(client);
 
 const result = await paymentsProviders.paymentsLogosGet({
-    slug: 'stripe'
+    slug: 'stripe',
+    variant: sdk.Variant.Logo // optional
 });
 ```

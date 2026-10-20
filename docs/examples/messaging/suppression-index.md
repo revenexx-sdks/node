@@ -11,7 +11,7 @@ const messaging = new sdk.Messaging(client);
 const result = await messaging.suppressionIndex({
     channel: '', // optional
     scope: sdk.Scope.All, // optional
-    reason: sdk.Reason.HardBounce, // optional
+    reason: sdk.SuppressionIndexReason.HardBounce, // optional
     address: '', // optional
     limit: 1 // optional
 });

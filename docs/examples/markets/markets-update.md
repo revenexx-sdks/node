@@ -19,6 +19,8 @@ const result = await markets.marketsUpdate({
     }, // optional
     name: 'Northwind', // optional
     position: 0, // optional
+    shipFromCountry: 'DE', // optional
+    shipFromCountryReview: false, // optional
     status: sdk.MarketStatus.Active // optional
 });
 ```

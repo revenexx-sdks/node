@@ -11,17 +11,17 @@ const promotionsPromotions = new sdk.PromotionsPromotions(client);
 const result = await promotionsPromotions.promotionsEffectsCreate({
     promotionId: '',
     amount: 9.99, // optional
-    appliesTo: {}, // optional
+    appliesTo: null, // optional
     bundleId: '', // optional
-    customPayload: {}, // optional
+    customPayload: null, // optional
     customShapeVersion: 1, // optional
     customTypeId: '', // optional
     freeItemQuantity: 1, // optional
-    freeItems: {}, // optional
+    freeItems: null, // optional
     kind: sdk.PromotionsEffectsCreateKind.Discount, // optional
     maxDiscount: 9.99, // optional
-    message: {}, // optional
-    metadata: {}, // optional
+    message: null, // optional
+    metadata: null, // optional
     position: 1, // optional
     requiresChoice: true, // optional
     spread: true, // optional

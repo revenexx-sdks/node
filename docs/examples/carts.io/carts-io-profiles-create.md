@@ -11,6 +11,7 @@ const cartsIo = new sdk.CartsIo(client);
 const result = await cartsIo.cartsIoProfilesCreate({
     direction: sdk.CartIoDirection.Import,
     name: 'cart-export-csv',
+    active: true, // optional
     applyMode: sdk.CartIoApplyMode.Insert, // optional
     entity: sdk.CartIoEntity.Carts, // optional
     format: sdk.CartIoFormat.Json, // optional

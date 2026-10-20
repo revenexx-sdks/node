@@ -11,6 +11,7 @@ const productsDataModel = new sdk.ProductsDataModel(client);
 const result = await productsDataModel.productsAttributeOptionsCreate({
     attributeId: '',
     code: 'stainless_steel',
+    active: true, // optional
     externalId: 'EV000456', // optional
     externalRefs: {
         "entitys": "4711",

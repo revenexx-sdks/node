@@ -9,6 +9,6 @@ const client = new sdk.Client()
 const punchout = new sdk.Punchout(client);
 
 const result = await punchout.punchoutVocabulariesGet({
-    name: sdk.PunchoutVocabulariesGetName.Entryprobeoutcome
+    name: sdk.PunchoutVocabulariesGetName.Authstrategies
 });
 ```

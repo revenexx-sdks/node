@@ -10,6 +10,7 @@ const carts = new sdk.Carts(client);
 
 const result = await carts.cartsMerge({
     sourceCartId: '',
-    targetCartId: ''
+    targetCartId: '',
+    sessionKey: 'a1b2c3d4e5f6' // optional
 });
 ```

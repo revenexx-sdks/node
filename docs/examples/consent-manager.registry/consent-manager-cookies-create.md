@@ -17,7 +17,7 @@ const result = await consentManagerRegistry.consentManagerCookiesCreate({
         "en": "2 years"
     }, // optional
     host: 'first-party', // optional
-    kind: sdk.Kind.Cookie, // optional
+    kind: sdk.ConsentManagerCookiesListKind.Cookie, // optional
     position: 1 // optional
 });
 ```

@@ -8,5 +8,7 @@ const client = new sdk.Client()
 
 const customersValueLists = new sdk.CustomersValueLists(client);
 
-const result = await customersValueLists.customersLifecycleStagesList();
+const result = await customersValueLists.customersLifecycleStagesList({
+    active: true // optional
+});
 ```

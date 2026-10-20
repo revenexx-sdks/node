@@ -1,0 +1,16 @@
+```javascript
+const sdk = require('@revenexx/node');
+
+const client = new sdk.Client()
+    .setEndpoint('https://api.revenexx.com') // Your API Endpoint
+    .setTenant('<TENANT_SLUG>') // Your tenant slug
+    .setApiKeyAuth('<API_KEY>'); // A gateway-managed scoped API key (rvxk_…).
+
+const productsManufacturers = new sdk.ProductsManufacturers(client);
+
+const result = await productsManufacturers.productsManufacturersLogoSet({
+    id: '',
+    assetId: '', // optional
+    path: 'manufacturers/paul_horn.svg' // optional
+});
+```

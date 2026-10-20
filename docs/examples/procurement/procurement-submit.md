@@ -21,6 +21,7 @@ const result = await procurement.procurementSubmit({
     metadata: {}, // optional
     organizationId: '', // optional
     payment: {}, // optional
+    senderCountry: 'DE', // optional
     shipping: {}, // optional
     shippingAddress: {}, // optional
     userData: {} // optional

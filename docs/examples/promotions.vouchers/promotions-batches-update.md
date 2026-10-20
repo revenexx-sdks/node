@@ -10,11 +10,11 @@ const promotionsVouchers = new sdk.PromotionsVouchers(client);
 
 const result = await promotionsVouchers.promotionsBatchesUpdate({
     id: '',
-    name: '',
-    promotionId: '',
     alphabet: '', // optional
-    metadata: {}, // optional
+    metadata: null, // optional
+    name: '', // optional
     pattern: '', // optional
+    promotionId: '', // optional
     requestRef: '', // optional
     requested: 1, // optional
     status: sdk.PromotionsBatchesCreateStatus.Active // optional

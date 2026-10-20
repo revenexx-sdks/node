@@ -9,6 +9,6 @@ const client = new sdk.Client()
 const search = new sdk.Search(client);
 
 const result = await search.searchGetCollection({
-    collection: sdk.Collection.Products
+    collection: sdk.Collection.Categories
 });
 ```

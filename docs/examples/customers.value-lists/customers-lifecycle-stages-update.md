@@ -10,6 +10,7 @@ const customersValueLists = new sdk.CustomersValueLists(client);
 
 const result = await customersValueLists.customersLifecycleStagesUpdate({
     id: '',
+    active: true, // optional
     description: 'Has ordered at least once and is being served.', // optional
     descriptions: {
         "de": "Hat mindestens einmal bestellt und wird betreut.",

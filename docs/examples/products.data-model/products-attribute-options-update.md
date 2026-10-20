@@ -10,6 +10,7 @@ const productsDataModel = new sdk.ProductsDataModel(client);
 
 const result = await productsDataModel.productsAttributeOptionsUpdate({
     id: '',
+    active: true, // optional
     attributeId: '', // optional
     code: 'stainless_steel', // optional
     externalId: 'EV000456', // optional

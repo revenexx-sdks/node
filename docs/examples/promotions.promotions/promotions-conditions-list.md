@@ -21,6 +21,7 @@ const result = await promotionsPromotions.promotionsConditionsList({
     subject: '', // optional
     comparison: '', // optional
     rightSubject: '', // optional
+    summary: '', // optional
     position: '' // optional
 });
 ```
