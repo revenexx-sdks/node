@@ -92,7 +92,7 @@ function getSelfSignedDispatcher(): Promise<any> {
 }
 
 function getUserAgent() {
-    let ua = 'RevenexxNodeJSSDK/0.3.0';
+    let ua = 'RevenexxNodeJSSDK/0.4.0';
 
     // `process` is a global in Node.js, but not fully available in all runtimes.
     const platform: string[] = [];
@@ -136,7 +136,7 @@ class Client {
         'x-sdk-name': 'Revenexx Node',
         'x-sdk-platform': '',
         'x-sdk-language': 'nodejs',
-        'x-sdk-version': '0.3.0',
+        'x-sdk-version': '0.4.0',
         'user-agent' : getUserAgent(),
     };
 
@@ -421,7 +421,7 @@ class Client {
     getAbout(): Record<string, string> {
         return {
             name: 'Revenexx Node',
-            version: '0.3.0',
+            version: '0.4.0',
             language: 'nodejs',
             generator: 'revenexx/sdk-generator',
             generatorUrl: 'https://github.com/revenexx/sdk-generator',
