@@ -10,8 +10,8 @@ const costCenters = new sdk.CostCenters(client);
 
 const result = await costCenters.costCentersUsable({
     lines: [],
+    organizationId: '',
     contactId: '', // optional
-    organizationId: '', // optional
     punchoutAccountCode: '', // optional
     roles: [] // optional
 });
