@@ -92,7 +92,7 @@ function getSelfSignedDispatcher(): Promise<any> {
 }
 
 function getUserAgent() {
-    let ua = 'RevenexxNodeJSSDK/0.5.0';
+    let ua = 'RevenexxNodeJSSDK/0.5.1';
 
     // `process` is a global in Node.js, but not fully available in all runtimes.
     const platform: string[] = [];
@@ -107,13 +107,11 @@ function getUserAgent() {
     // `navigator.userAgent` is available in Node.js 21 and later.
     // It's also part of the WinterCG spec, so many edge runtimes provide it.
     // https://common-min-api.proposal.wintercg.org/#requirements-for-navigatoruseragent
-    // @ts-ignore
-    if (typeof navigator !== 'undefined' && typeof navigator.userAgent === 'string') {
-        // @ts-ignore
-        ua += ` ${navigator.userAgent}`;
+    const runtime = globalThis as { navigator?: { userAgent?: unknown }, EdgeRuntime?: unknown };
+    if (typeof runtime.navigator?.userAgent === 'string') {
+        ua += ` ${runtime.navigator.userAgent}`;
 
-    // @ts-ignore
-    } else if (typeof globalThis.EdgeRuntime === 'string') {
+    } else if (typeof runtime.EdgeRuntime === 'string') {
         ua += ` EdgeRuntime`;
 
     // Older Node.js versions don't have `navigator.userAgent`, so we have to use `process.version`.
@@ -136,7 +134,7 @@ class Client {
         'x-sdk-name': 'Revenexx Node',
         'x-sdk-platform': '',
         'x-sdk-language': 'nodejs',
-        'x-sdk-version': '0.5.0',
+        'x-sdk-version': '0.5.1',
         'user-agent' : getUserAgent(),
     };
 
@@ -170,8 +168,7 @@ class Client {
      * @returns {this}
      */
     setSelfSigned(selfSigned: boolean): this {
-        // @ts-ignore
-        if (typeof globalThis.EdgeRuntime !== 'undefined') {
+        if (typeof (globalThis as { EdgeRuntime?: unknown }).EdgeRuntime !== 'undefined') {
             console.warn('setSelfSigned is not supported in edge runtimes.');
         }
 
@@ -272,7 +269,7 @@ class Client {
 
         headers = Object.assign({}, this.headers, headers);
 
-        let options: RequestInit = {
+        const options: RequestInit = {
             method,
             headers,
         };
@@ -287,7 +284,7 @@ class Client {
                     options.body = JSONbig.stringify(params);
                     break;
 
-                case 'multipart/form-data':
+                case 'multipart/form-data': {
                     const formData = new FormData();
 
                     for (const [key, value] of Object.entries(params)) {
@@ -305,6 +302,7 @@ class Client {
                     options.body = formData;
                     delete headers['content-type'];
                     break;
+                }
             }
         }
 
@@ -402,7 +400,7 @@ class Client {
         let output: Payload = {};
 
         for (const [key, value] of Object.entries(data)) {
-            let finalKey = prefix ? prefix + '[' + key +']' : key;
+            const finalKey = prefix ? prefix + '[' + key +']' : key;
             if (Array.isArray(value)) {
                 output = { ...output, ...Client.flatten(value, finalKey) };
             } else {
@@ -421,7 +419,7 @@ class Client {
     getAbout(): Record<string, string> {
         return {
             name: 'Revenexx Node',
-            version: '0.5.0',
+            version: '0.5.1',
             language: 'nodejs',
             generator: 'revenexx/sdk-generator',
             generatorUrl: 'https://github.com/revenexx/sdk-generator',
