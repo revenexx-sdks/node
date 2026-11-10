@@ -11,7 +11,7 @@ const sites = new sdk.Sites(client);
 const result = await sites.sitesCreateVcsDeployment({
     siteId: '',
     reference: 'main',
-    type: sdk.SitesCreateTemplateDeploymentType.Branch,
+    type: sdk.CubesCreateVcsDeploymentType.Branch,
     activate: true // optional
 });
 ```

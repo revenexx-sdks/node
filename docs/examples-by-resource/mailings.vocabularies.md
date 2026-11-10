@@ -1,0 +1,37 @@
+# mailings.vocabularies
+
+## mailings-vocabularies-list
+
+List the closed vocabularies this app enforces
+
+```javascript
+const sdk = require('@revenexx/node');
+
+const client = new sdk.Client()
+    .setEndpoint('https://api.revenexx.com') // Your API Endpoint
+    .setTenant('<TENANT_SLUG>') // Your tenant slug
+    .setApiKeyAuth('<API_KEY>'); // A gateway-managed scoped API key (rvxk_…).
+
+const mailingsVocabularies = new sdk.MailingsVocabularies(client);
+
+const result = await mailingsVocabularies.mailingsVocabulariesList();
+```
+
+## mailings-vocabularies-get
+
+Read one vocabulary with its values and labels
+
+```javascript
+const sdk = require('@revenexx/node');
+
+const client = new sdk.Client()
+    .setEndpoint('https://api.revenexx.com') // Your API Endpoint
+    .setTenant('<TENANT_SLUG>') // Your tenant slug
+    .setApiKeyAuth('<API_KEY>'); // A gateway-managed scoped API key (rvxk_…).
+
+const mailingsVocabularies = new sdk.MailingsVocabularies(client);
+
+const result = await mailingsVocabularies.mailingsVocabulariesGet({
+    name: ''
+});
+```

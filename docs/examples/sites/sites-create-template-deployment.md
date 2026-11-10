@@ -14,7 +14,7 @@ const result = await sites.sitesCreateTemplateDeployment({
     reference: '',
     repository: '',
     rootDirectory: '',
-    type: sdk.SitesCreateTemplateDeploymentType.Branch,
+    type: sdk.CubesCreateVcsDeploymentType.Branch,
     activate: true // optional
 });
 ```
