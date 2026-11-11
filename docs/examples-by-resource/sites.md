@@ -53,7 +53,9 @@ const result = await sites.sitesCreate({
     providerRootDirectory: '', // optional
     providerSilentMode: true, // optional
     specification: 's-1vcpu-512mb', // optional
-    timeout: 1 // optional
+    timeout: 1, // optional
+    vcsPreviewsEnabled: true, // optional
+    vcsTriggerMode: sdk.VcsTriggerMode.Push // optional
 });
 ```
 
@@ -161,7 +163,9 @@ const result = await sites.sitesUpdate({
     providerRootDirectory: '', // optional
     providerSilentMode: true, // optional
     specification: 's-1vcpu-512mb', // optional
-    timeout: 1 // optional
+    timeout: 1, // optional
+    vcsPreviewsEnabled: true, // optional
+    vcsTriggerMode: sdk.VcsTriggerMode.Push // optional
 });
 ```
 
@@ -228,7 +232,8 @@ const result = await sites.sitesCreateDeployment({
     code: InputFile.fromPath('/path/to/file', 'filename'),
     buildCommand: '', // optional
     installCommand: '', // optional
-    outputDirectory: '' // optional
+    outputDirectory: '', // optional
+    releaseMode: sdk.ReleaseMode.Deploy // optional
 });
 ```
 

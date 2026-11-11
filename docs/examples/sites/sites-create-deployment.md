@@ -15,6 +15,7 @@ const result = await sites.sitesCreateDeployment({
     code: InputFile.fromPath('/path/to/file', 'filename'),
     buildCommand: '', // optional
     installCommand: '', // optional
-    outputDirectory: '' // optional
+    outputDirectory: '', // optional
+    releaseMode: sdk.ReleaseMode.Deploy // optional
 });
 ```

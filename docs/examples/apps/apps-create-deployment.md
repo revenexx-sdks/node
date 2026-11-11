@@ -14,6 +14,7 @@ const result = await apps.appsCreateDeployment({
     activate: true,
     code: InputFile.fromPath('/path/to/file', 'filename'),
     commands: '', // optional
-    entrypoint: '' // optional
+    entrypoint: '', // optional
+    releaseMode: sdk.ReleaseMode.Deploy // optional
 });
 ```

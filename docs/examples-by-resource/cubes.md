@@ -155,7 +155,8 @@ const cubes = new sdk.Cubes(client);
 const result = await cubes.cubesCreateDeployment({
     cubeId: '',
     code: InputFile.fromPath('/path/to/file', 'filename'),
-    activate: true // optional
+    activate: true, // optional
+    releaseMode: sdk.ReleaseMode.Deploy // optional
 });
 ```
 
@@ -198,5 +199,67 @@ const cubes = new sdk.Cubes(client);
 const result = await cubes.cubesGetDeployment({
     cubeId: '',
     deploymentId: ''
+});
+```
+
+## cubes-list-releases
+
+List cube releases
+
+```javascript
+const sdk = require('@revenexx/node');
+
+const client = new sdk.Client()
+    .setEndpoint('https://api.revenexx.com') // Your API Endpoint
+    .setTenant('<TENANT_SLUG>') // Your tenant slug
+    .setApiKeyAuth('<API_KEY>'); // A gateway-managed scoped API key (rvxk_…).
+
+const cubes = new sdk.Cubes(client);
+
+const result = await cubes.cubesListReleases({
+    cubeId: ''
+});
+```
+
+## cubes-accept-release
+
+Accept cube release candidate
+
+```javascript
+const sdk = require('@revenexx/node');
+
+const client = new sdk.Client()
+    .setEndpoint('https://api.revenexx.com') // Your API Endpoint
+    .setTenant('<TENANT_SLUG>') // Your tenant slug
+    .setApiKeyAuth('<API_KEY>'); // A gateway-managed scoped API key (rvxk_…).
+
+const cubes = new sdk.Cubes(client);
+
+const result = await cubes.cubesAcceptRelease({
+    cubeId: '',
+    rc: 1, // optional
+    version: '' // optional
+});
+```
+
+## cubes-rebuild-release
+
+Rebuild cube release
+
+```javascript
+const sdk = require('@revenexx/node');
+
+const client = new sdk.Client()
+    .setEndpoint('https://api.revenexx.com') // Your API Endpoint
+    .setTenant('<TENANT_SLUG>') // Your tenant slug
+    .setApiKeyAuth('<API_KEY>'); // A gateway-managed scoped API key (rvxk_…).
+
+const cubes = new sdk.Cubes(client);
+
+const result = await cubes.cubesRebuildRelease({
+    cubeId: '',
+    version: '',
+    commit: '', // optional
+    deploymentId: '' // optional
 });
 ```

@@ -12,6 +12,7 @@ const cubes = new sdk.Cubes(client);
 const result = await cubes.cubesCreateDeployment({
     cubeId: '',
     code: InputFile.fromPath('/path/to/file', 'filename'),
-    activate: true // optional
+    activate: true, // optional
+    releaseMode: sdk.ReleaseMode.Deploy // optional
 });
 ```

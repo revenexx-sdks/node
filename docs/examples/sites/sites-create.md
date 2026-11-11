@@ -26,6 +26,8 @@ const result = await sites.sitesCreate({
     providerRootDirectory: '', // optional
     providerSilentMode: true, // optional
     specification: 's-1vcpu-512mb', // optional
-    timeout: 1 // optional
+    timeout: 1, // optional
+    vcsPreviewsEnabled: true, // optional
+    vcsTriggerMode: sdk.VcsTriggerMode.Push // optional
 });
 ```
